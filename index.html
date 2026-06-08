@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OfferScope 录取雷达 · 找中介之前，先看清你的真实申请位置</title>
+<style>
+:root{
+  --navy:#1E3A8A; --blue:#2563EB; --bluebg:#EFF6FF;
+  --amber:#F59E0B;
+  --risk-high:#DC2626; --risk-mid:#F97316; --risk-low:#16A34A;
+  --text:#111827; --text2:#6B7280; --border:#E5E7EB; --bg:#F9FAFB;
+  --radius:14px; --shadow:0 1px 3px rgba(17,24,39,.08),0 8px 24px rgba(17,24,39,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  color:var(--text);background:var(--bg);line-height:1.65;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none}
+.container{max-width:1080px;margin:0 auto;padding:0 20px}
+.hidden{display:none!important}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:600;
+  border-radius:10px;padding:13px 26px;font-size:15px;transition:.15s;white-space:nowrap}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--navy)}
+.btn-amber{background:var(--amber);color:#fff}
+.btn-amber:hover{filter:brightness(.95)}
+.btn-ghost{background:#fff;color:var(--navy);border:1.5px solid var(--border)}
+.btn-ghost:hover{border-color:var(--blue)}
+.btn-lg{padding:16px 34px;font-size:17px}
+.btn-block{width:100%}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* Header */
+header.site{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+header.site .container{display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:18px;color:var(--navy)}
+.logo .dot{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--navy),var(--blue));
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px}
+.logo small{font-weight:600;color:var(--text2);font-size:12px}
+.nav-links{display:flex;gap:22px;align-items:center;font-size:14px;color:var(--text2)}
+.nav-links a:hover{color:var(--blue)}
+@media(max-width:720px){.nav-links{display:none}}
+
+/* Footer */
+footer.site{background:#0f1a3a;color:#cbd5e1;margin-top:60px;padding:38px 0 28px}
+footer.site .cols{display:flex;flex-wrap:wrap;gap:40px;justify-content:space-between}
+footer.site h4{color:#fff;font-size:14px;margin-bottom:12px}
+footer.site a{display:block;font-size:13px;color:#94a3b8;margin-bottom:7px}
+footer.site a:hover{color:#fff}
+.disclaimer-bar{border-top:1px solid #1e2b52;margin-top:26px;padding-top:18px;font-size:12px;color:#7c8aa8;line-height:1.7}
+
+/* Sections */
+section.block{padding:64px 0}
+.eyebrow{color:var(--blue);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+h1.hero-title{font-size:46px;line-height:1.18;font-weight:850;letter-spacing:-.02em;color:var(--text)}
+.sec-title{font-size:30px;font-weight:800;letter-spacing:-.01em;text-align:center}
+.sec-sub{text-align:center;color:var(--text2);max-width:620px;margin:14px auto 0;font-size:16px}
+@media(max-width:720px){h1.hero-title{font-size:32px}.sec-title{font-size:24px}}
+
+/* Hero */
+.hero{background:linear-gradient(180deg,var(--bluebg),#fff);padding:74px 0 64px;text-align:center}
+.hero p.sub{font-size:18px;color:var(--text2);max-width:660px;margin:22px auto 30px}
+.hero .cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.hero .assist{margin-top:20px;font-size:13px;color:var(--text2)}
+.badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+.badge{background:#fff;border:1px solid var(--border);border-radius:999px;padding:7px 15px;font-size:13px;
+  color:var(--navy);font-weight:600;box-shadow:var(--shadow)}
+
+/* Pain points */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-top:34px}
+.pain-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px 20px;
+  font-size:15px;font-weight:600;color:var(--text);display:flex;gap:12px;align-items:flex-start}
+.pain-card .q{color:var(--amber);font-size:20px;line-height:1.2;font-weight:800}
+
+/* Steps */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:14px;margin-top:36px}
+.step{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px 18px;text-align:center}
+.step .n{width:36px;height:36px;border-radius:50%;background:var(--bluebg);color:var(--blue);font-weight:800;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.step p{font-size:14px;color:var(--text2)}
+.step b{display:block;color:var(--text);margin-bottom:4px;font-size:15px}
+
+/* Report preview */
+.preview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:34px}
+.pv{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:20px;display:flex;gap:12px;align-items:flex-start}
+.pv .ic{width:34px;height:34px;border-radius:9px;background:var(--bluebg);color:var(--blue);display:flex;
+  align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.pv b{font-size:15px}.pv p{font-size:13px;color:var(--text2);margin-top:2px}
+
+/* Pricing */
+.pricing{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px;margin-top:38px;max-width:780px;margin-left:auto;margin-right:auto}
+.price-card{background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:30px 26px;position:relative}
+.price-card.feat{border-color:var(--blue);box-shadow:0 12px 40px rgba(37,99,235,.16)}
+.price-card .tag{position:absolute;top:-12px;right:22px;background:var(--amber);color:#fff;font-size:12px;
+  font-weight:700;padding:4px 12px;border-radius:999px}
+.price-card h3{font-size:18px}
+.price-card .price{font-size:40px;font-weight:850;color:var(--navy);margin:10px 0 4px}
+.price-card .price small{font-size:16px;color:var(--text2);font-weight:600}
+.price-card .desc{color:var(--text2);font-size:14px;min-height:42px}
+.price-card ul{list-style:none;margin:18px 0 22px}
+.price-card li{font-size:14px;padding:7px 0 7px 26px;position:relative;border-bottom:1px dashed var(--border)}
+.price-card li:before{content:"✓";position:absolute;left:0;color:var(--risk-low);font-weight:800}
+
+/* Generic page card */
+.page{padding:40px 0 30px;min-height:60vh}
+.panel{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:28px;box-shadow:var(--shadow)}
+.panel+.panel{margin-top:18px}
+
+/* Stepper */
+.stepper{display:flex;gap:6px;margin-bottom:26px;flex-wrap:wrap}
+.stepper .s{flex:1;min-width:70px;text-align:center;font-size:12px;color:var(--text2);padding-bottom:8px;border-bottom:3px solid var(--border)}
+.stepper .s.active{color:var(--blue);border-color:var(--blue);font-weight:700}
+.stepper .s.done{color:var(--risk-low);border-color:var(--risk-low)}
+
+/* Forms */
+.field{margin-bottom:18px}
+.field label{display:block;font-size:14px;font-weight:600;margin-bottom:7px}
+.field .hint{font-size:12px;color:var(--text2);font-weight:400;margin-bottom:7px;margin-top:-3px}
+.field input,.field select,.field textarea{width:100%;border:1.5px solid var(--border);border-radius:10px;
+  padding:11px 13px;font-size:14px;font-family:inherit;background:#fff;color:var(--text)}
+.field textarea{min-height:84px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(37,99,235,.12)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:620px){.grid2{grid-template-columns:1fr}}
+.req:after{content:" *";color:var(--risk-high)}
+
+/* Choice chips */
+.choices{display:flex;flex-wrap:wrap;gap:10px}
+.choice{border:1.5px solid var(--border);background:#fff;border-radius:10px;padding:11px 16px;font-size:14px;
+  font-weight:600;color:var(--text);transition:.12s}
+.choice:hover{border-color:var(--blue)}
+.choice.sel{border-color:var(--blue);background:var(--bluebg);color:var(--navy)}
+.level-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+@media(max-width:560px){.level-grid{grid-template-columns:1fr}}
+.level-card{border:2px solid var(--border);border-radius:16px;padding:26px 22px;text-align:center;cursor:pointer;transition:.15s;background:#fff}
+.level-card:hover{border-color:var(--blue)}
+.level-card.sel{border-color:var(--blue);background:var(--bluebg)}
+.level-card .ic{font-size:34px}
+.level-card b{display:block;font-size:19px;margin:10px 0 6px}
+.level-card p{font-size:13px;color:var(--text2)}
+
+/* school rows */
+.school-row{border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:12px;background:var(--bg)}
+.school-row .top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.school-row .rm{color:var(--risk-high);font-size:13px;font-weight:600;background:none;cursor:pointer}
+
+.alert{background:#fef3c7;border:1px solid #fcd34d;color:#92400e;border-radius:10px;padding:12px 14px;font-size:13px;margin-bottom:16px}
+.form-nav{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+
+/* Free result */
+.grade-hero{text-align:center;padding:14px 0 6px}
+.grade-circle{width:120px;height:120px;border-radius:50%;margin:0 auto 14px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;color:#fff;font-weight:850;background:linear-gradient(135deg,var(--navy),var(--blue))}
+.grade-circle .g{font-size:48px;line-height:1}
+.grade-circle .l{font-size:12px;font-weight:600;opacity:.85}
+.riskbadge{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:999px;font-weight:700;font-size:14px}
+.riskbadge:before{content:"";width:9px;height:9px;border-radius:50%;background:currentColor}
+.rb-low{background:#dcfce7;color:var(--risk-low)}
+.rb-mid{background:#ffedd5;color:var(--risk-mid)}
+.rb-high{background:#fee2e2;color:var(--risk-high)}
+
+table.schools{width:100%;border-collapse:collapse;margin-top:6px}
+table.schools th,table.schools td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--border);font-size:14px}
+table.schools th{color:var(--text2);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.verdict{display:inline-block;padding:4px 11px;border-radius:999px;font-size:12px;font-weight:700}
+
+.risk-list{list-style:none;margin-top:8px}
+.risk-list li{padding:12px 0 12px 30px;position:relative;border-bottom:1px solid var(--border);font-size:14px}
+.risk-list li:before{content:"!";position:absolute;left:0;top:12px;width:20px;height:20px;border-radius:50%;
+  background:#fee2e2;color:var(--risk-high);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+
+.lock-card{background:linear-gradient(180deg,var(--bluebg),#fff);border:1.5px solid var(--blue);
+  border-radius:18px;padding:30px;margin-top:22px;text-align:center}
+.lock-card .benefits{text-align:left;max-width:520px;margin:18px auto;list-style:none}
+.lock-card .benefits li{padding:8px 0 8px 28px;position:relative;font-size:14px}
+.lock-card .benefits li:before{content:"🔓";position:absolute;left:0}
+
+/* Report */
+.report-wrap{max-width:880px;margin:0 auto}
+.report-cover{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border-radius:18px;padding:44px 36px;margin-bottom:22px}
+.report-cover .k{font-size:13px;opacity:.8;letter-spacing:.1em;text-transform:uppercase}
+.report-cover h1{font-size:32px;margin:10px 0 18px;font-weight:850}
+.report-cover .meta{display:flex;flex-wrap:wrap;gap:10px 26px;font-size:14px;opacity:.92}
+.rsec{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:26px;margin-bottom:18px}
+.rsec h2{font-size:20px;font-weight:800;margin-bottom:4px;display:flex;align-items:center;gap:10px}
+.rsec h2 .num{width:28px;height:28px;border-radius:8px;background:var(--bluebg);color:var(--blue);font-size:14px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rsec .lead{color:var(--text2);font-size:14px;margin-bottom:16px}
+.kpi-row{display:flex;flex-wrap:wrap;gap:14px;margin:8px 0 4px}
+.kpi{flex:1;min-width:140px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px}
+.kpi .v{font-size:28px;font-weight:850;color:var(--navy)}.kpi .l{font-size:12px;color:var(--text2)}
+.bar{height:9px;background:var(--border);border-radius:999px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--navy))}
+.dim{margin-bottom:16px}
+.dim .h{display:flex;justify-content:space-between;font-size:14px;font-weight:600}
+.dim .a{font-size:13px;color:var(--text2);margin-top:6px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:620px){.two-col{grid-template-columns:1fr}}
+.tile{border:1px solid var(--border);border-radius:12px;padding:16px}
+.tile.good{background:#f0fdf4;border-color:#bbf7d0}
+.tile.bad{background:#fff7ed;border-color:#fed7aa}
+.tile h4{font-size:15px;margin-bottom:6px}
+.tile p{font-size:13px;color:var(--text2)}
+.pri{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:6px}
+.pri-高{background:#fee2e2;color:var(--risk-high)}.pri-中{background:#ffedd5;color:var(--risk-mid)}.pri-低{background:#dcfce7;color:var(--risk-low)}
+.timeline{position:relative;padding-left:26px}
+.timeline:before{content:"";position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:18px}
+.tl-item:before{content:"";position:absolute;left:-23px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--blue);border:3px solid #fff;box-shadow:0 0 0 1px var(--border)}
+.tl-item .ph{font-weight:700;color:var(--navy);font-size:14px}
+.tl-task{font-size:14px;margin:6px 0 2px;font-weight:600}
+.tl-meta{font-size:12px;color:var(--text2)}
+.parent-box{background:var(--bluebg);border:1px solid #bfdbfe;border-radius:12px;padding:20px}
+.checklist li{list-style:none;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;justify-content:space-between;gap:10px}
+ul.plain{list-style:none}ul.plain li{padding:6px 0 6px 22px;position:relative;font-size:14px}
+ul.plain li:before{content:"·";position:absolute;left:6px;color:var(--blue);font-weight:800}
+.report-actions{display:flex;gap:12px;justify-content:center;margin:10px 0 30px;flex-wrap:wrap}
+.disclaimer-box{background:var(--bg);border:1px dashed var(--border);border-radius:12px;padding:18px;font-size:12px;color:var(--text2);line-height:1.7}
+
+/* radar */
+.radar-wrap{display:flex;justify-content:center}
+svg.radar{max-width:380px;width:100%}
+
+/* simple auth/email modal */
+.modal-bg{position:fixed;inset:0;background:rgba(15,26,58,.5);z-index:100;display:flex;align-items:center;justify-content:center;padding:20px}
+.modal{background:#fff;border-radius:16px;padding:30px;max-width:420px;width:100%;box-shadow:var(--shadow)}
+.modal h3{font-size:20px;margin-bottom:6px}.modal p{font-size:14px;color:var(--text2);margin-bottom:18px}
+
+.legal{max-width:760px;margin:0 auto}
+.legal h1{font-size:28px;margin-bottom:18px}
+.legal h3{font-size:17px;margin:22px 0 8px}
+.legal p{font-size:14px;color:#374151;margin-bottom:10px}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;
+  padding:12px 22px;border-radius:10px;font-size:14px;z-index:200;opacity:0;transition:.25s;pointer-events:none}
+.toast.show{opacity:1}
+
+@media print{
+  header.site,footer.site,.report-actions,.no-print{display:none!important}
+  body{background:#fff}
+  .rsec,.report-cover{break-inside:avoid;box-shadow:none}
+  .page{padding:0}
+}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="container">
+    <a class="logo" href="#" onclick="go('home');return false">
+      <span class="dot">◎</span>
+      <span>OfferScope<br><small>录取雷达</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#" onclick="go('home');scrollTo(0,0);return false">首页</a>
+      <a href="#pricing-sec" onclick="go('home');return true">价格</a>
+      <a href="#" onclick="go('dashboard');return false">我的报告</a>
+      <a class="btn btn-primary" style="padding:9px 18px" href="#" onclick="startAssessment();return false">免费开始测评</a>
+    </nav>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer class="site">
+  <div class="container">
+    <div class="cols">
+      <div style="max-width:280px">
+        <div class="logo" style="color:#fff;margin-bottom:10px"><span class="dot">◎</span><span>OfferScope 录取雷达</span></div>
+        <p style="font-size:13px;color:#94a3b8">找中介之前，先看清你的真实申请位置。一次付费，无订阅，不卖中介服务。</p>
+      </div>
+      <div><h4>产品</h4>
+        <a href="#" onclick="startAssessment();return false">免费测评</a>
+        <a href="#pricing-sec" onclick="go('home');return true">价格方案</a>
+        <a href="#" onclick="go('dashboard');return false">我的报告</a>
+      </div>
+      <div><h4>支持范围</h4>
+        <a>美国 · 英国 · 加拿大</a><a>澳洲 · 新加坡 · 中国香港</a><a>本科 / 硕士申请</a>
+      </div>
+      <div><h4>条款</h4>
+        <a href="#" onclick="go('terms');return false">服务条款</a>
+        <a href="#" onclick="go('privacy');return false">隐私政策</a>
+        <a href="#" onclick="go('disclaimer');return false">免责声明</a>
+      </div>
+    </div>
+    <div class="disclaimer-bar">
+      录取雷达 OfferScope 不隶属于任何大学、招生办公室或留学机构。报告基于用户主动填写的信息、公开申请要求、通用申请经验和 AI 模型推理生成，仅供申请规划参考，不构成录取承诺。
+    </div>
+  </div>
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===================== CONSTANTS (spec §1,8,9,10,13,14,25) ===================== */
+const SUPPORTED_REGIONS=["美国","英国","加拿大","澳洲","新加坡","中国香港"];
+const UNSUPPORTED_HINT="当前版本暂时只支持美国、英国、加拿大、澳洲、新加坡和中国香港的本科 / 硕士申请诊断。";
+const INTAKE_YEARS=["2026 Fall","2027 Fall","2028 Fall","其他"];
+const UG_MAJORS=["商科","经济学","计算机","数据科学","工程","传媒","心理学","教育","社会科学","公共政策","生物 / 化学 / 自然科学","数学 / 统计","未确定专业","其他"];
+const GRAD_MAJORS=["商科","金融","会计","商业分析","数据科学","计算机","工程","传媒","教育","公共政策","心理学","管理学","市场营销","经济学","统计学","其他"];
+const BUDGETS=["30 万人民币以内","30–50 万人民币","50–80 万人民币","80 万人民币以上","暂不考虑预算"];
+const RISK_TOLERANCE=["我想冲刺名校","我想稳妥拿 offer","我想冲刺和保底平衡","我还不确定"];
+const HAS_AGENCY=["是，这是中介给我的选校名单","否，这是我自己列的学校","还没有明确选校"];
+const PRODUCTS={standard_report:{name:"AI 申请诊断报告",price:99},premium_report:{name:"AI 完整申请规划报告",price:199}};
+const VERDICTS=["高风险冲刺","冲刺","匹配偏冲刺","匹配","匹配偏稳","保底","不建议申请"];
+const verdictColor=v=>({"高风险冲刺":"#DC2626","冲刺":"#F97316","匹配偏冲刺":"#F59E0B","匹配":"#2563EB","匹配偏稳":"#0891b2","保底":"#16A34A","不建议申请":"#6B7280"}[v]||"#6B7280");
+const verdictBg=v=>{const c=verdictColor(v);return `background:${c}1a;color:${c}`};
+const UG_WEIGHTS={"学术成绩与课程难度":30,"语言与标化成绩":20,"活动与奖项":20,"个人主线与专业匹配":15,"申请策略与文书空间":15};
+const GRAD_WEIGHTS={"学术背景":30,"语言与标化":15,"专业匹配度":20,"实习 / 科研 / 项目背景":20,"申请材料与策略":15};
+const DISCLAIMER="录取雷达 OfferScope 生成的申请诊断报告基于用户主动填写的信息、公开申请要求、通用申请经验和 AI 模型推理生成。报告仅用于申请规划参考，不代表任何学校、招生办公室或官方机构意见，也不构成录取承诺。实际录取结果会受到申请年份、申请池变化、招生政策、文书质量、推荐信、面试表现等多种因素影响。用户应结合学校官方信息和自身情况做最终决策。";
+
+/* rough difficulty index for well-known target schools (0-100; higher = harder) */
+const SCHOOL_DIFFICULTY=[
+  [/harvard|stanford|mit|princeton|yale|caltech|哈佛|斯坦福|麻省|普林斯顿|耶鲁/i,97],
+  [/columbia|chicago|upenn|penn |cornell|brown|dartmouth|duke|johns hopkins|northwestern|哥伦比亚|芝加哥|宾夕法尼亚|康奈尔|杜克|西北/i,90],
+  [/oxford|cambridge|imperial|牛津|剑桥|帝国理工/i,90],
+  [/berkeley|ucla|umich|michigan|cmu|carnegie|nyu|usc|ucsd|加州大学|纽约大学|南加|卡内基/i,82],
+  [/ucl|lse|edinburgh|king'?s|manchester|伦敦大学学院|爱丁堡|曼彻斯特|国王/i,80],
+  [/toronto|ubc|mcgill|多伦多|英属哥伦比亚|麦吉尔/i,80],
+  [/nus|ntu|hku|hkust|cuhk|新加坡国立|南洋理工|香港大学|香港科技|香港中文/i,82],
+  [/melbourne|sydney|anu|unsw|墨尔本|悉尼|新南威尔士|澳国立/i,72],
+  [/bristol|warwick|glasgow|leeds|布里斯托|华威|格拉斯哥|利兹/i,70],
+  [/waterloo|滑铁卢/i,76],
+  [/boston university|northeastern|波士顿大学|东北大学/i,70],
+];
+function schoolDifficulty(name){if(!name)return 65;for(const[re,d]of SCHOOL_DIFFICULTY)if(re.test(name))return d;return 64;}
+
+/* ===================== STATE ===================== */
+let A={}; // current assessment
+function newAssessment(){
+  A={id:"as_"+Math.random().toString(36).slice(2,9),status:"draft",isPaid:false,reportType:null,
+     applicationLevel:null,targetRegions:[],intakeYear:"",targetMajorCategory:"",targetSchools:[],hasAgencyList:"",
+     budget:"",riskTolerance:"",locationPreference:"",careerGoal:"",
+     fields:{}, followUpQuestions:[], followUpAnswers:{}, freeResult:null, fullReport:null};
+}
+function saveDB(){try{const all=JSON.parse(localStorage.getItem('os_db')||'{}');all[A.id]=A;localStorage.setItem('os_db',JSON.stringify(all));}catch(e){}}
+function loadDB(){try{return JSON.parse(localStorage.getItem('os_db')||'{}');}catch(e){return {};}}
+let userEmail=localStorage.getItem('os_email')||"";
+
+/* ===================== HELPERS ===================== */
+const $=s=>document.querySelector(s);
+const app=()=>document.getElementById('app');
+const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function go(view,arg){window.scrollTo(0,0);RENDER[view]?RENDER[view](arg):RENDER.home();}
+function startAssessment(){newAssessment();go('assessment');}
+
+/* ===================== ROUTER TABLE (views attached below) ===================== */
+const RENDER={};
+
+/* ===================== HOME (spec §6) ===================== */
+RENDER.home=function(){
+  app().innerHTML=`
+  <section class="hero">
+    <div class="container">
+      <div class="eyebrow">AI 留学申请诊断 · 去中介化</div>
+      <h1 class="hero-title">找中介之前，<br>先看清你的真实申请位置。</h1>
+      <p class="sub">无论你正在申请海外本科还是硕士，输入你的背景和目标学校，AI 将生成一份申请诊断报告，帮你判断哪些学校值得冲、哪些学校风险过高，以及你现在最该补什么。</p>
+      <div class="cta-row">
+        <button class="btn btn-primary btn-lg" onclick="startAssessment()">免费开始测评</button>
+        <a class="btn btn-ghost btn-lg" href="#pricing-sec">查看完整报告包含什么</a>
+      </div>
+      <div class="assist">支持美国、英国、加拿大、澳洲、新加坡和中国香港本科 / 硕士申请诊断。一次付费，无订阅，不卖中介服务。</div>
+      <div class="badges">${SUPPORTED_REGIONS.map(r=>`<span class="badge">${r}</span>`).join('')}</div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <h2 class="sec-title">你不是没有信息，而是缺少一个客观判断。</h2>
+      <div class="cards">
+        ${["中介给的选校名单到底靠谱吗？","我的 GPA 还能不能冲名校？","这些学校是冲刺、匹配还是浪费申请费？","我现在最该补语言、实习、活动还是文书？","不找中介，能不能自己做出靠谱申请方案？","父母不放心，我需要一份能解释清楚的报告。"]
+          .map(q=>`<div class="pain-card"><span class="q">?</span><span>${q}</span></div>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+    <div class="container">
+      <h2 class="sec-title">3 分钟完成初测，付费解锁完整报告。</h2>
+      <div class="steps">
+        ${[["选择本科 / 硕士申请"],["选择目标地区、学校和专业"],["填写学术、语言、活动或实习背景"],["AI 追问 2–3 个关键问题"],["获得免费初测结果"],["付费解锁完整申请诊断报告"]]
+          .map((s,i)=>`<div class="step"><div class="n">${i+1}</div><b>${s[0]}</b></div>`).join('')}
+      </div>
+      <div style="text-align:center;margin-top:30px"><button class="btn btn-primary btn-lg" onclick="startAssessment()">免费开始测评</button></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <h2 class="sec-title">完整报告会告诉你什么？</h2>
+      <div class="preview-grid">
+        ${[["📊","申请竞争力评分","五维拆解你的综合实力"],["🎯","目标学校风险判断","逐所给出明确标签"],["🪜","冲刺 / 匹配 / 保底分层","清晰的选校组合"],["⚖️","当前优势和短板","知道补什么、保什么"],["🗓️","30 / 60 / 90 天提升路线","可执行的行动计划"],["✍️","文书策略方向","突出哪条主线"],["👨‍👩‍👧","家长可读总结","一份能解释清楚的材料"],["⬇️","PDF 下载","可打印、可分享"]]
+          .map(p=>`<div class="pv"><span class="ic">${p[0]}</span><div><b>${p[1]}</b><p>${p[2]}</p></div></div>`).join('')}
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="pricing-sec" style="background:var(--bluebg)">
+    <div class="container">
+      <h2 class="sec-title">一次付费，解锁完整判断</h2>
+      <p class="sec-sub">先做免费初测，看到基础判断后再决定是否解锁完整报告。无订阅、无中介推销。</p>
+      <div class="pricing">
+        <div class="price-card">
+          <h3>AI 申请诊断报告</h3>
+          <div class="price">¥99<small> 一次性</small></div>
+          <p class="desc">适合已有目标学校或选校名单，想判断申请机会和风险。</p>
+          <ul>${["目标学校竞争力评分","选校风险判断","当前优势和短板","30 / 60 / 90 天提升方向","文书策略建议","家长可读总结","PDF 下载"].map(b=>`<li>${b}</li>`).join('')}</ul>
+          <button class="btn btn-ghost btn-block" onclick="startAssessment()">免费测评后解锁 ¥99</button>
+        </div>
+        <div class="price-card feat">
+          <span class="tag">规划更完整</span>
+          <h3>AI 完整申请规划报告</h3>
+          <div class="price">¥199<small> 一次性</small></div>
+          <p class="desc">适合还没有完整方案，想获得选校组合和行动路线。</p>
+          <ul>${["标准版全部内容","10–15 所学校推荐","冲刺 / 匹配 / 保底组合","替代学校和专业建议","申请时间线","材料清单","完整行动计划"].map(b=>`<li>${b}</li>`).join('')}</ul>
+          <button class="btn btn-amber btn-block" onclick="startAssessment()">免费测评后解锁 ¥199</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block">
+    <div class="container">
+      <div class="disclaimer-box" style="max-width:780px;margin:0 auto">${DISCLAIMER}</div>
+    </div>
+  </section>`;
+};
+
+/* ===================== LEGAL PAGES ===================== */
+function legalPage(title,html){app().innerHTML=`<div class="page"><div class="container"><div class="legal panel">
+  <h1>${title}</h1>${html}
+  <div style="margin-top:24px"><button class="btn btn-ghost" onclick="go('home')">← 返回首页</button></div></div></div></div>`;}
+RENDER.terms=()=>legalPage("服务条款",`<p>欢迎使用 OfferScope / 录取雷达（以下简称"本服务"）。本服务是一个去中介化的 AI 留学申请诊断平台，提供免费初测与一次性付费的 AI 申请诊断报告。</p>
+  <h3>1. 服务范围</h3><p>本服务仅支持海外本科与硕士申请诊断，覆盖美国、英国、加拿大、澳洲、新加坡和中国香港。本服务不提供人工留学咨询，不做中介导流，不做订阅，不承诺录取结果。</p>
+  <h3>2. 付费与交付</h3><p>付费产品为一次性购买的在线报告及可下载的 PDF 报告，分为 ¥99 标准版与 ¥199 专业版。交付物为在线完整报告页面与可打印 / 下载 PDF 报告。</p>
+  <h3>3. 内容性质</h3><p>报告由 AI 基于您填写的信息生成，为申请规划参考，不构成录取承诺，亦不替代学校官方判断。</p>`);
+RENDER.privacy=()=>legalPage("隐私政策",`<p>我们重视您的隐私。本页说明我们如何收集与使用您在测评中填写的信息。</p>
+  <h3>1. 我们收集的信息</h3><p>包括您主动填写的申请阶段、目标地区与学校、学术与语言背景、活动 / 实习 / 科研经历，以及（如提供）邮箱地址。</p>
+  <h3>2. 信息用途</h3><p>仅用于生成您的申请诊断报告、保存历史报告，以及改进诊断质量。我们不会出售您的个人信息，也不向留学中介导流。</p>
+  <h3>3. 数据存储</h3><p>本演示版本将测评数据保存在您当前浏览器本地（localStorage）。</p>`);
+RENDER.disclaimer=()=>legalPage("免责声明",`<p>${DISCLAIMER}</p>
+  <h3>关于评分</h3><p>报告中的分数为"申请竞争力评分"，不是"录取概率"。本服务不会输出"保证录取""必录""稳录""100%"等表述，也不提供录取概率百分比。</p>
+  <h3>关于学校判断</h3><p>每所学校的判断使用冲刺 / 匹配 / 保底等分层标签，用于帮助您理解相对位置，不代表任何确定性结论。</p>`);
+
+/* ===================== AUTH / DASHBOARD ===================== */
+RENDER.auth=function(){
+  app().innerHTML=`<div class="page"><div class="container" style="max-width:440px">
+    <div class="panel">
+      <h2 style="font-size:22px;margin-bottom:6px">登录 / 注册</h2>
+      <p style="color:var(--text2);font-size:14px;margin-bottom:18px">输入邮箱即可保存测评、解锁报告并查看历史。</p>
+      <div class="field"><label>邮箱</label><input id="authEmail" type="email" placeholder="you@example.com" value="${esc(userEmail)}"></div>
+      <button class="btn btn-primary btn-block" onclick="doAuth()">继续</button>
+      <div style="margin-top:14px;text-align:center"><button class="btn btn-ghost" onclick="go('home')">返回首页</button></div>
+    </div></div></div>`;
+};
+function doAuth(){const e=$('#authEmail').value.trim();if(!/.+@.+\..+/.test(e)){toast('请输入有效邮箱');return;}
+  userEmail=e;localStorage.setItem('os_email',e);toast('已登录：'+e);go('dashboard');}
+
+RENDER.dashboard=function(){
+  const all=loadDB();const list=Object.values(all).filter(a=>a.freeResult).sort((a,b)=>b.id<a.id?-1:1);
+  app().innerHTML=`<div class="page"><div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px">
+      <h1 style="font-size:26px">我的报告</h1>
+      <button class="btn btn-primary" onclick="startAssessment()">+ 新建测评</button>
+    </div>
+    ${list.length===0?`<div class="panel" style="text-align:center;color:var(--text2)">还没有报告。<br><br><button class="btn btn-primary" onclick="startAssessment()">免费开始测评</button></div>`:
+    `<div class="cards" style="margin-top:0">${list.map(a=>{const fr=a.freeResult;return `<div class="panel" style="cursor:pointer" onclick='openSaved("${a.id}")'>
+        <div style="display:flex;justify-content:space-between;align-items:start">
+          <div><b style="font-size:16px">${esc(a.applicationLevel)}申请 · ${esc(a.targetMajorCategory||'')}</b>
+          <p style="font-size:13px;color:var(--text2);margin-top:4px">${esc((a.targetRegions||[]).join('、'))} · ${(a.targetSchools||[]).length} 所目标学校</p></div>
+          <span class="verdict" style="${verdictBg(fr.overallGrade)};background:var(--bluebg);color:var(--navy)">${esc(fr.overallGrade)}</span>
+        </div>
+        <p style="font-size:13px;color:var(--text2);margin-top:12px">${a.isPaid?'✅ 已解锁完整报告':'🔒 免费初测（未解锁）'}</p>
+      </div>`;}).join('')}</div>`}
+    <div style="margin-top:20px"><button class="btn btn-ghost" onclick="go('home')">← 返回首页</button></div>
+  </div></div>`;
+};
+function openSaved(id){const all=loadDB();if(!all[id])return;A=all[id];if(A.isPaid&&A.fullReport)go('report');else go('freeResult');}
+</script>
+<script id="part2">
+/* ===================== ASSESSMENT (spec §7-11) ===================== */
+/* step: 0 level, 1 targets, 2 background, 3 prefs, 4 follow-up */
+let STEP=0;
+const STEP_LABELS=["申请阶段","目标院校","背景信息","申请偏好","AI 追问"];
+
+RENDER.assessment=function(){
+  if(!A.id)newAssessment();
+  app().innerHTML=`<div class="page"><div class="container" style="max-width:760px">
+    <div class="stepper">${STEP_LABELS.map((l,i)=>`<div class="s ${i===STEP?'active':''} ${i<STEP?'done':''}">${i<STEP?'✓ ':''}${l}</div>`).join('')}</div>
+    <div id="stepBody"></div>
+  </div></div>`;
+  STEP_RENDER[STEP]();
+};
+const STEP_RENDER={};
+
+/* ---- Step 0: application level ---- */
+STEP_RENDER[0]=function(){
+  $('#stepBody').innerHTML=`<div class="panel">
+    <h2 style="font-size:22px">第一步：选择你的申请阶段</h2>
+    <p style="color:var(--text2);font-size:14px;margin-top:6px">表单、AI 追问、评分模型和报告都会根据你的选择动态变化。MVP 仅支持本科与硕士申请。</p>
+    <div class="level-grid">
+      <div class="level-card ${A.applicationLevel==='本科'?'sel':''}" onclick="pickLevel('本科')">
+        <div class="ic">🎓</div><b>海外本科申请</b><p>高中背景、标化、活动、ED/EA 等</p></div>
+      <div class="level-card ${A.applicationLevel==='硕士'?'sel':''}" onclick="pickLevel('硕士')">
+        <div class="ic">📚</div><b>海外硕士申请</b><p>本科院校、GPA、GRE/GMAT、实习科研等</p></div>
+    </div>
+    <div class="alert" style="margin-top:18px">当前 MVP 暂时只支持海外本科和硕士申请诊断。博士、MBA、转学、预科、语言班等其他申请类型将在后续版本中开放。</div>
+    <div class="form-nav">
+      <button class="btn btn-ghost" onclick="go('home')">取消</button>
+      <button class="btn btn-primary" onclick="nextStep()" ${A.applicationLevel?'':'disabled'} id="nextBtn">下一步 →</button>
+    </div>
+  </div>`;
+};
+function pickLevel(l){A.applicationLevel=l;A.targetMajorCategory="";STEP_RENDER[0]();}
+
+/* ---- Step 1: targets (region/school/major) ---- */
+STEP_RENDER[1]=function(){
+  if(!A.targetSchools.length)A.targetSchools=[{schoolName:"",programName:"",majorName:"",region:""}];
+  const majors=A.applicationLevel==='本科'?UG_MAJORS:GRAD_MAJORS;
+  $('#stepBody').innerHTML=`<div class="panel">
+    <h2 style="font-size:22px">目标地区、学校与专业</h2>
+    <p style="color:var(--text2);font-size:14px;margin-top:6px">${esc(A.applicationLevel)}申请 · 仅支持以下六个地区。</p>
+
+    <div class="field" style="margin-top:18px"><label class="req">目标地区（可多选）</label>
+      <div class="choices" id="regionChips">${SUPPORTED_REGIONS.map(r=>`<div class="choice ${A.targetRegions.includes(r)?'sel':''}" onclick="toggleRegion('${r}')">${r}</div>`).join('')}</div>
+    </div>
+
+    <div class="grid2">
+      <div class="field"><label class="req">入学年份</label>
+        <select onchange="A.intakeYear=this.value">${['',...INTAKE_YEARS].map(y=>`<option ${A.intakeYear===y?'selected':''}>${y||'请选择'}</option>`).join('')}</select></div>
+      <div class="field"><label class="req">目标专业方向</label>
+        <select onchange="A.targetMajorCategory=this.value">${['',...majors].map(m=>`<option ${A.targetMajorCategory===m?'selected':''}>${m||'请选择'}</option>`).join('')}</select></div>
+    </div>
+
+    <div class="field"><label class="req">目标学校</label>
+      <div class="hint">填写你考虑申请的学校。可添加多所。地区需在支持范围内。</div>
+      <div id="schoolList"></div>
+      <button class="btn btn-ghost" style="padding:9px 16px;font-size:13px" onclick="addSchool()">+ 添加学校</button>
+    </div>
+
+    <div class="field"><label class="req">这份选校名单的来源</label>
+      <div class="choices">${HAS_AGENCY.map(h=>`<div class="choice ${A.hasAgencyList===h?'sel':''}" onclick="A.hasAgencyList='${h}';STEP_RENDER[1]()">${h}</div>`).join('')}</div>
+    </div>
+
+    <div id="regionErr"></div>
+    <div class="form-nav">
+      <button class="btn btn-ghost" onclick="prevStep()">← 上一步</button>
+      <button class="btn btn-primary" onclick="submitTargets()">下一步 →</button>
+    </div>
+  </div>`;
+  renderSchoolRows();
+};
+function renderSchoolRows(){
+  const wrap=$('#schoolList');if(!wrap)return;
+  wrap.innerHTML=A.targetSchools.map((s,i)=>`<div class="school-row">
+    <div class="top"><b style="font-size:13px;color:var(--text2)">学校 ${i+1}</b>
+      ${A.targetSchools.length>1?`<button class="rm" onclick="rmSchool(${i})">删除</button>`:''}</div>
+    <div class="grid2">
+      <input placeholder="学校名称，如 University of Southern California" value="${esc(s.schoolName)}" oninput="A.targetSchools[${i}].schoolName=this.value">
+      <select onchange="A.targetSchools[${i}].region=this.value">
+        <option value="">所在地区</option>${SUPPORTED_REGIONS.map(r=>`<option ${s.region===r?'selected':''}>${r}</option>`).join('')}</select>
+      <input placeholder="项目 / 专业名称（选填），如 Computer Science" value="${esc(s.majorName||s.programName||'')}" oninput="A.targetSchools[${i}].majorName=this.value">
+    </div></div>`).join('');
+}
+function toggleRegion(r){const i=A.targetRegions.indexOf(r);i>=0?A.targetRegions.splice(i,1):A.targetRegions.push(r);STEP_RENDER[1]();}
+function addSchool(){A.targetSchools.push({schoolName:"",majorName:"",region:""});renderSchoolRows();}
+function rmSchool(i){A.targetSchools.splice(i,1);renderSchoolRows();}
+function submitTargets(){
+  const err=$('#regionErr');err.innerHTML="";
+  if(!A.targetRegions.length){err.innerHTML=`<div class="alert">请至少选择一个目标地区。${UNSUPPORTED_HINT}</div>`;return;}
+  if(!A.intakeYear||!A.targetMajorCategory){toast('请选择入学年份和目标专业方向');return;}
+  const valid=A.targetSchools.filter(s=>s.schoolName.trim());
+  if(!valid.length){toast('请至少填写一所目标学校');return;}
+  for(const s of valid){if(s.region&&!SUPPORTED_REGIONS.includes(s.region)){err.innerHTML=`<div class="alert">${UNSUPPORTED_HINT}</div>`;return;}}
+  A.targetSchools=valid.map(s=>({...s,region:s.region||A.targetRegions[0]}));
+  if(!A.hasAgencyList){toast('请选择选校名单来源');return;}
+  nextStep();
+}
+
+/* ---- Step 2: background (dynamic UG vs GRAD) ---- */
+const F=(key,label,opts)=>({key,label,opts});
+function txt(key,label,hint,ph,big){const v=esc(A.fields[key]||"");return `<div class="field"><label>${label}</label>${hint?`<div class="hint">${hint}</div>`:''}
+  ${big?`<textarea oninput="A.fields['${key}']=this.value" placeholder="${ph||''}">${v}</textarea>`:`<input value="${v}" oninput="A.fields['${key}']=this.value" placeholder="${ph||''}">`}</div>`;}
+function sel(key,label,opts){const v=A.fields[key]||"";return `<div class="field"><label>${label}</label>
+  <select onchange="A.fields['${key}']=this.value">${['',...opts].map(o=>`<option ${v===o?'selected':''}>${o||'请选择'}</option>`).join('')}</select></div>`;}
+
+STEP_RENDER[2]=function(){
+  $('#stepBody').innerHTML=`<div class="panel">
+    <h2 style="font-size:22px">${A.applicationLevel}背景信息</h2>
+    <p style="color:var(--text2);font-size:14px;margin-top:6px">越具体，AI 的判断越准。带空格的经历类字段可留空。</p>
+    <div id="bgFields" style="margin-top:18px">${A.applicationLevel==='本科'?ugFields():gradFields()}</div>
+    <div class="form-nav">
+      <button class="btn btn-ghost" onclick="prevStep()">← 上一步</button>
+      <button class="btn btn-primary" onclick="submitBackground()">下一步 →</button>
+    </div></div>`;
+};
+function sectionTitle(t){return `<h3 style="font-size:15px;color:var(--navy);margin:22px 0 10px;border-top:1px solid var(--border);padding-top:18px">${t}</h3>`;}
+
+function ugFields(){return `
+  ${sectionTitle('高中学术背景')}
+  <div class="grid2">${txt('highSchoolName','高中名称')}${txt('highSchoolCountry','高中所在国家 / 地区')}</div>
+  <div class="grid2">${sel('highSchoolCurriculum','课程体系',["普高课程","国际部 / 国际学校","AP","IB","A-Level","OSSD","BC","VCE","其他"])}${sel('gradeLevel','当前年级',["高一","高二","高三","已毕业","Gap Year"])}</div>
+  <div class="grid2">${sel('gpaType','GPA / 成绩体系',["百分制","4.0 制","5.0 制","IB 45 分制","A-Level 预估 / 实考成绩","AP 成绩","其他"])}${txt('gpaValue','GPA / 均分',null,'如 92 / 100 或 3.8 / 4.0')}</div>
+  <div class="grid2">${txt('classRank','年级 / 班级排名（选填）')}${txt('coreCourses','核心课程（选填）',null,'如 微积分 A、物理 A')}</div>
+
+  ${sectionTitle('语言与标化成绩')}
+  <div class="grid2">${sel('languageTestType','语言考试',["TOEFL","IELTS","Duolingo","PTE","暂无"])}${txt('languageScore','语言成绩',null,'如 105 / 7.5')}</div>
+  <div class="grid2">${sel('standardizedTestType','标化考试',["SAT","ACT","暂无","Test Optional","不确定是否提交"])}${txt('standardizedTestScore','标化成绩（选填）',null,'如 1500')}</div>
+  ${txt('apIbALevelScores','AP / IB / A-Level 成绩（选填）',null,'如 AP 微积分 5、物理 5')}
+
+  ${sectionTitle('活动与软背景')}
+  ${txt('activities','课外活动',"活动名称、持续时间、担任角色、成果或影响。",'',true)}
+  <div class="grid2">${txt('awards','竞赛奖项（选填）',"竞赛、学术奖项、校内外荣誉。",'',true)}${txt('leadership','社团 / 领导力（选填）',"社团、学生会、组织管理经历。",'',true)}</div>
+  <div class="grid2">${txt('communityService','公益 / 志愿（选填）','',' ',true)}${txt('researchExperience','科研经历（选填）',"科研、实验室、导师项目。",'',true)}</div>
+  <div class="grid2">${txt('projects','项目 / 作品（选填）',"课程项目、个人项目、开源作品。",'',true)}${txt('sportsOrArts','体育 / 艺术特长（选填）','',' ',true)}</div>
+  ${txt('summerPrograms','夏校 / 夏令营（选填）','',' ',true)}
+  <div class="grid2">${sel('recommendationLetters','推荐信情况',["有强推荐人","有普通推荐人","还没确定","不清楚"])}${sel('personalStatementStatus','文书状态',["已完成","有初稿","还没开始","不清楚怎么写"])}</div>
+
+  ${sectionTitle('申请策略')}
+  <div class="grid2">${sel('majorCertainty','专业确定程度',["已明确专业","有大致方向","还不确定","想申请 Undeclared"])}${sel('earlyDecisionPlan','ED / EA 计划',["准备 ED / EA","不准备早申","还不确定","不适用"])}</div>
+  ${txt('familyPreference','家庭偏好（选填）',"如地区、专业方向、预算等家庭意见。")}`;
+}
+function gradFields(){return `
+  ${sectionTitle('本科学术背景')}
+  <div class="grid2">${txt('undergraduateSchool','本科院校')}${txt('undergraduateCountry','本科国家 / 地区')}</div>
+  <div class="grid2">${sel('undergraduateSchoolTier','院校层级',["985","211","双一流","双非","中外合办","海外本科","港澳台本科","不确定"])}${txt('undergraduateMajor','本科专业')}</div>
+  <div class="grid2">${sel('degreeStatus','学位状态',["本科在读","本科已毕业","硕士在读","硕士已毕业","Gap Year"])}${sel('gpaType','GPA 体系',["百分制","4.0 制","5.0 制","英国一等 / 二等一","其他"])}</div>
+  <div class="grid2">${txt('gpaValue','GPA / 均分',null,'如 87 / 100 或 3.6 / 4.0')}${txt('majorRank','专业排名（选填）')}</div>
+  ${txt('coreCourses','核心课程（选填）',"与目标专业相关的核心课程及成绩。")}
+
+  ${sectionTitle('语言与标化成绩')}
+  <div class="grid2">${sel('languageTestType','语言考试',["TOEFL","IELTS","Duolingo","PTE","暂无"])}${txt('languageScore','语言成绩',null,'如 100 / 7.0')}</div>
+  <div class="grid2">${sel('greGmatType','GRE / GMAT',["GRE","GMAT","GMAT Focus","暂无","不需要","不确定是否需要"])}${txt('greGmatScore','GRE / GMAT 成绩（选填）')}</div>
+
+  ${sectionTitle('软背景：实习 / 科研 / 项目')}
+  ${txt('internships','实习经历',"实习公司、岗位、时长、工作内容、成果，及与目标专业的相关性。",'',true)}
+  <div class="grid2">${txt('researchExperience','科研经历（选填）',"科研、导师项目、实验室、论文方向。",'',true)}${txt('projects','项目经历（选填）',"课程 / 专业 / 数据 / 代码 / 商业分析项目。",'',true)}</div>
+  <div class="grid2">${txt('competitions','竞赛（选填）',"竞赛、奖项、排名和成果。",'',true)}${txt('workExperience','全职工作经历（选填）',"岗位、行业和成果。",'',true)}</div>
+  ${txt('publications','论文发表（选填）',"论文、会议、期刊、投稿状态。",'',true)}
+  <div class="grid2">${sel('recommendationLetters','推荐信情况',["有强推荐人","有普通推荐人","还没确定","不清楚"])}${sel('personalStatementStatus','SOP / PS 状态',["已完成","有初稿","还没开始","不清楚怎么写"])}</div>
+
+  ${sectionTitle('申请偏好')}
+  <div class="grid2">${sel('rankingPreference','排名偏好',["非常看重排名","排名和专业都重要","更看重专业和就业","不确定"])}${sel('employmentPreference','就业偏好',["回国就业","留在当地就业","继续读博","不确定"])}</div>
+  ${txt('careerGoal','职业目标（选填）',"如咨询、数据分析、产品、金融科技等。")}`;
+}
+function submitBackground(){
+  const req=A.applicationLevel==='本科'?['gpaValue']:['undergraduateSchool','gpaValue'];
+  for(const r of req)if(!(A.fields[r]||'').trim()){toast('请至少填写 GPA / 均分等关键学术信息');return;}
+  nextStep();
+}
+
+/* ---- Step 3: preferences ---- */
+STEP_RENDER[3]=function(){
+  $('#stepBody').innerHTML=`<div class="panel">
+    <h2 style="font-size:22px">申请偏好</h2>
+    <p style="color:var(--text2);font-size:14px;margin-top:6px">用于校准选校风险与建议。</p>
+    <div class="field" style="margin-top:18px"><label>预算</label>
+      <div class="choices">${BUDGETS.map(b=>`<div class="choice ${A.budget===b?'sel':''}" onclick="A.budget='${b}';STEP_RENDER[3]()">${b}</div>`).join('')}</div></div>
+    <div class="field"><label>风险偏好</label>
+      <div class="choices">${RISK_TOLERANCE.map(b=>`<div class="choice ${A.riskTolerance===b?'sel':''}" onclick="A.riskTolerance='${b}';STEP_RENDER[3]()">${b}</div>`).join('')}</div></div>
+    <div class="field"><label>地区 / 城市偏好（选填）</label><input value="${esc(A.locationPreference)}" oninput="A.locationPreference=this.value" placeholder="如 偏好大城市 / 安全 / 就业机会多"></div>
+    <div class="form-nav">
+      <button class="btn btn-ghost" onclick="prevStep()">← 上一步</button>
+      <button class="btn btn-primary" onclick="genFollowUp()">生成 AI 追问 →</button>
+    </div></div>`;
+};
+
+function prevStep(){if(STEP>0){STEP--;RENDER.assessment();}}
+function nextStep(){STEP++;RENDER.assessment();}
+</script>
+<script id="part3">
+/* ===================== AI FOLLOW-UP (spec §12) ===================== */
+function genFollowUp(){
+  if(!A.budget||!A.riskTolerance){toast('请选择预算和风险偏好');return;}
+  A.followUpQuestions=buildFollowUp();
+  STEP=4;RENDER.assessment();
+}
+function buildFollowUp(){
+  const lvl=A.applicationLevel, major=A.targetMajorCategory||"", region=A.targetRegions[0]||"", f=A.fields;
+  const qs=[];
+  if(lvl==='本科'){
+    if(/计算机|数据科学|工程|数学/.test(major))
+      qs.push({q:`你是否有和${major}相关的长期项目、竞赛、开源作品或课程作品？请说明持续时间和成果。`,r:`${region}本科${major}方向不仅看成绩，也会看你是否长期展示过对该方向的兴趣和能力。`,key:'csLongTermProjects'});
+    else if(/商科|经济|社会科学|公共政策|心理/.test(major))
+      qs.push({q:`你是否有与${major}相关的实践经历，例如商赛、调研、实习或社会活动？请简单说明你的角色和成果。`,r:`这类专业看重你是否真正接触过相关领域，而不仅是分数。`,key:'majorRelatedActivity'});
+    else
+      qs.push({q:`你的活动 / 经历里，哪一条最能代表你申请${major}的动机和能力？`,r:`招生官希望看到与申请方向一致的代表性经历。`,key:'signatureActivity'});
+    if(!/持续|年|长期/.test(f.activities||''))
+      qs.push({q:'你的活动列表里是否有一条持续 2 年以上的主线？如果有，是什么？',r:'本科申请很看重活动连续性和个人主线，而不只是活动数量。',key:'activitySpine'});
+    if((f.earlyDecisionPlan||'')==='准备 ED / EA'||!f.earlyDecisionPlan)
+      qs.push({q:'你是否计划申请 ED / EA？如果有，第一志愿是哪一所？',r:'早申策略会明显影响美国本科申请的风险和机会判断。',key:'edPlan'});
+  }else{
+    if(/商业分析|数据科学|金融|统计/.test(major))
+      qs.push({q:'你是否有 SQL、Python、Tableau、机器学习或数据分析相关项目？请说明项目内容和你的贡献。',r:'这类专业非常重视数据处理能力和商业问题拆解能力。',key:'dataSkills'});
+    else if(/计算机|工程/.test(major))
+      qs.push({q:`你是否有与${major}相关的项目或科研经历？请说明技术栈和你负责的部分。`,r:'硕士申请看重你的专业深度和动手能力是否匹配项目要求。',key:'techDepth'});
+    else
+      qs.push({q:`你最能代表${major}专业匹配度的一段经历是什么？`,r:'专业匹配度是硕士录取的核心维度之一。',key:'fitEvidence'});
+    if(!/相关|咨询|金融|数据|互联网/.test(f.internships||''))
+      qs.push({q:'你的实习是否和咨询、金融、互联网、数据分析或商业决策相关？',r:'相关实习会明显影响项目匹配度和文书可信度。',key:'internshipRelevance'});
+    qs.push({q:`你是否已有明确职业目标（例如咨询、数据分析、产品、金融科技）？`,r:'职业目标清晰度会影响 SOP 的说服力。',key:'careerClarity'});
+  }
+  return qs.slice(0,3);
+}
+STEP_RENDER[4]=function(){
+  $('#stepBody').innerHTML=`<div class="panel">
+    <h2 style="font-size:22px">AI 关键追问</h2>
+    <p style="color:var(--text2);font-size:14px;margin-top:6px">系统根据你的${A.applicationLevel}申请背景，生成了 ${A.followUpQuestions.length} 个最影响判断的问题。每题附带"为什么问"。</p>
+    <div style="margin-top:18px">${A.followUpQuestions.map((q,i)=>`<div class="field">
+      <label>${i+1}. ${esc(q.q)}</label>
+      <div class="hint">💡 为什么问：${esc(q.r)}</div>
+      <textarea oninput="A.followUpAnswers['${q.key}']=this.value" placeholder="可简短回答；如不适用可写「无」">${esc(A.followUpAnswers[q.key]||'')}</textarea>
+    </div>`).join('')}</div>
+    <div class="form-nav">
+      <button class="btn btn-ghost" onclick="STEP=3;RENDER.assessment()">← 上一步</button>
+      <button class="btn btn-primary btn-lg" onclick="generateFreeResult()">生成免费初测结果 →</button>
+    </div></div>`;
+};
+
+/* ===================== SCORING ENGINE (spec §13-17) ===================== */
+function num(v){if(!v)return null;const m=String(v).match(/([\d.]+)/);return m?parseFloat(m[1]):null;}
+function gpaPct(type,val){const n=num(val);if(n==null)return null;
+  if(/4\.0/.test(type)||(/^\d(\.\d+)?$/.test(String(val))&&n<=4.3))return Math.min(100,n/4*100);
+  if(/5\.0/.test(type))return Math.min(100,n/5*100);
+  if(/45/.test(type))return Math.min(100,n/45*100);
+  if(n<=4.3)return n/4*100;
+  return Math.min(100,n);}
+function langScore01(type,val){const n=num(val);if(n==null)return 0.3;
+  if(/IELTS/i.test(type))return clamp((n-5.5)/(8-5.5));
+  if(/Duolingo/i.test(type))return clamp((n-95)/(140-95));
+  if(/PTE/i.test(type))return clamp((n-50)/(86-50));
+  return clamp((n-80)/(115-80));}// TOEFL default
+function clamp(x){return Math.max(0,Math.min(1,x));}
+function has(v){return v&&String(v).trim()&&!/^无$|^没有$|暂无/.test(String(v).trim());}
+function richness(v){if(!has(v))return 0;const len=String(v).trim().length;return clamp(0.4+len/260);}
+
+function scoreUndergrad(){
+  const f=A.fields, fa=A.followUpAnswers;
+  const gp=gpaPct(f.gpaType,f.gpaValue);
+  const rigor=({"AP":1,"IB":1,"A-Level":.95,"国际部 / 国际学校":.85,"OSSD":.85,"BC":.85,"VCE":.85,"普高课程":.6})[f.highSchoolCurriculum]||.65;
+  const academics=clamp(((gp!=null?gp/100:.6)*.7)+(rigor*.3))*30;
+  const lang=langScore01(f.languageTestType,f.languageScore);
+  const std=has(f.standardizedTestScore)?clamp((num(f.standardizedTestScore)-1200)/(1550-1200)):(/Test Optional|暂无/.test(f.standardizedTestType||'')?.45:.4);
+  const testing=clamp(lang*.55+std*.45)*20;
+  const act=(richness(f.activities)*.4+richness(f.awards)*.25+richness(f.leadership)*.2+richness(f.researchExperience||f.projects)*.15);
+  const activities=clamp(act+ (richness(fa.activitySpine)*.15))*20;
+  const fit=clamp(({"已明确专业":1,"有大致方向":.7,"想申请 Undeclared":.55,"还不确定":.45}[f.majorCertainty]||.5)*.6 + (richness(fa.signatureActivity||fa.csLongTermProjects||fa.majorRelatedActivity))*.4)*15;
+  const strat=clamp(({"准备 ED / EA":.85,"还不确定":.55,"不准备早申":.5,"不适用":.5}[f.earlyDecisionPlan]||.5)*.4 + ({"有强推荐人":1,"有普通推荐人":.65,"还没确定":.4,"不清楚":.35}[f.recommendationLetters]||.4)*.3 + ({"已完成":1,"有初稿":.7,"还没开始":.4,"不清楚怎么写":.35}[f.personalStatementStatus]||.4)*.3)*15;
+  return {"学术成绩与课程难度":academics,"语言与标化成绩":testing,"活动与奖项":activities,"个人主线与专业匹配":fit,"申请策略与文书空间":strat};
+}
+function scoreGrad(){
+  const f=A.fields, fa=A.followUpAnswers;
+  const gp=gpaPct(f.gpaType,f.gpaValue);
+  const tier=({"985":1,"211":.85,"双一流":.8,"海外本科":.85,"港澳台本科":.8,"中外合办":.7,"双非":.55,"不确定":.6})[f.undergraduateSchoolTier]||.6;
+  const academic=clamp((gp!=null?gp/100:.6)*.6+tier*.4)*30;
+  const lang=langScore01(f.languageTestType,f.languageScore);
+  const greNeed=/暂无|不需要|不确定/.test(f.greGmatType||'');
+  const gre=has(f.greGmatScore)?.85:(greNeed?.55:.4);
+  const testing=clamp(lang*.6+gre*.4)*15;
+  const fitBase=({"非常看重排名":.6,"排名和专业都重要":.7,"更看重专业和就业":.8}[f.rankingPreference]||.6);
+  const fit=clamp(fitBase*.4+richness(f.coreCourses)*.25+richness(fa.fitEvidence||fa.dataSkills||fa.techDepth)*.35)*20;
+  const exp=clamp(richness(f.internships)*.4+richness(f.researchExperience)*.2+richness(f.projects)*.15+richness(f.competitions)*.1+richness(f.workExperience||f.publications)*.15 + (has(fa.internshipRelevance)&&/相关|是/.test(fa.internshipRelevance)?.1:0))*20;
+  const strat=clamp(({"有强推荐人":1,"有普通推荐人":.65,"还没确定":.4,"不清楚":.35}[f.recommendationLetters]||.4)*.35 + ({"已完成":1,"有初稿":.7,"还没开始":.4,"不清楚怎么写":.35}[f.personalStatementStatus]||.4)*.35 + richness(f.careerGoal||fa.careerClarity)*.3)*15;
+  return {"学术背景":academic,"语言与标化":testing,"专业匹配度":fit,"实习 / 科研 / 项目背景":exp,"申请材料与策略":strat};
+}
+function gradeFor(score){return score>=90?"A":score>=85?"A-":score>=80?"B+":score>=73?"B":score>=66?"B-":score>=58?"C+":score>=50?"C":"C-";}
+function levelFor(ratio){return ratio>=.85?"优秀":ratio>=.7?"良好":ratio>=.55?"中等":ratio>=.4?"偏弱":"薄弱";}
+function verdictFor(diff){// diff = schoolDifficulty - userScore
+  if(diff>=22)return "高风险冲刺";if(diff>=13)return "冲刺";if(diff>=6)return "匹配偏冲刺";
+  if(diff>=-5)return "匹配";if(diff>=-12)return "匹配偏稳";if(diff>=-24)return "保底";return "保底";}
+function roleFor(v){return /高风险冲刺|冲刺/.test(v)?"冲刺校":/匹配偏稳|保底/.test(v)?"保底校":/不建议/.test(v)?"不建议":"匹配校";}
+
+function computeScores(){return A.applicationLevel==='本科'?scoreUndergrad():scoreGrad();}
+function buildSchoolVerdicts(overall){
+  return A.targetSchools.map(s=>{
+    const diff=schoolDifficulty(s.schoolName)-overall;
+    let v=verdictFor(diff);
+    if(diff>=34)v="高风险冲刺";
+    const compScore=Math.round(clamp(1-(schoolDifficulty(s.schoolName)-overall+30)/90)*40+overall*.6);
+    return {...s,verdict:v,competitivenessScore:Math.max(35,Math.min(96,compScore))};
+  });
+}
+</script>
+<script id="part4">
+/* ===================== FREE RESULT (spec §15,17.1) ===================== */
+function generateFreeResult(){
+  const scores=computeScores();
+  const overall=Math.round(Object.values(scores).reduce((a,b)=>a+b,0));
+  const sv=buildSchoolVerdicts(overall);
+  const reach=sv.filter(s=>/冲刺/.test(s.verdict)).length;
+  const safety=sv.filter(s=>/保底/.test(s.verdict)).length;
+  const weakDim=Object.entries(scores).map(([k,v])=>[k,v/(weights()[k])]).sort((a,b)=>a[1]-b[1])[0][0];
+  const risks=[];
+  if(safety===0)risks.push("当前选校名单缺少明确的保底层，整体抗风险能力不足。");
+  if(reach>=Math.ceil(sv.length/2))risks.push("冲刺类学校占比偏高，建议补充匹配与保底学校以平衡风险。");
+  risks.push(`${weakDim}是当前相对最弱的一项，可能拉低整体竞争力。`);
+  if(A.applicationLevel==='硕士'&&!has(A.fields.internships))risks.push("缺少与目标专业相关的实习 / 项目证明，专业匹配度有待加强。");
+  if(A.applicationLevel==='本科'&&richness(A.fields.activities)<.3)risks.push("活动经历的呈现不够具体，个人主线与专业匹配的说服力偏弱。");
+  if((A.hasAgencyList||'').startsWith('是'))risks.push("这是中介给的选校名单，建议在完整报告中逐所复核其合理性。");
+
+  const fr={
+    assessmentId:A.id, applicationLevel:A.applicationLevel,
+    overallScore:overall, overallGrade:gradeFor(overall),
+    riskLevel: safety===0||reach>sv.length*0.6 ? (overall<66?"高":"中等偏高") : (overall>=80?"中等偏低":"中等"),
+    summary:`从你目前填写的信息看，你的${A.applicationLevel}申请目标学校组合${reach>=sv.length/2?'存在一定冲刺空间':'整体较为均衡'}，但选校分层${safety===0?'还不够清晰':'基本合理'}。系统识别到你可能在${weakDim}、背景证明力和保底学校设置上存在风险。`,
+    schoolPreview: sv.map(s=>({schoolName:s.schoolName,programName:s.majorName,region:s.region,initialVerdict:s.verdict})),
+    topRisks: risks.slice(0,3),
+    scores
+  };
+  A.freeResult=fr; A.status='free_done'; saveDB();
+  go('freeResult');
+}
+function weights(){return A.applicationLevel==='本科'?UG_WEIGHTS:GRAD_WEIGHTS;}
+function riskClass(r){return /高/.test(r)?'rb-high':/中等偏低|低/.test(r)?'rb-low':'rb-mid';}
+
+RENDER.freeResult=function(){
+  const fr=A.freeResult; if(!fr){go('home');return;}
+  app().innerHTML=`<div class="page"><div class="container" style="max-width:780px">
+    <div class="panel">
+      <div style="text-align:center"><div class="eyebrow">AI 申请初测结果</div>
+      <h1 style="font-size:24px;margin-bottom:4px">你的 AI 申请初测结果已生成</h1>
+      <p style="color:var(--text2);font-size:14px">${esc(A.applicationLevel)}申请 · ${esc(A.targetMajorCategory)} · ${esc(A.targetRegions.join('、'))}</p></div>
+      <div class="grade-hero">
+        <div class="grade-circle"><span class="g">${esc(fr.overallGrade)}</span><span class="l">总体申请竞争力</span></div>
+        <span class="riskbadge ${riskClass(fr.riskLevel)}">申请风险：${esc(fr.riskLevel)}</span>
+      </div>
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:18px;font-size:14px">
+        <b>初步判断：</b>${esc(fr.summary)}</div>
+    </div>
+
+    <div class="panel">
+      <h3 style="font-size:17px;margin-bottom:6px">目标学校初步判断</h3>
+      <table class="schools"><thead><tr><th>学校</th><th>专业</th><th>初步判断</th></tr></thead><tbody>
+      ${fr.schoolPreview.map(s=>`<tr><td><b>${esc(s.schoolName)}</b><br><span style="color:var(--text2);font-size:12px">${esc(s.region)}</span></td>
+        <td style="color:var(--text2)">${esc(s.programName||'—')}</td>
+        <td><span class="verdict" style="${verdictBg(s.initialVerdict)}">${esc(s.initialVerdict)}</span></td></tr>`).join('')}
+      </tbody></table>
+    </div>
+
+    <div class="panel">
+      <h3 style="font-size:17px;margin-bottom:6px">系统识别到的主要风险</h3>
+      <ul class="risk-list">${fr.topRisks.map(r=>`<li>${esc(r)}</li>`).join('')}</ul>
+    </div>
+
+    <div class="lock-card">
+      <h2 style="font-size:20px;color:var(--navy)">完整报告将告诉你</h2>
+      <ul class="benefits">${["每所学校具体风险在哪里","哪些学校值得申请，哪些学校不建议浪费申请费","你的核心优势和短板（完整五维评分）","未来 30 / 60 / 90 天最应该提升什么","文书应该突出什么主线","可下载 PDF 报告，适合发给父母或对照中介方案"].map(b=>`<li>${b}</li>`).join('')}</ul>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-amber btn-lg" onclick="go('checkout','standard_report')">解锁完整报告 ¥99</button>
+        <button class="btn btn-primary btn-lg" onclick="go('checkout','premium_report')">升级为完整规划 ¥199</button>
+      </div>
+      <p style="font-size:12px;color:var(--text2);margin-top:14px">一次付费，无订阅，无中介推销。</p>
+    </div>
+    <div style="text-align:center;margin-top:18px"><button class="btn btn-ghost" onclick="go('home')">← 返回首页</button></div>
+  </div></div>`;
+};
+
+/* ===================== CHECKOUT + MOCK PAYMENT (spec §20.6,20.7,25) ===================== */
+RENDER.checkout=function(productType){
+  productType=productType||'standard_report';
+  const p=PRODUCTS[productType];
+  app().innerHTML=`<div class="page"><div class="container" style="max-width:480px">
+    <div class="panel">
+      <div class="eyebrow">确认订单</div>
+      <h1 style="font-size:22px;margin-bottom:18px">${esc(p.name)}</h1>
+      <div style="display:flex;justify-content:space-between;padding:14px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+        <span>${esc(p.name)}</span><b>¥${p.price}</b></div>
+      <div style="display:flex;justify-content:space-between;padding:14px 0;font-size:18px"><b>应付</b><b style="color:var(--navy)">¥${p.price}</b></div>
+      <div class="field"><label>接收报告的邮箱</label><input id="coEmail" type="email" placeholder="you@example.com" value="${esc(userEmail)}"></div>
+      <div class="alert">这是演示环境，使用 <b>Mock 支付</b> 完成闭环，不会产生真实扣款。</div>
+      <button class="btn btn-amber btn-block btn-lg" onclick="mockPay('${productType}')">模拟支付 ¥${p.price}</button>
+      <div style="display:flex;gap:10px;margin-top:12px">
+        <button class="btn btn-ghost" style="flex:1" onclick="go('paymentFailed','${productType}')">模拟支付失败</button>
+        <button class="btn btn-ghost" style="flex:1" onclick="go('freeResult')">返回</button>
+      </div>
+      <p style="font-size:12px;color:var(--text2);margin-top:14px;text-align:center">一次付费，无订阅，无中介推销。</p>
+    </div></div></div>`;
+};
+function mockPay(productType){
+  const e=($('#coEmail').value||'').trim();
+  if(!/.+@.+\..+/.test(e)){toast('请输入有效邮箱以接收报告');return;}
+  userEmail=e;localStorage.setItem('os_email',e);
+  A.isPaid=true; A.reportType=productType; A.status='paid'; saveDB();
+  go('paymentSuccess');
+}
+RENDER.paymentFailed=function(productType){
+  app().innerHTML=`<div class="page"><div class="container" style="max-width:460px"><div class="panel" style="text-align:center">
+    <div style="font-size:46px">⚠️</div><h1 style="font-size:22px;margin:8px 0">支付未完成</h1>
+    <p style="color:var(--text2);font-size:14px">你的支付没有成功，没有产生任何扣款。你可以重试。</p>
+    <div style="margin-top:20px;display:flex;gap:10px;justify-content:center">
+      <button class="btn btn-primary" onclick="go('checkout','${productType||'standard_report'}')">重新支付</button>
+      <button class="btn btn-ghost" onclick="go('freeResult')">返回免费结果</button>
+    </div></div></div></div>`;
+};
+RENDER.paymentSuccess=function(){
+  app().innerHTML=`<div class="page"><div class="container" style="max-width:460px"><div class="panel" style="text-align:center">
+    <div style="font-size:46px">✅</div><h1 style="font-size:22px;margin:8px 0">报告解锁成功</h1>
+    <p style="color:var(--text2);font-size:14px">你的完整申请诊断报告正在生成。生成完成后，你可以在线查看并下载 PDF。</p>
+    <div style="margin-top:22px"><button class="btn btn-primary btn-lg" onclick="generateFullReport()">查看完整报告 →</button></div>
+  </div></div></div>`;
+};
+
+/* ===================== FULL REPORT GENERATION (spec §16,17.2) ===================== */
+function generateFullReport(){
+  if(A.fullReport){go('report');return;}
+  const scores=A.freeResult.scores; const w=weights();
+  const overall=A.freeResult.overallScore;
+  const sv=buildSchoolVerdicts(overall);
+  const f=A.fields, fa=A.followUpAnswers;
+  const breakdown=Object.entries(scores).map(([dim,sc])=>{
+    const ratio=sc/w[dim];
+    return {dimension:dim,score:Math.round(sc),weight:w[dim],level:levelFor(ratio),
+      analysis:dimAnalysis(dim,ratio),improvementAdvice:dimAdvice(dim,ratio)};
+  });
+  const weakest=[...breakdown].sort((a,b)=>a.score/a.weight-b.score/b.weight)[0];
+  const strongest=[...breakdown].sort((a,b)=>b.score/b.weight-a.score/a.weight)[0];
+
+  const schoolAnalysis=sv.map(s=>{
+    const d=schoolDifficulty(s.schoolName);
+    const role=roleFor(s.verdict);
+    return {...s, fitLevel:levelFor(clamp(1-(d-overall+20)/70)), riskLevel:/高风险冲刺|冲刺/.test(s.verdict)?"较高":/匹配偏稳|保底/.test(s.verdict)?"较低":"中等",
+      whyThisVerdict:schoolReason(s,d,overall,strongest,weakest),
+      strengthsForThisSchool:[`${strongest.dimension}相对突出，可作为该校申请的支点`, A.applicationLevel==='硕士'&&has(f.internships)?'有可写入文书的实践经历':'目标方向与该校项目方向基本一致'],
+      weaknessesForThisSchool:[`${weakest.dimension}是申请该校时最需要补强的环节`, d>overall+12?'当前背景与该校录取门槛之间仍有明显差距':'需要在文书中进一步强化匹配度'],
+      applicationAdvice:role==='不建议'?'投入产出比偏低，建议谨慎评估是否占用申请名额。':`建议作为${role}保留，并针对${weakest.dimension}做重点提升。`,
+      shouldApply: s.verdict!=='不建议申请', roleInSchoolList:role};
+  });
+  const group=r=>schoolAnalysis.filter(s=>s.roleInSchoolList===r).map(s=>({schoolName:s.schoolName,programName:s.majorName,reason:s.whyThisVerdict}));
+
+  const fr=A.fullReport={
+    assessmentId:A.id, reportType:A.reportType, applicationLevel:A.applicationLevel,
+    title:A.applicationLevel==='本科'?"AI 本科申请诊断报告":"AI 硕士申请诊断报告",
+    userProfileSummary:{
+      targetRegions:A.targetRegions, targetMajorCategory:A.targetMajorCategory, targetSchools:A.targetSchools,
+      backgroundSummary:profileSummary(),
+      academicSummary:A.applicationLevel==='本科'
+        ?`${f.highSchoolCurriculum||'高中'}背景，GPA ${f.gpaValue||'未填'}（${f.gpaType||''}）。`
+        :`${f.undergraduateSchool||'本科院校'}（${f.undergraduateSchoolTier||''}）${f.undergraduateMajor||''}专业，GPA ${f.gpaValue||'未填'}。`,
+      testSummary:`${f.languageTestType||'语言'} ${f.languageScore||'未填'}${A.applicationLevel==='本科'?`；${f.standardizedTestType||'标化'} ${f.standardizedTestScore||'未提交'}`:`；${f.greGmatType||'GRE/GMAT'} ${f.greGmatScore||'未填'}`}。`,
+      experienceSummary:A.applicationLevel==='本科'?`活动与奖项：${has(f.activities)?'已填写':'信息较少'}。`:`实习 / 项目：${has(f.internships)?'已填写':'信息较少'}。`
+    },
+    executiveSummary:{
+      overallScore:overall, overallGrade:A.freeResult.overallGrade, overallVerdict:A.freeResult.riskLevel,
+      oneSentenceConclusion:`你的${A.applicationLevel}申请综合竞争力为 ${overall} / 100（${A.freeResult.overallGrade}），目标学校以${schoolAnalysis.filter(s=>/冲刺/.test(s.verdict)).length>schoolAnalysis.length/2?'冲刺为主':'匹配为主'}。`,
+      mainOpportunity:`${strongest.dimension}是你的相对优势，可作为整体申请的支点。`,
+      mainRisk:`${weakest.dimension}是当前最大短板，也是最影响判断的因素。`,
+      recommendedStrategy:`稳住优势项，集中精力在未来 90 天补强${weakest.dimension}，并确保选校组合中有清晰的保底层。`
+    },
+    scoreBreakdown:breakdown,
+    schoolAnalysis,
+    schoolListStrategy:{reachSchools:group('冲刺校'),targetSchools:group('匹配校'),safetySchools:group('保底校'),notRecommended:schoolAnalysis.filter(s=>!s.shouldApply).map(s=>({schoolName:s.schoolName,reason:s.whyThisVerdict}))},
+    strengths:buildStrengths(breakdown,strongest),
+    weaknesses:buildWeaknesses(breakdown,weakest),
+    riskAnalysis:buildRisks(schoolAnalysis,weakest),
+    improvementPlan:buildPlan(weakest),
+    essayStrategy:{
+      mainNarrative:`围绕"${strongest.dimension}"展开一条清晰的个人主线，体现你对${A.targetMajorCategory}的持续投入。`,
+      whyMajor:`说明你选择${A.targetMajorCategory}的真实动因，并用具体经历佐证，而非空泛兴趣。`,
+      whySchool:`针对每所学校的项目特色（课程、资源、方向）写出具体匹配点，避免套用模板。`,
+      careerGoal:f.careerGoal||fa.careerClarity||"建议明确一个短期职业目标以增强说服力。",
+      avoidWriting:["避免罗列流水账式的活动清单","避免任何绝对化或承诺性的录取表达","避免与成绩单重复、缺乏个人视角的内容"]
+    },
+    recommendationAdvice:({"有强推荐人":"你已有强推荐人，建议尽早与其沟通申请方向，使推荐内容与文书主线一致。","有普通推荐人":"建议在常规推荐人之外，争取一位更了解你专业能力的推荐人。"}[f.recommendationLetters]||"建议尽快锁定 2–3 位能具体评价你能力的推荐人。"),
+    parentFriendlySummary:{
+      summary:`孩子目前的${A.applicationLevel}申请综合竞争力为 ${overall} 分（${A.freeResult.overallGrade}），属于${levelFor(overall/100)}水平。目标学校已做冲刺 / 匹配 / 保底分层。`,
+      riskExplanation:`当前最需要关注的是${weakest.dimension}。这不代表无法申请，而是提示未来几个月应重点投入的方向。`,
+      budgetAndDecisionAdvice:`结合${A.budget||'预算'}与风险偏好，建议保留 1–2 所保底学校，并把提升资源优先放在最影响结果的环节上。`
+    },
+    actionChecklist:buildPlan(weakest).next30Days.map(t=>({task:t.task,priority:"高",deadlineSuggestion:"30 天内"}))
+      .concat([{task:"确认每所学校的申请截止日期与材料清单",priority:"中",deadlineSuggestion:"尽快"},{task:"确定推荐人并发出邀请",priority:"中",deadlineSuggestion:"60 天内"}]),
+    disclaimer:DISCLAIMER
+  };
+  // level-specific + premium + agency review
+  if(A.applicationLevel==='本科')fr.undergraduateSpecific={
+    curriculumAnalysis:`你的课程体系为${f.highSchoolCurriculum||'未填'}，课程难度是招生官评估学术潜力的重要依据。`,
+    activitiesAnalysis:richness(f.activities)>.4?'活动呈现较具体，建议进一步突出一条主线。':'活动描述偏简略，建议补充角色、持续时间与成果。',
+    earlyApplicationStrategy:f.earlyDecisionPlan==='准备 ED / EA'?`你计划早申，建议把 ED/EA 名额留给匹配度与意愿最高的学校。`:'建议评估是否使用 ED/EA 提升录取机会。',
+    personalNarrativeAdvice:'用一条贯穿活动、奖项与专业兴趣的主线来组织文书。'};
+  if(A.applicationLevel==='硕士')fr.graduateSpecific={
+    undergraduateBackgroundAnalysis:`${f.undergraduateSchool||''}（${f.undergraduateSchoolTier||''}）背景，GPA ${f.gpaValue||''}，是硕士评估的基础。`,
+    majorFitAnalysis:`${f.undergraduateMajor||'本科专业'}与目标 ${A.targetMajorCategory} 的匹配度，需要用课程与项目来证明。`,
+    internshipResearchAnalysis:has(f.internships)?'实习经历是加分项，建议在文书中突出与目标专业的关联。':'缺少相关实习 / 项目，建议尽快补充以增强匹配度。',
+    sopCvAdvice:'SOP 应清晰呈现"专业动因—能力证据—职业目标"的逻辑链。'};
+  if(A.reportType==='premium_report'){
+    fr.premium={
+      recommendedSchools:recommendSchools(overall),
+      alternativeMajors:[`与 ${A.targetMajorCategory} 相邻、竞争稍缓的方向可作为备选`,"可考虑交叉学科项目以提升匹配度"],
+      regionStrategy:A.targetRegions.map(r=>`${r}：${regionStrategy(r)}`),
+      timeline:buildTimeline(),
+      materialsChecklist:["成绩单与在读证明","语言 / 标化成绩单",A.applicationLevel==='硕士'?"简历（CV）与 SOP":"个人陈述（PS）与补充文书","推荐信（2–3 封）","存款证明 / 资金材料","护照与证件照"],
+    };
+  }
+  if((A.hasAgencyList||'').startsWith('是')){
+    const reach=schoolAnalysis.filter(s=>/高风险冲刺/.test(s.verdict));
+    fr.agencyListReview={
+      overallComment:"这是中介提供的选校名单，以下是基于你背景的独立复核意见。",
+      tooAggressiveSchools:reach.map(s=>s.schoolName),
+      tooConservativeSchools:schoolAnalysis.filter(s=>/保底/.test(s.verdict)&&schoolDifficulty(s.schoolName)<overall-20).map(s=>s.schoolName),
+      missingSafetyLayer:schoolAnalysis.filter(s=>/保底/.test(s.verdict)).length===0,
+      possibleMismatch:[], betterAlternatives:recommendSchools(overall).slice(0,3)
+    };
+  }
+  A.status='report_done';saveDB();
+  go('report');
+}
+</script>
+<script id="part5">
+/* ===================== REPORT TEXT HELPERS ===================== */
+function profileSummary(){const f=A.fields;
+  return A.applicationLevel==='本科'
+    ?`${f.gradeLevel||''}阶段学生，目标 ${A.targetRegions.join('、')} ${A.targetMajorCategory}方向本科申请，入学年份 ${A.intakeYear}。`
+    :`${f.degreeStatus||''}，目标 ${A.targetRegions.join('、')} ${A.targetMajorCategory}方向硕士申请，入学年份 ${A.intakeYear}。`;}
+function dimAnalysis(dim,r){
+  const m={"学术成绩与课程难度":"GPA 与课程难度","学术背景":"院校层级与 GPA","语言与标化成绩":"语言与标化成绩","语言与标化":"语言与标化成绩","活动与奖项":"活动与奖项的深度","个人主线与专业匹配":"个人主线与专业匹配度","专业匹配度":"专业匹配度","实习 / 科研 / 项目背景":"实践经历的相关性","申请策略与文书空间":"申请策略与文书空间","申请材料与策略":"申请材料与策略"}[dim]||dim;
+  return r>=.8?`${m}是你的明显优势，在同类申请者中具有竞争力。`:r>=.6?`${m}处于中上水平，仍有提升空间。`:r>=.45?`${m}中规中矩，建议作为重点提升方向之一。`:`${m}是当前较为薄弱的环节，会拉低整体竞争力。`;}
+function dimAdvice(dim,r){if(r>=.8)return "保持现状，并在文书中清晰呈现这一优势。";
+  const m={"学术成绩与课程难度":"提升核心课程成绩，必要时补充难度更高的课程或标化。","学术背景":"通过核心课程成绩与科研项目弥补院校层级影响。","语言与标化成绩":"在截止前争取一次更高的语言 / 标化成绩。","语言与标化":"尽快达到目标项目的语言 / GRE/GMAT 门槛。","活动与奖项":"聚焦一条主线，深化已有活动的成果与影响力。","个人主线与专业匹配":"补充与目标专业直接相关的代表性经历。","专业匹配度":"通过课程、项目或实习强化与目标专业的匹配。","实习 / 科研 / 项目背景":"补充一段与目标专业高度相关的实习或项目。","申请策略与文书空间":"尽早确定推荐人与文书主线，优化选校分层。","申请材料与策略":"完善 SOP/CV 逻辑，明确职业目标。"};
+  return m[dim]||"针对该维度制定具体的提升计划。";}
+function schoolReason(s,d,overall,strong,weak){
+  const gap=d-overall;
+  if(gap>=22)return `${s.schoolName}的录取门槛明显高于你当前背景，可作为梦想校保留，但需做好高风险预期。`;
+  if(gap>=6)return `${s.schoolName}有一定机会，但竞争压力较大，建议靠${strong.dimension}的优势争取，同时补强${weak.dimension}。`;
+  if(gap>=-12)return `${s.schoolName}与你当前背景较为匹配，是合理的核心申请目标。`;
+  return `${s.schoolName}相对你的背景风险较低，适合作为保底，确保选校组合的稳定性。`;}
+function buildStrengths(bd,strong){const out=[{title:`${strong.dimension}突出`,detail:strong.analysis}];
+  const f=A.fields;
+  if(A.applicationLevel==='硕士'&&has(f.internships))out.push({title:"具备相关实践经历",detail:"实习 / 项目可作为文书与匹配度的有力支撑。"});
+  if(A.applicationLevel==='本科'&&richness(f.activities)>.4)out.push({title:"活动呈现较具体",detail:"已有可发展为主线的活动素材。"});
+  if(gpaPct(f.gpaType,f.gpaValue)>=85)out.push({title:"学术成绩有竞争力",detail:"GPA 处于较高区间，是申请的基本盘。"});
+  return out.slice(0,4);}
+function buildWeaknesses(bd,weak){const out=[{title:`${weak.dimension}偏弱`,detail:weak.analysis,priority:"高"}];
+  const sorted=[...bd].sort((a,b)=>a.score/a.weight-b.score/b.weight);
+  if(sorted[1])out.push({title:`${sorted[1].dimension}有待加强`,detail:sorted[1].analysis,priority:"中"});
+  return out;}
+function buildRisks(sa,weak){const risks=[];
+  if(sa.filter(s=>/保底/.test(s.verdict)).length===0)risks.push({risk:"缺少保底学校",severity:"高",explanation:"选校组合中没有明确的保底层，整体抗风险能力不足。",howToReduce:"增加 1–2 所背景明显匹配或低于当前水平的保底学校。"});
+  if(sa.filter(s=>/冲刺/.test(s.verdict)).length>sa.length/2)risks.push({risk:"冲刺校占比过高",severity:"中",explanation:"过多冲刺校会增加全聚德风险。",howToReduce:"调整名单，让冲刺 / 匹配 / 保底形成合理梯度。"});
+  risks.push({risk:`${weak.dimension}不足`,severity:"高",explanation:weak.analysis,howToReduce:weak.improvementAdvice});
+  return risks;}
+function buildPlan(weak){
+  const lvl=A.applicationLevel;
+  const c30=lvl==='本科'
+    ?[{task:`针对${weak.dimension}制定提升计划并启动`,reason:"这是最影响判断的短板",expectedImpact:"直接提升综合竞争力"},{task:"梳理活动主线，确定文书核心故事",reason:"本科申请重视个人主线",expectedImpact:"提升文书说服力"}]
+    :[{task:`针对${weak.dimension}制定提升计划并启动`,reason:"这是最影响判断的短板",expectedImpact:"直接提升综合竞争力"},{task:"整理实习 / 项目经历，提炼与目标专业的关联",reason:"硕士看重专业匹配度",expectedImpact:"提升匹配度与文书可信度"}];
+  const c60=lvl==='本科'
+    ?[{task:"完成一次语言 / 标化刷分或备考冲刺",reason:"标化是硬指标",expectedImpact:"补强语言与标化维度"},{task:"确定推荐人并沟通推荐方向",reason:"推荐信影响策略维度",expectedImpact:"提升申请完整度"}]
+    :[{task:"补充或深化一段相关项目 / 实习",reason:"实践经历是核心加分项",expectedImpact:"提升专业匹配度"},{task:"完成 SOP 初稿并确定推荐人",reason:"材料质量决定竞争力",expectedImpact:"提升申请材料维度"}];
+  const c90=[{task:"完成文书定稿与全部学校的针对性调整",reason:"文书是最后的差异化空间",expectedImpact:"提升整体录取机会"},{task:"确认选校分层并锁定保底学校",reason:"分层决定风险",expectedImpact:"降低申请风险"}];
+  return {next30Days:c30,next60Days:c60,next90Days:c90};}
+function recommendSchools(overall){
+  const region=A.targetRegions[0]||"美国";
+  const pool={"美国":["University of Washington","Boston University","UC Davis","Purdue University","University of Illinois Urbana-Champaign"],
+    "英国":["University of Bristol","University of Glasgow","University of Leeds","University of Southampton","University of Sheffield"],
+    "加拿大":["University of Alberta","Western University","McMaster University","Simon Fraser University"],
+    "澳洲":["University of Melbourne","Monash University","University of Queensland","University of Adelaide"],
+    "新加坡":["Nanyang Technological University","Singapore Management University"],
+    "中国香港":["City University of Hong Kong","Hong Kong Polytechnic University"]}[region]||["University of Washington","Boston University"];
+  return pool.map(n=>({schoolName:n,programName:A.targetMajorCategory,reason:`与你当前竞争力（${overall}）较匹配，可作为${schoolDifficulty(n)>overall?'匹配偏冲刺':'匹配 / 保底'}补充。`}));
+}
+function buildTimeline(){const y=parseInt(A.intakeYear)||2027;
+  return [`${y-1} 年 6–8 月：完成背景提升与标化定档`,`${y-1} 年 9–10 月：完成文书与推荐信，开放即递交（尤其早申）`,`${y-1} 年 11–12 月 / ${y} 年 1 月：完成常规轮申请`,`${y} 年 2–4 月：等待结果、补充材料、面试`,`${y} 年 4–6 月：确定 offer 并准备签证`];}
+function regionStrategy(r){return {"美国":"重视活动主线与文书，注意 ED/EA 早申策略。","英国":"以学术成绩与 PS 为核心，可冲刺与保底并行递交。","加拿大":"强调学术匹配与稳定性，关注 co-op 与就业。","澳洲":"门槛相对清晰，按 GPA 与语言对照项目要求。","新加坡":"竞争激烈，突出学术与科研 / 实习。","中国香港":"看重 GPA 与匹配度，建议尽早递交。"}[r]||"按项目官方要求对照准备。";}
+
+/* ===================== REPORT RENDER (spec §16,22.5) ===================== */
+RENDER.report=function(){
+  if(!A.isPaid){go('checkout');return;}
+  if(!A.fullReport){generateFullReport();return;}
+  const R=A.fullReport, ex=R.executiveSummary, w=weights();
+  let n=0;const num=()=>String(++n);
+  const isPrem=R.reportType==='premium_report';
+  app().innerHTML=`<div class="page"><div class="container report-wrap">
+    <div class="report-actions no-print">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ 打印 / 下载 PDF</button>
+      <button class="btn btn-ghost" onclick="go('dashboard')">我的报告</button>
+      <button class="btn btn-ghost" onclick="go('home')">返回首页</button>
+    </div>
+
+    <div class="report-cover">
+      <div class="k">OfferScope 录取雷达 · ${isPrem?'完整申请规划报告':'申请诊断报告'}</div>
+      <h1>${esc(R.title)}</h1>
+      <div class="meta">
+        <span>申请阶段：${esc(R.applicationLevel)}</span>
+        <span>目标专业：${esc(R.userProfileSummary.targetMajorCategory)}</span>
+        <span>目标地区：${esc(R.userProfileSummary.targetRegions.join('、'))}</span>
+        <span>入学年份：${esc(A.intakeYear)}</span>
+        <span>报告编号：${esc(A.id)}</span>
+      </div>
+    </div>
+
+    <div class="rsec"><div class="disclaimer-box">${DISCLAIMER}</div></div>
+
+    <div class="rsec"><h2><span class="num">${num()}</span>用户背景摘要</h2>
+      <p style="font-size:14px">${esc(R.userProfileSummary.backgroundSummary)}</p>
+      <div class="two-col" style="margin-top:14px">
+        <div class="tile"><h4>学术</h4><p>${esc(R.userProfileSummary.academicSummary)}</p></div>
+        <div class="tile"><h4>语言与标化</h4><p>${esc(R.userProfileSummary.testSummary)}</p></div>
+        <div class="tile"><h4>经历</h4><p>${esc(R.userProfileSummary.experienceSummary)}</p></div>
+        <div class="tile"><h4>目标学校</h4><p>${R.userProfileSummary.targetSchools.map(s=>esc(s.schoolName)).join('、')}</p></div>
+      </div></div>
+
+    <div class="rsec"><h2><span class="num">${num()}</span>总体申请判断</h2>
+      <div class="kpi-row">
+        <div class="kpi"><div class="v">${ex.overallScore}<small style="font-size:14px;color:var(--text2)"> /100</small></div><div class="l">综合竞争力评分</div></div>
+        <div class="kpi"><div class="v">${esc(ex.overallGrade)}</div><div class="l">总体等级</div></div>
+        <div class="kpi"><div class="v" style="font-size:18px">${esc(ex.overallVerdict)}</div><div class="l">申请风险</div></div>
+      </div>
+      <p style="font-size:15px;font-weight:600;margin:14px 0 10px">${esc(ex.oneSentenceConclusion)}</p>
+      <div class="two-col">
+        <div class="tile good"><h4>🎯 主要机会</h4><p>${esc(ex.mainOpportunity)}</p></div>
+        <div class="tile bad"><h4>⚠️ 主要风险</h4><p>${esc(ex.mainRisk)}</p></div>
+      </div>
+      <div class="parent-box" style="margin-top:14px"><b>建议策略：</b>${esc(ex.recommendedStrategy)}</div></div>
+
+    <div class="rsec"><h2><span class="num">${num()}</span>五维评分拆解</h2>
+      <div class="radar-wrap">${radarSVG(R.scoreBreakdown,w)}</div>
+      <div style="margin-top:18px">${R.scoreBreakdown.map(d=>`<div class="dim">
+        <div class="h"><span>${esc(d.dimension)} <span style="color:var(--text2);font-weight:400">（满分 ${d.weight}）· ${esc(d.level)}</span></span><b>${d.score} / ${d.weight}</b></div>
+        <div class="bar"><i style="width:${Math.round(d.score/d.weight*100)}%"></i></div>
+        <div class="a">${esc(d.analysis)}<br><span style="color:var(--blue)">建议：${esc(d.improvementAdvice)}</span></div>
+      </div>`).join('')}</div></div>
+
+    <div class="rsec"><h2><span class="num">${num()}</span>目标学校逐项分析</h2>
+      ${R.schoolAnalysis.map(s=>`<div class="tile" style="margin-bottom:14px">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+          <h4 style="font-size:16px">${esc(s.schoolName)} <span style="font-weight:400;color:var(--text2);font-size:13px">${esc(s.majorName||'')} · ${esc(s.region)}</span></h4>
+          <span class="verdict" style="${verdictBg(s.verdict)}">${esc(s.verdict)} · ${esc(s.roleInSchoolList)}</span></div>
+        <p style="margin:8px 0"><b>竞争力评分：</b>${s.competitivenessScore}/100 · 匹配度 ${esc(s.fitLevel)} · 风险 ${esc(s.riskLevel)}</p>
+        <p style="margin-bottom:8px">${esc(s.whyThisVerdict)}</p>
+        <div class="two-col">
+          <div><b style="font-size:13px;color:var(--risk-low)">优势</b><ul class="plain">${s.strengthsForThisSchool.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+          <div><b style="font-size:13px;color:var(--risk-mid)">短板</b><ul class="plain">${s.weaknessesForThisSchool.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+        </div>
+        <p style="margin-top:8px;color:var(--blue)">建议：${esc(s.applicationAdvice)}</p>
+      </div>`).join('')}</div>
+
+    <div class="rsec"><h2><span class="num">${num()}</span>冲刺 / 匹配 / 保底分层</h2>
+      ${[["冲刺校","reachSchools","#F97316"],["匹配校","targetSchools","#2563EB"],["保底校","safetySchools","#16A34A"],["不建议","notRecommended","#6B7280"]]
+        .map(([t,k,c])=>{const arr=R.schoolListStrategy[k];return `<div style="margin-bottom:12px">
+          <b style="color:${c}">${t}（${arr.length}）</b>
+          ${arr.length?`<ul class="plain">${arr.map(s=>`<li><b>${esc(s.schoolName)}</b>：${esc(s.reason)}</li>`).join('')}</ul>`:'<p style="color:var(--text2);font-size:13px">暂无</p>'}
+        </div>`;}).join('')}</div>
+
+    ${R.undergraduateSpecific?`<div class="rsec"><h2><span class="num">${num()}</span>本科专项分析</h2>
+      <div class="tile"><h4>课程难度</h4><p>${esc(R.undergraduateSpecific.curriculumAnalysis)}</p></div>
+      <div class="tile" style="margin-top:10px"><h4>活动分析</h4><p>${esc(R.undergraduateSpecific.activitiesAnalysis)}</p></div>
+      <div class="tile" style="margin-top:10px"><h4>ED / EA 策略</h4><p>${esc(R.undergraduateSpecific.earlyApplicationStrategy)}</p></div>
+      <div class="tile" style="margin-top:10px"><h4>个人主线建议</h4><p>${esc(R.undergraduateSpecific.personalNarrativeAdvice)}</p></div></div>`:''}
+    ${R.graduateSpecific?`<div class="rsec"><h2><span class="num">${num()}</span>硕士专项分析</h2>
+      <div class="tile"><h4>本科院校与 GPA</h4><p>${esc(R.graduateSpecific.undergraduateBackgroundAnalysis)}</p></div>
+      <div class="tile" style="margin-top:10px"><h4>专业匹配度</h4><p>${esc(R.graduateSpecific.majorFitAnalysis)}</p></div>
+      <div class="tile" style="margin-top:10px"><h4>实习 / 科研</h4><p>${esc(R.graduateSpecific.internshipResearchAnalysis)}</p></div>
+      <div class="tile" style="margin-top:10px"><h4>SOP / CV 建议</h4><p>${esc(R.graduateSpecific.sopCvAdvice)}</p></div></div>`:''}
+
+    <div class="rsec"><h2><span class="num">${num()}</span>当前优势 / 短板</h2>
+      <div class="two-col">
+        <div><b style="color:var(--risk-low)">优势</b>${R.strengths.map(s=>`<div class="tile good" style="margin-top:8px"><h4>${esc(s.title)}</h4><p>${esc(s.detail)}</p></div>`).join('')}</div>
+        <div><b style="color:var(--risk-mid)">短板</b>${R.weaknesses.map(s=>`<div class="tile bad" style="margin-top:8px"><h4>${esc(s.title)}<span class="pri pri-${s.priority}">${s.priority}优先</span></h4><p>${esc(s.detail)}</p></div>`).join('')}</div>
+      </div></div>
+
+    <div class="rsec"><h2><span class="num">${num()}</span>关键风险</h2>
+      ${R.riskAnalysis.map(r=>`<div class="tile" style="margin-bottom:10px"><h4>${esc(r.risk)}<span class="pri pri-${r.severity}">${r.severity}风险</span></h4>
+        <p>${esc(r.explanation)}</p><p style="color:var(--blue);margin-top:4px">如何降低：${esc(r.howToReduce)}</p></div>`).join('')}</div>
+
+    <div class="rsec"><h2><span class="num">${num()}</span>30 / 60 / 90 天提升路线</h2>
+      <div class="timeline">
+        ${[["未来 30 天","next30Days"],["未来 60 天","next60Days"],["未来 90 天","next90Days"]].map(([t,k])=>`
+          <div class="tl-item"><div class="ph">${t}</div>
+          ${R.improvementPlan[k].map(x=>`<div class="tl-task">• ${esc(x.task)}</div><div class="tl-meta">原因：${esc(x.reason)} ｜ 预期：${esc(x.expectedImpact)}</div>`).join('')}</div>`).join('')}
+      </div></div>
+
+    <div class="rsec"><h2><span class="num">${num()}</span>文书策略方向</h2>
+      <ul class="plain">
+        <li><b>核心主线：</b>${esc(R.essayStrategy.mainNarrative)}</li>
+        <li><b>Why Major：</b>${esc(R.essayStrategy.whyMajor)}</li>
+        <li><b>Why School：</b>${esc(R.essayStrategy.whySchool)}</li>
+        <li><b>职业目标：</b>${esc(R.essayStrategy.careerGoal)}</li>
+      </ul>
+      <p style="margin-top:8px;color:var(--text2);font-size:13px">应避免：${R.essayStrategy.avoidWriting.map(esc).join('；')}。</p>
+      <div class="tile" style="margin-top:10px"><h4>推荐信策略</h4><p>${esc(R.recommendationAdvice)}</p></div></div>
+
+    ${R.premium?`<div class="rsec"><h2><span class="num">${num()}</span>学校推荐与申请规划（专业版）</h2>
+      <b>推荐补充学校</b><ul class="plain">${R.premium.recommendedSchools.map(s=>`<li><b>${esc(s.schoolName)}</b>：${esc(s.reason)}</li>`).join('')}</ul>
+      <b style="display:block;margin-top:12px">替代专业方向</b><ul class="plain">${R.premium.alternativeMajors.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+      <b style="display:block;margin-top:12px">分地区策略</b><ul class="plain">${R.premium.regionStrategy.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+      <b style="display:block;margin-top:12px">申请时间线</b><ul class="plain">${R.premium.timeline.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>
+      <b style="display:block;margin-top:12px">材料清单</b><ul class="plain">${R.premium.materialsChecklist.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}
+
+    ${R.agencyListReview?`<div class="rsec"><h2><span class="num">${num()}</span>中介选校名单复核</h2>
+      <p>${esc(R.agencyListReview.overallComment)}</p>
+      <ul class="plain" style="margin-top:8px">
+        <li><b>偏激进（风险偏高）：</b>${R.agencyListReview.tooAggressiveSchools.map(esc).join('、')||'无'}</li>
+        <li><b>可能偏保守：</b>${R.agencyListReview.tooConservativeSchools.map(esc).join('、')||'无'}</li>
+        <li><b>缺少保底层：</b>${R.agencyListReview.missingSafetyLayer?'是，建议补充':'否'}</li>
+      </ul>
+      ${R.agencyListReview.betterAlternatives.length?`<b style="display:block;margin-top:10px">更值得考虑的替代学校</b><ul class="plain">${R.agencyListReview.betterAlternatives.map(s=>`<li><b>${esc(s.schoolName)}</b>：${esc(s.reason)}</li>`).join('')}</ul>`:''}</div>`:''}
+
+    <div class="rsec"><h2><span class="num">${num()}</span>家长可读总结</h2>
+      <div class="parent-box">
+        <p style="margin-bottom:10px">${esc(R.parentFriendlySummary.summary)}</p>
+        <p style="margin-bottom:10px"><b>关于风险：</b>${esc(R.parentFriendlySummary.riskExplanation)}</p>
+        <p><b>关于预算与决策：</b>${esc(R.parentFriendlySummary.budgetAndDecisionAdvice)}</p>
+      </div></div>
+
+    <div class="rsec"><h2><span class="num">${num()}</span>下一步行动清单</h2>
+      <ul class="checklist">${R.actionChecklist.map(c=>`<li><span>${esc(c.task)}</span><span><span class="pri pri-${c.priority}">${c.priority}</span> <span style="color:var(--text2);font-size:12px">${esc(c.deadlineSuggestion)}</span></span></li>`).join('')}</ul></div>
+
+    <div class="rsec"><div class="disclaimer-box">${DISCLAIMER}</div></div>
+
+    <div class="report-actions no-print" style="margin-bottom:20px">
+      <button class="btn btn-primary btn-lg" onclick="window.print()">🖨️ 打印 / 下载 PDF</button>
+    </div>
+  </div></div>`;
+};
+
+/* radar chart (pure SVG) */
+function radarSVG(bd,w){
+  const cx=190,cy=150,R=110,N=bd.length;
+  const pts=bd.map((d,i)=>{const ang=-Math.PI/2+i*2*Math.PI/N;const v=d.score/d.weight;
+    return [cx+Math.cos(ang)*R*v, cy+Math.sin(ang)*R*v, cx+Math.cos(ang)*R, cy+Math.sin(ang)*R, ang];});
+  const rings=[.25,.5,.75,1].map(f=>`<polygon points="${bd.map((d,i)=>{const ang=-Math.PI/2+i*2*Math.PI/N;return `${cx+Math.cos(ang)*R*f},${cy+Math.sin(ang)*R*f}`;}).join(' ')}" fill="none" stroke="#E5E7EB" stroke-width="1"/>`).join('');
+  const axes=pts.map(p=>`<line x1="${cx}" y1="${cy}" x2="${p[2]}" y2="${p[3]}" stroke="#E5E7EB" stroke-width="1"/>`).join('');
+  const poly=`<polygon points="${pts.map(p=>`${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(' ')}" fill="rgba(37,99,235,.18)" stroke="#2563EB" stroke-width="2"/>`;
+  const dots=pts.map(p=>`<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="3" fill="#1E3A8A"/>`).join('');
+  const labels=bd.map((d,i)=>{const ang=-Math.PI/2+i*2*Math.PI/N;const lx=cx+Math.cos(ang)*(R+22),ly=cy+Math.sin(ang)*(R+18);
+    const anchor=Math.abs(Math.cos(ang))<.3?'middle':(Math.cos(ang)>0?'start':'end');
+    const short=d.dimension.replace(/与课程难度|与标化成绩|与标化|与专业匹配|与文书空间|与策略| \/ 科研 \/ 项目背景|背景|材料/g,'').slice(0,6);
+    return `<text x="${lx.toFixed(1)}" y="${ly.toFixed(1)}" font-size="11" fill="#6B7280" text-anchor="${anchor}">${short}</text>`;}).join('');
+  return `<svg class="radar" viewBox="0 0 380 300">${rings}${axes}${poly}${dots}${labels}</svg>`;
+}
+
+/* ===================== BOOT ===================== */
+window.addEventListener('DOMContentLoaded',()=>{newAssessment();RENDER.home();});
+</script>
+</body>
+</html>
