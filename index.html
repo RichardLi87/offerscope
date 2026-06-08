@@ -237,6 +237,18 @@ table.schools th{color:var(--text2);font-size:12px;font-weight:600;text-transfor
 .kpi-row{display:flex;flex-wrap:wrap;gap:14px;margin:8px 0 4px}
 .kpi{flex:1;min-width:140px;background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px}
 .kpi .v{font-size:28px;font-weight:850;color:var(--navy)}.kpi .l{font-size:12px;color:var(--text2)}
+/* 醒目的总体判断 KPI */
+.exec-kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:14px 0 6px}
+@media(max-width:640px){.exec-kpis{grid-template-columns:1fr}}
+.kpi2{border-radius:16px;padding:20px 22px;border:1px solid var(--border);background:#fff;box-shadow:0 1px 2px rgba(17,24,39,.04)}
+.kpi2 .lab{font-size:13px;color:var(--text2);font-weight:600;margin-bottom:8px}
+.kpi2 .big{font-size:44px;font-weight:900;line-height:1}
+.kpi2 .big small{font-size:18px;color:var(--text2);font-weight:600}
+.kpi2 .prog{height:9px;border-radius:99px;background:#eef1f5;margin-top:12px;overflow:hidden}
+.kpi2 .prog i{display:block;height:100%;border-radius:99px}
+.kpi2 .gradecircle{width:62px;height:62px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900;color:#fff}
+.kpi2 .riskpill{display:inline-flex;align-items:center;gap:9px;font-weight:800;font-size:24px;padding:9px 20px;border-radius:12px}
+.kpi2 .riskpill:before{content:'';width:11px;height:11px;border-radius:50%;background:currentColor}
 .bar{height:9px;background:var(--border);border-radius:999px;overflow:hidden;margin-top:6px}
 .bar i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--navy))}
 .dim{margin-bottom:16px}
@@ -259,6 +271,30 @@ table.schools th{color:var(--text2);font-size:12px;font-weight:600;text-transfor
 .tl-task{font-size:14px;margin:6px 0 2px;font-weight:600}
 .tl-meta{font-size:12px;color:var(--text2)}
 .parent-box{background:var(--bluebg);border:1px solid #bfdbfe;border-radius:12px;padding:20px}
+.scan-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:620px){.scan-col{grid-template-columns:1fr}}
+.scan-box{border-radius:12px;padding:16px;border:1px solid var(--border)}
+.scan-box.hl{background:#f0fdf4;border-color:#bbf7d0}
+.scan-box.rf{background:#fff7ed;border-color:#fed7aa}
+.scan-box h4{font-size:14px;margin-bottom:8px}
+.scan-box ul{list-style:none}
+.scan-box li{font-size:13px;padding:6px 0 6px 24px;position:relative;color:#374151;line-height:1.5}
+.scan-box.hl li:before{content:'🟢';position:absolute;left:0;font-size:11px;top:7px}
+.scan-box.rf li:before{content:'🔴';position:absolute;left:0;font-size:11px;top:7px}
+.angle{border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px;background:var(--bg)}
+.angle h4{font-size:15px;color:var(--navy);margin-bottom:7px}
+.angle p{font-size:13px;color:#374151;margin:3px 0}
+.angle .lab{color:var(--blue);font-weight:700}
+.res-row{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);font-size:14px;align-items:flex-start}
+.res-row .tag{flex-shrink:0;background:var(--bluebg);color:var(--navy);font-weight:700;font-size:12px;padding:4px 11px;border-radius:8px}
+.res-row .where{color:var(--text2);font-size:13px;margin-top:2px}
+.career-dirs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.career-dirs span{background:#fff;border:1px solid var(--border);border-radius:99px;padding:7px 15px;font-size:13px;font-weight:600;color:var(--navy)}
+.improve-path{margin-top:10px;background:#eff6ff;border:1px solid #dbeafe;border-radius:10px;padding:12px 14px}
+.improve-path b{font-size:13px;color:var(--navy)}
+.improve-path ul{list-style:none;margin-top:4px}
+.improve-path li{font-size:13px;color:#374151;margin-top:4px;padding-left:18px;position:relative}
+.improve-path li:before{content:'→';position:absolute;left:2px;color:var(--blue);font-weight:800}
 .checklist li{list-style:none;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;justify-content:space-between;gap:10px}
 ul.plain{list-style:none}ul.plain li{padding:6px 0 6px 22px;position:relative;font-size:14px}
 ul.plain li:before{content:"·";position:absolute;left:6px;color:var(--blue);font-weight:800}
@@ -288,6 +324,10 @@ svg.radar{max-width:380px;width:100%}
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-bg .msg{font-size:16px;font-weight:600;color:var(--navy)}
 .loading-bg .sub{font-size:13px;color:var(--text2);margin-top:-8px}
+.loading-bg .pbar{width:300px;max-width:78vw;height:10px;border-radius:99px;background:#e5e7eb;overflow:hidden;margin-top:2px}
+.loading-bg .pbar i{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--blue),var(--navy));transition:width .45s ease}
+.loading-bg .pct{font-size:13px;color:var(--blue);font-weight:800;margin-top:2px}
+.loading-bg .stage{font-size:13px;color:var(--text2);min-height:18px}
 
 @media print{
   header.site,footer.site,.report-actions,.no-print{display:none!important}
@@ -556,7 +596,34 @@ function showLoading(msg,sub){let el=document.getElementById('loadingBg');
   if(!el){el=document.createElement('div');el.id='loadingBg';el.className='loading-bg';document.body.appendChild(el);}
   el.innerHTML=`<div class="spinner"></div><div class="msg">${esc(msg||'录取雷达正在分析…')}</div><div class="sub">${esc(sub||'几秒钟，请稍候')}</div>`;
   el.style.display='flex';}
-function hideLoading(){const el=document.getElementById('loadingBg');if(el)el.style.display='none';}
+function hideLoading(){const el=document.getElementById('loadingBg');if(el)el.style.display='none';if(window._progT){clearInterval(window._progT);window._progT=null;}}
+/* 分阶段进度条：title 标题，stages 阶段文案数组，estMs 预计耗时 */
+function startProgress(title,stages,estMs){
+  let el=document.getElementById('loadingBg');
+  if(!el){el=document.createElement('div');el.id='loadingBg';el.className='loading-bg';document.body.appendChild(el);}
+  el.innerHTML=`<div class="spinner"></div><div class="msg">${esc(title)}</div>
+    <div class="pbar"><i id="pbarFill"></i></div>
+    <div class="pct" id="pbarPct">0%</div>
+    <div class="stage" id="pbarStage">${esc(stages[0]||'')}</div>`;
+  el.style.display='flex';
+  if(window._progT)clearInterval(window._progT);
+  const t0=Date.now();
+  window._progT=setInterval(()=>{
+    const elapsed=Date.now()-t0;
+    // 缓动逼近 92%，到点不到 100，留给真正完成时补满
+    let p=Math.min(92,Math.round(92*(1-Math.exp(-elapsed/(estMs*0.55)))));
+    const fill=document.getElementById('pbarFill'),pct=document.getElementById('pbarPct'),st=document.getElementById('pbarStage');
+    if(fill)fill.style.width=p+'%'; if(pct)pct.textContent=p+'%';
+    const si=Math.min(stages.length-1,Math.floor(p/ (92/stages.length)));
+    if(st)st.textContent=stages[si]||'';
+  },350);
+}
+function finishProgress(){
+  const fill=document.getElementById('pbarFill'),pct=document.getElementById('pbarPct');
+  if(window._progT){clearInterval(window._progT);window._progT=null;}
+  if(fill)fill.style.width='100%'; if(pct)pct.textContent='100%';
+  return new Promise(r=>setTimeout(()=>{hideLoading();r();},450));
+}
 async function aiPost(path,body){
   const ctrl=new AbortController();const t=setTimeout(()=>ctrl.abort(),150000);
   try{
@@ -989,9 +1056,9 @@ function nextStep(){STEP++;RENDER.assessment();}
 async function genFollowUp(){
   if(!A.budget||!A.riskTolerance){toast('请选择预算和风险偏好');return;}
   A.followUpQuestions=buildFollowUp();               // 规则引擎默认值（回退保障）
-  showLoading('录取雷达正在生成关键追问…');
+  startProgress('录取雷达正在生成关键追问…',['读取你填写的背景','定位最影响判断的盲点','生成针对性追问'],7000);
   const ai=await aiPost('/api/follow-up',{profile:aiProfile()});
-  hideLoading();
+  await finishProgress();
   if(ai&&Array.isArray(ai.questions)&&ai.questions.length){
     A.followUpQuestions=ai.questions.slice(0,3).map(q=>({q:q.question||q.q||'',r:q.reason||q.r||'',key:q.fieldKey||q.key||('q'+Math.random().toString(36).slice(2,6))})).filter(x=>x.q);
   }
@@ -1137,10 +1204,10 @@ async function generateFreeResult(){
     scores
   };
   // AI 润色文案（失败则保留规则引擎版本）
-  showLoading('录取雷达正在生成初测结果…');
+  startProgress('录取雷达正在生成初测结果…',['汇总你的学术与背景','评估目标学校位置','识别主要风险点','生成初步判断'],9000);
   const ai=await aiPost('/api/free-result',{profile:aiProfile(),overall,grade:fr.overallGrade,
     verdicts:sv.map(s=>({schoolName:s.schoolName,verdict:s.verdict}))});
-  hideLoading();
+  await finishProgress();
   if(ai){ if(typeof ai.summary==='string'&&ai.summary.trim())fr.summary=ai.summary;
     if(Array.isArray(ai.topRisks)&&ai.topRisks.length)fr.topRisks=ai.topRisks.slice(0,3); }
   A.freeResult=fr; A.status='free_done'; saveDB();
@@ -1148,6 +1215,8 @@ async function generateFreeResult(){
 }
 function weights(){return A.applicationLevel==='本科'?UG_WEIGHTS:GRAD_WEIGHTS;}
 function riskClass(r){return r==='高'?'rb-high': r==='中等偏高'?'rb-mid': r==='中等'?'rb-neutral':'rb-low';}
+function scoreColor(s){return s>=82?'#16A34A':s>=70?'#2563EB':s>=55?'#F59E0B':'#DC2626';}
+function riskColor(r){return {'高':'#DC2626','中等偏高':'#EA580C','中等':'#2563EB','中等偏低':'#16A34A','低':'#16A34A'}[r]||'#EA580C';}
 
 RENDER.freeResult=function(){
   const fr=A.freeResult; if(!fr){go('home');return;}
@@ -1284,6 +1353,9 @@ async function generateFullReport(){
       strengthsForThisSchool:[`${strongest.dimension}相对突出，可作为该校申请的支点`, A.applicationLevel==='硕士'&&has(f.internships)?'有可写入文书的实践经历':'目标方向与该校项目方向基本一致'],
       weaknessesForThisSchool:[`${weakest.dimension}是申请该校时最需要补强的环节`, d>overall+12?'当前背景与该校录取门槛之间仍有明显差距':'需要在文书中进一步强化匹配度'],
       applicationAdvice:role==='不建议'?'投入产出比偏低，建议谨慎评估是否占用申请名额。':`建议作为${role}保留，并针对${weakest.dimension}做重点提升。`,
+      improvementPathForThisSchool: d>overall
+        ? [`补强${weakest.dimension}：${dimAdvice(weakest.dimension,.4)}`, `补一段与${A.targetMajorCategory}直接相关的经历，缩小与该校录取门槛的差距`, '在文书中针对该校项目特色写出具体匹配点，提升说服力']
+        : ['保持现有优势，按时高质量完成申请材料即可'],
       shouldApply: s.verdict!=='不建议申请', roleInSchoolList:role};
   });
   const group=r=>schoolAnalysis.filter(s=>s.roleInSchoolList===r).map(s=>({schoolName:s.schoolName,programName:s.majorName,reason:s.whyThisVerdict}));
@@ -1307,6 +1379,7 @@ async function generateFullReport(){
       mainRisk:`${weakest.dimension}是当前最大短板，也是最影响判断的因素。`,
       recommendedStrategy:`稳住优势项，集中精力在未来 90 天补强${weakest.dimension}，并确保选校组合中有清晰的保底层。`
     },
+    profileScan:buildProfileScan(strongest,weakest),
     scoreBreakdown:breakdown,
     schoolAnalysis,
     schoolListStrategy:{reachSchools:group('冲刺校'),targetSchools:group('匹配校'),safetySchools:group('保底校'),notRecommended:schoolAnalysis.filter(s=>!s.shouldApply).map(s=>({schoolName:s.schoolName,reason:s.whyThisVerdict}))},
@@ -1314,6 +1387,7 @@ async function generateFullReport(){
     weaknesses:buildWeaknesses(breakdown,weakest),
     riskAnalysis:buildRisks(schoolAnalysis,weakest),
     improvementPlan:buildPlan(weakest),
+    backgroundResources:buildBackgroundResources(weakest),
     essayStrategy:{
       mainNarrative:`围绕"${strongest.dimension}"展开一条清晰的个人主线，体现你对${A.targetMajorCategory}的持续投入。`,
       whyMajor:`说明你选择${A.targetMajorCategory}的真实动因，并用具体经历佐证，而非空泛兴趣。`,
@@ -1321,7 +1395,9 @@ async function generateFullReport(){
       careerGoal:f.careerGoal||fa.careerClarity||"建议明确一个短期职业目标以增强说服力。",
       avoidWriting:["避免罗列流水账式的活动清单","避免任何绝对化或承诺性的录取表达","避免与成绩单重复、缺乏个人视角的内容"]
     },
+    essayAngles:buildEssayAngles(strongest),
     recommendationAdvice:({"有强推荐人":"你已有强推荐人，建议尽早与其沟通申请方向，使推荐内容与文书主线一致。","有普通推荐人":"建议在常规推荐人之外，争取一位更了解你专业能力的推荐人。"}[f.recommendationLetters]||"建议尽快锁定 2–3 位能具体评价你能力的推荐人。"),
+    careerOutlook:buildCareerOutlook(A.targetMajorCategory),
     parentFriendlySummary:{
       summary:`孩子目前的${A.applicationLevel}申请综合竞争力为 ${overall} 分（${A.freeResult.overallGrade}），属于${levelFor(overall/100)}水平。目标学校已做冲刺 / 匹配 / 保底分层。`,
       riskExplanation:`当前最需要关注的是${weakest.dimension}。这不代表无法申请，而是提示未来几个月应重点投入的方向。`,
@@ -1362,10 +1438,11 @@ async function generateFullReport(){
     };
   }
   // AI 重写中文叙述（分数 / 学校标签 / 分层保持不变；失败则保留规则引擎文案）
-  showLoading('录取雷达正在生成你的完整报告…','深度分析中，约需 30–60 秒，请耐心等待');
+  startProgress('录取雷达正在生成你的完整报告…',
+    ['读取你的完整背景信息','评估五维申请竞争力','逐所分析目标学校','撰写提升路线与文书策略','生成家长可读总结','整理下一步行动清单'],26000);
   const aiR=await aiPost('/api/full-report',{profile:aiProfile(),report:reportContextForAI(fr)});
-  hideLoading();
   if(aiR)overlayReport(fr,aiR);
+  await finishProgress();
   A.status='report_done';saveDB();
   go('report');
 }
@@ -1403,7 +1480,8 @@ function overlayReport(R,ai){
         if(S(a.whyThisVerdict))t.whyThisVerdict=a.whyThisVerdict;
         if(Array.isArray(a.strengths)&&a.strengths.length)t.strengthsForThisSchool=a.strengths.filter(S);
         if(Array.isArray(a.weaknesses)&&a.weaknesses.length)t.weaknessesForThisSchool=a.weaknesses.filter(S);
-        if(S(a.applicationAdvice))t.applicationAdvice=a.applicationAdvice;}});
+        if(S(a.applicationAdvice))t.applicationAdvice=a.applicationAdvice;
+        if(Array.isArray(a.improvementPath)&&a.improvementPath.length)t.improvementPathForThisSchool=a.improvementPath.filter(S);}});
     }
     // 把 AI 更新后的逐校判断同步进"冲刺/匹配/保底分层"（修复快照不更新的问题）
     if(R.schoolListStrategy){const sync=arr=>(arr||[]).forEach(x=>{const t=R.schoolAnalysis.find(s=>s.schoolName===x.schoolName);if(t&&S(t.whyThisVerdict))x.reason=t.whyThisVerdict;});
@@ -1419,6 +1497,17 @@ function overlayReport(R,ai){
     const pf=ai.parentFriendlySummary;
     if(pf){["summary","riskExplanation","budgetAndDecisionAdvice"].forEach(k=>{if(S(pf[k]))R.parentFriendlySummary[k]=pf[k];});}
     if(S(ai.recommendationAdvice))R.recommendationAdvice=ai.recommendationAdvice;
+    // 5 个新模块
+    const ps=ai.profileScan;
+    if(ps){if(Array.isArray(ps.highlights)&&ps.highlights.length)R.profileScan.highlights=ps.highlights.filter(S);
+      if(Array.isArray(ps.redFlags)&&ps.redFlags.length)R.profileScan.redFlags=ps.redFlags.filter(S);}
+    if(Array.isArray(ai.backgroundResources)&&ai.backgroundResources.length)
+      R.backgroundResources=ai.backgroundResources.filter(x=>x&&S(x.action)).map(x=>({area:x.area||'提升',action:x.action,where:x.where||''}));
+    if(Array.isArray(ai.essayAngles)&&ai.essayAngles.length)
+      R.essayAngles=ai.essayAngles.filter(x=>x&&S(x.title)).map(x=>({title:x.title,hook:x.hook||'',useExperience:x.useExperience||'',appealTo:x.appealTo||''}));
+    const co=ai.careerOutlook;
+    if(co){if(Array.isArray(co.directions)&&co.directions.length)R.careerOutlook.directions=co.directions.filter(S);
+      if(S(co.roi))R.careerOutlook.roi=co.roi;}
   }catch(err){/* 任何异常都忽略，保留规则引擎版本 */}
 }
 </script>
@@ -1465,6 +1554,62 @@ function buildPlan(weak){
     :[{task:"补充或深化一段相关项目 / 实习",reason:"实践经历是核心加分项",expectedImpact:"提升专业匹配度"},{task:"完成 SOP 初稿并确定推荐人",reason:"材料质量决定竞争力",expectedImpact:"提升申请材料维度"}];
   const c90=[{task:"完成文书定稿与全部学校的针对性调整",reason:"文书是最后的差异化空间",expectedImpact:"提升整体录取机会"},{task:"确认选校分层并锁定保底学校",reason:"分层决定风险",expectedImpact:"降低申请风险"}];
   return {next30Days:c30,next60Days:c60,next90Days:c90};}
+/* ===== 规则引擎兜底：5 个新模块 ===== */
+function buildProfileScan(strong,weak){
+  const f=A.fields, lvl=A.applicationLevel, hi=[], rf=[];
+  hi.push(`${strong.dimension}是你的相对强项，可作为整体申请的支点`);
+  if(gpaPct(f.gpaType,f.gpaValue)>=85)hi.push('GPA / 均分处于较高区间，是稳健的学术基本盘');
+  if(lvl==='硕士'&&has(f.internships))hi.push('已有可写入文书的实习 / 项目经历');
+  if(lvl==='本科'&&richness(f.activities)>.4)hi.push('活动经历较具体，已有可发展为主线的素材');
+  rf.push(`${weak.dimension}是当前最薄弱的一项，会拉低整体竞争力`);
+  if(lvl==='硕士'){
+    if(/双非/.test(f.undergraduateSchoolTier||''))rf.push('本科为双非院校，在顶尖项目竞争中相对吃亏，需要用经历与成绩弥补');
+    if(!has(f.internships))rf.push('缺少与目标专业相关的实习 / 项目证明，专业匹配度待加强');
+    if(f.undergraduateMajor&&A.targetMajorCategory&&!f.undergraduateMajor.includes(A.targetMajorCategory))rf.push('本科专业与目标方向衔接不强，需在文书中证明学术与能力的可迁移性');
+  }else{
+    if(richness(f.activities)<.3)rf.push('活动经历呈现偏简略，个人主线说服力不足');
+    if(/暂无|Test Optional|不确定/.test(f.standardizedTestType||''))rf.push('暂未提交标化成绩，部分学校会更看重其他材料');
+  }
+  return {highlights:hi.slice(0,4), redFlags:rf.slice(0,4)};
+}
+function buildBackgroundResources(weak){
+  const major=A.targetMajorCategory||'目标专业', lvl=A.applicationLevel, out=[];
+  const dim=weak.dimension;
+  if(/语言|标化/.test(dim))out.push({area:'标化',action:`在截止前再刷一次语言 / ${lvl==='本科'?'SAT/ACT':'GRE/GMAT'}，冲到目标项目的安全分段`,where:'安排 1–2 个月集中备考，或报一个针对性冲分课程'});
+  out.push({area:'实习',action:`补一段与 ${major} 高度相关的实习，并提炼可量化成果`,where:`投递对口行业的实习岗位（${lvl==='本科'?'暑期为主':'与目标方向一致的公司/部门'}）`});
+  out.push({area:'项目',action:`做一个与 ${major} 直接相关、有成果产出的项目`,where:'课程项目延伸、开源 / 个人项目，或参加相关竞赛'});
+  out.push({area:'课程',action:`补充与 ${major} 相关的核心课程或在线认证，弥补学术准备`,where:'高质量在线课程平台或本校跨专业选课'});
+  out.push(lvl==='本科'
+    ?{area:'活动',action:'把一条活动主线做深、做出影响力与持续性',where:'聚焦已有的社团/公益/竞赛，避免广撒网'}
+    :{area:'作品/成果',action:`整理一份能体现 ${major} 能力的作品或成果集`,where:'把实习、项目、竞赛的产出沉淀成可展示材料'});
+  return out.slice(0,5);
+}
+function buildEssayAngles(strong){
+  const major=A.targetMajorCategory||'目标专业';
+  return [
+    {title:`以"${strong.dimension}"为支点的成长线`,hook:`从一个具体场景切入，展现你在${strong.dimension}上的能力`,useExperience:'用你最具代表性的一段经历串联',appealTo:`让招生官看到你与 ${major} 的契合与潜力`},
+    {title:`为什么是 ${major}`,hook:'一个让你确定方向的关键时刻或问题',useExperience:'用真实经历佐证动因，而非空泛兴趣',appealTo:'展现清晰的专业动机与目标感'},
+    {title:'把短板转化为成长叙事',hook:'坦诚面对一个不足，并讲述你如何主动弥补',useExperience:'用一段补强经历体现行动力',appealTo:'展现自我认知与成长型心态'}
+  ];
+}
+function buildCareerOutlook(major){
+  const map={
+    '商业分析':['数据分析师 / 商业分析师','咨询（数据方向）','产品 / 增长分析','金融科技数据岗'],
+    '数据科学':['数据科学家','机器学习工程师','数据分析师','算法 / 量化方向'],
+    '金融':['投行 / 券商','资产管理','企业金融','金融科技'],
+    '计算机':['软件工程师','算法 / AI 工程师','数据 / 后端开发','科技产品方向'],
+    '传媒':['品牌 / 市场','公关 / 传播','新媒体运营','内容策划'],
+    '市场营销':['市场 / 品牌','增长 / 数字营销','市场研究','广告 / 公关'],
+    '管理学':['管理培训生','咨询','运营管理','企业战略'],
+    '会计':['会计师事务所','企业财务','审计','金融分析'],
+    '公共政策':['政府 / 公共部门','智库 / 研究','国际组织 / NGO','政策咨询'],
+    '心理学':['用户研究 / UX','人力资源','教育 / 咨询','市场研究'],
+    '教育':['国际教育','课程 / 教研','教育科技','留学 / 培训行业']
+  };
+  const dirs=map[major]||[`${major}相关的核心岗位`,'咨询 / 研究方向','行业内运营 / 管理','跨领域复合岗位'];
+  const roi=`${major}方向整体就业面较广，海外硕士在回国求职时具备学历与视野优势。结合 ${A.budget||'家庭预算'} 综合看，关键在于把这一两年的学习转化为可展示的项目与实习经历，以提升毕业时的就业竞争力与投入产出比。`;
+  return {directions:dirs.slice(0,4), roi};
+}
 function recommendSchools(overall){
   const region=A.targetRegions[0]||"美国";
   const pool={"美国":["University of Washington","Boston University","UC Davis","Purdue University","University of Illinois Urbana-Champaign"],
@@ -1517,11 +1662,28 @@ RENDER.report=function(){
         <div class="tile"><h4>目标学校</h4><p>${R.userProfileSummary.targetSchools.map(s=>esc(s.schoolName)).join('、')}</p></div>
       </div></div>
 
+    ${R.profileScan?`<div class="rsec"><h2><span class="num">${num()}</span>Profile 速览</h2>
+      <p class="lead">3 秒抓住你的加分项与需要警惕的风险点。</p>
+      <div class="scan-col">
+        <div class="scan-box hl"><h4 style="color:var(--risk-low)">✅ 你的加分项</h4><ul>${(R.profileScan.highlights||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+        <div class="scan-box rf"><h4 style="color:var(--risk-mid)">⚠️ 需要警惕的红旗</h4><ul>${(R.profileScan.redFlags||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
+      </div></div>`:''}
+
     <div class="rsec"><h2><span class="num">${num()}</span>总体申请判断</h2>
-      <div class="kpi-row">
-        <div class="kpi"><div class="v">${ex.overallScore}<small style="font-size:14px;color:var(--text2)"> /100</small></div><div class="l">综合竞争力评分</div></div>
-        <div class="kpi"><div class="v">${esc(ex.overallGrade)}</div><div class="l">总体等级</div></div>
-        <div class="kpi"><div class="v" style="font-size:18px">${esc(ex.overallVerdict)}</div><div class="l">申请风险</div></div>
+      <div class="exec-kpis">
+        <div class="kpi2">
+          <div class="lab">综合竞争力评分</div>
+          <div class="big" style="color:${scoreColor(ex.overallScore)}">${ex.overallScore}<small> /100</small></div>
+          <div class="prog"><i style="width:${Math.max(4,Math.min(100,ex.overallScore))}%;background:${scoreColor(ex.overallScore)}"></i></div>
+        </div>
+        <div class="kpi2">
+          <div class="lab">总体等级</div>
+          <div class="gradecircle" style="background:${scoreColor(ex.overallScore)}">${esc(ex.overallGrade)}</div>
+        </div>
+        <div class="kpi2">
+          <div class="lab">申请风险</div>
+          <div class="riskpill" style="color:${riskColor(ex.overallVerdict)};background:${riskColor(ex.overallVerdict)}1a">${esc(ex.overallVerdict)}</div>
+        </div>
       </div>
       <p style="font-size:15px;font-weight:600;margin:14px 0 10px">${esc(ex.oneSentenceConclusion)}</p>
       <div class="two-col">
@@ -1550,6 +1712,7 @@ RENDER.report=function(){
           <div><b style="font-size:13px;color:var(--risk-mid)">短板</b><ul class="plain">${s.weaknessesForThisSchool.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>
         </div>
         <p style="margin-top:8px;color:var(--blue)">建议：${esc(s.applicationAdvice)}</p>
+        ${(s.improvementPathForThisSchool&&s.improvementPathForThisSchool.length)?`<div class="improve-path"><b>📈 提升路径（想往上够一档，具体怎么做）</b><ul>${s.improvementPathForThisSchool.map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div>`:''}
       </div>`).join('')}</div>
 
     <div class="rsec"><h2><span class="num">${num()}</span>冲刺 / 匹配 / 保底分层</h2>
@@ -1587,6 +1750,10 @@ RENDER.report=function(){
           ${R.improvementPlan[k].map(x=>`<div class="tl-task">• ${esc(x.task)}</div><div class="tl-meta">原因：${esc(x.reason)} ｜ 预期：${esc(x.expectedImpact)}</div>`).join('')}</div>`).join('')}
       </div></div>
 
+    ${(R.backgroundResources&&R.backgroundResources.length)?`<div class="rsec"><h2><span class="num">${num()}</span>背景提升资源指引</h2>
+      <p class="lead">不只告诉你"补什么"，还告诉你"具体做成什么、去哪做"。</p>
+      ${R.backgroundResources.map(r=>`<div class="res-row"><span class="tag">${esc(r.area)}</span><div><div>${esc(r.action)}</div>${r.where?`<div class="where">↳ ${esc(r.where)}</div>`:''}</div></div>`).join('')}</div>`:''}
+
     <div class="rsec"><h2><span class="num">${num()}</span>文书策略方向</h2>
       <ul class="plain">
         <li><b>核心主线：</b>${esc(R.essayStrategy.mainNarrative)}</li>
@@ -1594,8 +1761,18 @@ RENDER.report=function(){
         <li><b>Why School：</b>${esc(R.essayStrategy.whySchool)}</li>
         <li><b>职业目标：</b>${esc(R.essayStrategy.careerGoal)}</li>
       </ul>
+      ${(R.essayAngles&&R.essayAngles.length)?`<div style="margin-top:14px"><b style="font-size:14px">✍️ 文书选题角度（可直接拿去构思）</b>
+        ${R.essayAngles.map((a,i)=>`<div class="angle"><h4>角度 ${i+1}：${esc(a.title)}</h4>
+          ${a.hook?`<p><span class="lab">切入点：</span>${esc(a.hook)}</p>`:''}
+          ${a.useExperience?`<p><span class="lab">用哪段经历：</span>${esc(a.useExperience)}</p>`:''}
+          ${a.appealTo?`<p><span class="lab">打动招生官：</span>${esc(a.appealTo)}</p>`:''}</div>`).join('')}</div>`:''}
       <p style="margin-top:8px;color:var(--text2);font-size:13px">应避免：${R.essayStrategy.avoidWriting.map(esc).join('；')}。</p>
       <div class="tile" style="margin-top:10px"><h4>推荐信策略</h4><p>${esc(R.recommendationAdvice)}</p></div></div>
+
+    ${R.careerOutlook?`<div class="rsec"><h2><span class="num">${num()}</span>就业方向与投入产出（给家长看）</h2>
+      <b style="font-size:14px">这个方向的典型就业出路</b>
+      <div class="career-dirs">${(R.careerOutlook.directions||[]).map(d=>`<span>${esc(d)}</span>`).join('')}</div>
+      <div class="parent-box">${esc(R.careerOutlook.roi)}</div></div>`:''}
 
     ${R.premium?`<div class="rsec"><h2><span class="num">${num()}</span>学校推荐与申请规划（专业版）</h2>
       <b>推荐补充学校</b><ul class="plain">${R.premium.recommendedSchools.map(s=>`<li><b>${esc(s.schoolName)}</b>：${esc(s.reason)}</li>`).join('')}</ul>
