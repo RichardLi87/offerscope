@@ -38,9 +38,11 @@ const server = http.createServer((req, res) => {
         else if (url === "/api/free-result") data = await ai.freeResult(payload);
         else if (url === "/api/full-report") data = await ai.fullReport(payload);
         else return sendJSON(res, 404, { ok: false, error: "unknown endpoint" });
+        console.log("✓ [" + url + "] AI 调用成功");
         sendJSON(res, 200, { ok: true, data });
       } catch (e) {
-        // 永远不抛 500——返回 ok:false，前端会回退到规则引擎
+        // 永远不抛 500——返回 ok:false，前端会回退到规则引擎。把错误打到终端方便排查。
+        console.error("✗ [" + url + "] AI 调用失败：", String((e && e.message) || e));
         sendJSON(res, 200, { ok: false, error: String((e && e.message) || e) });
       }
     });
