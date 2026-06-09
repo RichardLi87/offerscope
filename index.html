@@ -308,6 +308,29 @@ table.schools th{color:var(--text2);font-size:12px;font-weight:600;text-transfor
 .sample-card ul{list-style:none}
 .sample-card li{font-size:14px;color:#374151;line-height:1.6;padding:5px 0 5px 20px;position:relative}
 .sample-card li:before{content:'→';position:absolute;left:0;top:5px;color:var(--blue);font-weight:800}
+/* 分享图(小红书 3:4 卡片) */
+.share-overlay{position:fixed;inset:0;background:rgba(15,26,58,.75);z-index:400;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;overflow:auto;padding:20px 12px}
+.share-tip{color:#fff;font-size:14px;margin:6px 0 12px;text-align:center}
+.share-card{width:360px;max-width:94vw;border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.sc-top{background:linear-gradient(135deg,#1E3A8A,#2563EB);color:#fff;padding:20px 22px}
+.sc-brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:17px}
+.sc-brand .m{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center}
+.sc-kicker{font-size:12px;opacity:.85;margin-top:10px;letter-spacing:.04em}
+.sc-body{padding:20px 22px}
+.sc-hero{display:flex;align-items:center;gap:16px}
+.sc-grade{width:96px;height:96px;border-radius:50%;flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,#1E3A8A,#2563EB)}
+.sc-grade .g{font-size:40px;font-weight:900;line-height:1}
+.sc-grade .l{font-size:11px;opacity:.85}
+.sc-risk{display:inline-flex;align-items:center;gap:7px;font-weight:800;font-size:14px;padding:6px 14px;border-radius:999px;margin-top:6px}
+.sc-schools{margin-top:16px}
+.sc-srow{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px}
+.sc-srow b{font-weight:600}
+.sc-verdict{font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.sc-slogan{font-size:18px;font-weight:800;color:var(--navy);margin:16px 0 4px;line-height:1.35}
+.sc-foot{background:var(--bluebg);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.sc-foot .u{font-weight:800;color:var(--navy);font-size:15px}
+.sc-foot .t{font-size:12px;color:var(--text2)}
+.share-actions{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;justify-content:center}
 .sample-card li b{color:var(--text);font-weight:700}
 .sample-card .src{font-size:12.5px;color:var(--text2);font-weight:600;margin-top:auto;padding-top:14px}
 .checklist li{list-style:none;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;justify-content:space-between;gap:10px}
@@ -1435,6 +1458,7 @@ RENDER.freeResult=function(){
       <div style="background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:16px;font-size:15px">
         <b>初步判断：</b>${esc(fr.summary)}</div>
       <div class="risk-line"><span>ℹ️</span><span>"选校风险"反映的是当前目标学校组合与你背景的匹配紧张度，<b>不是对你个人的评价</b>。完整报告会逐一拆解每个风险点，并给出降低方法。</span></div>
+      <div style="text-align:center;margin-top:14px"><button class="btn btn-ghost" onclick="showShareImage()">📷 生成分享图（晒到小红书）</button></div>
     </div>
 
     <div class="panel">
@@ -1568,6 +1592,46 @@ RENDER.paymentSuccess=function(){
 
 /* ===================== FULL REPORT GENERATION (spec §16,17.2) ===================== */
 function regenReport(){if(A.isSample){toast('样例报告不可重新生成');return;}A.fullReport=null;saveDB();generateFullReport();}
+/* 生成小红书分享图(3:4 卡片) */
+function showShareImage(){
+  const fr=A.freeResult; if(!fr){toast('请先完成测评');return;}
+  const w=weights();
+  const verdicts=(fr.schoolPreview||[]).slice(0,3).map(s=>`<div class="sc-srow"><b>${esc(s.schoolName)}</b><span class="sc-verdict" style="${verdictBg(s.initialVerdict)}">${esc(s.initialVerdict)}</span></div>`).join('');
+  const ov=document.createElement('div');ov.className='share-overlay';ov.id='shareOv';
+  ov.innerHTML=`
+    <div class="share-tip">📷 截图保存这张图，发到小红书 / 朋友圈（或点下方"下载图片"）</div>
+    <div class="share-card" id="shareCard">
+      <div class="sc-top">
+        <div class="sc-brand"><span class="m"><svg viewBox="0 0 32 32" width="18" height="18" fill="none"><circle cx="16" cy="16" r="10" stroke="#fff" stroke-opacity=".55" stroke-width="2"/><circle cx="16" cy="16" r="5.5" stroke="#fff" stroke-opacity=".4" stroke-width="1.8"/><path d="M16 16 L16 6 A10 10 0 0 1 23.07 8.93 Z" fill="#fff" fill-opacity=".28"/><line x1="16" y1="16" x2="23.07" y2="8.93" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="10.6" r="2.2" fill="#F59E0B"/></svg></span>OfferScope 录取雷达</div>
+        <div class="sc-kicker">AI 留学申请诊断 · 初测结果 · ${esc(A.applicationLevel||'')}申请 · ${esc((A.targetRegions||[]).join('、'))}</div>
+      </div>
+      <div class="sc-body">
+        <div class="sc-hero">
+          <div class="sc-grade"><span class="g">${esc(fr.overallGrade)}</span><span class="l">综合竞争力 ${fr.overallScore}/100</span></div>
+          <div style="flex:1">
+            <div class="radar-wrap" style="justify-content:flex-start">${freeRadarSVG(fr.scores,w)}</div>
+          </div>
+        </div>
+        <div><span class="sc-risk ${riskClass(fr.riskLevel)}">选校风险 · ${esc(fr.riskLevel)}</span></div>
+        <div class="sc-schools">${verdicts||''}</div>
+        <div class="sc-slogan">找中介之前，<br>先看清你的真实申请位置。</div>
+      </div>
+      <div class="sc-foot"><div><div class="u">offerscope.org</div><div class="t">免费测一测 · 本科/硕士 · 美英加澳新港</div></div><div style="font-size:30px">🎯</div></div>
+    </div>
+    <div class="share-actions">
+      <button class="btn btn-amber" onclick="dlShareImage()">⬇️ 下载图片</button>
+      <button class="btn btn-ghost" style="background:#fff" onclick="closeShareImage()">关闭</button>
+    </div>`;
+  document.body.appendChild(ov);
+}
+function closeShareImage(){const o=document.getElementById('shareOv');if(o)o.remove();}
+function dlShareImage(){
+  const card=document.getElementById('shareCard');if(!card)return;
+  const done=()=>{try{html2canvas(card,{scale:2,backgroundColor:null,useCORS:true}).then(cv=>{const a=document.createElement('a');a.download='OfferScope录取雷达-我的测评.png';a.href=cv.toDataURL('image/png');a.click();}).catch(()=>toast('生成失败，请直接截图保存'));}catch(e){toast('请直接截图保存')}};
+  if(window.html2canvas){done();return;}
+  const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+  s.onload=done;s.onerror=()=>toast('网络受限，请直接截图保存');document.head.appendChild(s);
+}
 async function shareReport(){
   const url='https://offerscope.org';
   const text='我用「录取雷达 OfferScope」做了一份 AI 留学申请诊断，逐校分析 + 提升建议挺到位的，找中介前先测一次，推荐你也试试 👉';
@@ -1913,7 +1977,8 @@ RENDER.report=function(){
       </div></div>`:''}
     <div class="report-actions no-print">
       <button class="btn btn-primary" onclick="window.print()">🖨️ 打印 / 下载 PDF</button>
-      <button class="btn btn-amber" onclick="shareReport()">↗ 分享</button>
+      <button class="btn btn-amber" onclick="showShareImage()">📷 生成分享图</button>
+      <button class="btn btn-ghost" onclick="shareReport()">↗ 分享链接</button>
       ${A.isSample?'':`<button class="btn btn-ghost" onclick="regenReport()">↻ 重新生成</button><button class="btn btn-ghost" onclick="go('dashboard')">我的报告</button>`}
       <button class="btn btn-ghost" onclick="go('home')">返回首页</button>
     </div>
