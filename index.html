@@ -1464,9 +1464,11 @@ RENDER.freeResult=function(){
 };
 
 /* ===================== CHECKOUT + MOCK PAYMENT (spec §20.6,20.7,25) ===================== */
+let PAY_POLL=null, PAY_CHANNEL='wxpay';
 RENDER.checkout=function(productType){
   productType=productType||'standard_report';
   const p=PRODUCTS[productType];
+  PAY_CHANNEL='wxpay';
   app().innerHTML=`<div class="page"><div class="container" style="max-width:480px">
     <div class="panel">
       <div class="eyebrow">确认订单</div>
@@ -1475,22 +1477,61 @@ RENDER.checkout=function(productType){
         <span>${esc(p.name)}</span><b>¥${p.price}</b></div>
       <div style="display:flex;justify-content:space-between;padding:14px 0;font-size:18px"><b>应付</b><b style="color:var(--navy)">¥${p.price}</b></div>
       <div class="field"><label>接收报告的邮箱</label><input id="coEmail" type="email" placeholder="you@example.com" value="${esc(userEmail)}"></div>
-      <div class="alert">这是演示环境，使用 <b>Mock 支付</b> 完成闭环，不会产生真实扣款。</div>
-      <button class="btn btn-amber btn-block btn-lg" onclick="mockPay('${productType}')">模拟支付 ¥${p.price}</button>
-      <div style="display:flex;gap:10px;margin-top:12px">
-        <button class="btn btn-ghost" style="flex:1" onclick="go('paymentFailed','${productType}')">模拟支付失败</button>
-        <button class="btn btn-ghost" style="flex:1" onclick="go('freeResult')">返回</button>
-      </div>
-      <p style="font-size:12px;color:var(--text2);margin-top:14px;text-align:center">一次付费，无订阅，无中介推销。</p>
+      <div class="field"><label>支付方式</label>
+        <div class="choices" id="payChannel">
+          <div class="choice sel" data-ch="wxpay" onclick="pickChannel(this)">💚 微信支付</div>
+          <div class="choice" data-ch="alipay" onclick="pickChannel(this)">🔵 支付宝</div>
+        </div></div>
+      <button class="btn btn-amber btn-block btn-lg" onclick="startPay('${productType}')">去支付 ¥${p.price}</button>
+      <div id="payHint" style="font-size:12px;color:var(--text2);margin-top:14px;text-align:center">扫码支付成功后，本页会自动解锁报告。一次付费，无订阅，无中介推销。</div>
+      <div style="margin-top:10px;text-align:center"><button class="btn btn-ghost" style="flex:1" onclick="go('freeResult')">返回</button></div>
     </div></div></div>`;
 };
-function mockPay(productType){
+function pickChannel(el){PAY_CHANNEL=el.getAttribute('data-ch');document.querySelectorAll('#payChannel .choice').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');}
+async function startPay(productType){
   const e=($('#coEmail').value||'').trim();
   if(!/.+@.+\..+/.test(e)){toast('请输入有效邮箱以接收报告');return;}
   userEmail=e;localStorage.setItem('os_email',e);
-  A.isPaid=true; A.reportType=productType; A.status='paid'; saveDB();
-  go('paymentSuccess');
+  showLoading('正在创建订单…');
+  let r=null;
+  try{const resp=await fetch('/api/pay/create',{method:'POST',headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({assessmentId:A.id,productType,channel:PAY_CHANNEL,email:e})});r=await resp.json();}catch(err){}
+  hideLoading();
+  if(!r||!r.ok){toast('创建订单失败，请稍后重试');return;}
+  if(r.devMock){ // 支付未配置（本地）→ 用模拟已付按钮
+    showPayWaiting(productType,r.outTradeNo,true);
+    return;
+  }
+  // 打开 ZPay 收银台（新标签）扫码支付
+  window.open(r.payUrl,'_blank');
+  showPayWaiting(productType,r.outTradeNo,false);
 }
+function showPayWaiting(productType,outTradeNo,devMock){
+  app().innerHTML=`<div class="page"><div class="container" style="max-width:460px"><div class="panel" style="text-align:center">
+    <div class="spinner" style="margin:6px auto 14px"></div>
+    <h2 style="font-size:20px">等待支付完成…</h2>
+    <p style="color:var(--text2);font-size:14px;margin-top:8px">${devMock?'本地未配置真实支付。点下方按钮模拟支付成功以测试流程。':'请在新打开的页面用'+(PAY_CHANNEL==='alipay'?'支付宝':'微信')+'扫码支付，支付完成后本页会自动解锁报告。'}</p>
+    ${devMock?`<button class="btn btn-amber btn-lg" style="margin-top:16px" onclick="devPay('${outTradeNo}','${productType}')">模拟支付成功（测试）</button>`:''}
+    <div style="margin-top:16px;display:flex;gap:10px;justify-content:center">
+      <button class="btn btn-ghost" onclick="stopPayPoll();go('checkout','${productType}')">返回</button>
+    </div>
+    <p id="payPollHint" style="font-size:12px;color:var(--text2);margin-top:14px"></p>
+  </div></div></div>`;
+  if(!devMock)beginPayPoll(outTradeNo,productType);
+}
+function beginPayPoll(outTradeNo,productType){
+  stopPayPoll();let tries=0;
+  PAY_POLL=setInterval(async()=>{
+    tries++;const hint=document.getElementById('payPollHint');if(hint)hint.textContent='已检测 '+tries+' 次…（最长约 5 分钟）';
+    try{const r=await(await fetch('/api/pay/status?outTradeNo='+encodeURIComponent(outTradeNo))).json();
+      if(r&&r.paid){stopPayPoll();onPaid(productType);}
+    }catch(e){}
+    if(tries>=120){stopPayPoll();const h=document.getElementById('payPollHint');if(h)h.textContent='超时未检测到支付，如已付款请刷新或重试。';}
+  },2500);
+}
+function stopPayPoll(){if(PAY_POLL){clearInterval(PAY_POLL);PAY_POLL=null;}}
+async function devPay(outTradeNo,productType){showLoading('确认中…');try{await fetch('/api/pay/mock-paid?outTradeNo='+encodeURIComponent(outTradeNo));}catch(e){}hideLoading();onPaid(productType);}
+function onPaid(productType){A.isPaid=true;A.reportType=productType;A.status='paid';saveDB();go('paymentSuccess');}
 RENDER.paymentFailed=function(productType){
   app().innerHTML=`<div class="page"><div class="container" style="max-width:460px"><div class="panel" style="text-align:center">
     <div style="font-size:46px">⚠️</div><h1 style="font-size:22px;margin:8px 0">支付未完成</h1>
