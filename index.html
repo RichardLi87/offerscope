@@ -363,7 +363,7 @@ svg.radar{max-width:380px;width:100%}
     <nav class="nav-links">
       <a href="#" onclick="go('home');scrollTo(0,0);return false">首页</a>
       <a href="#pricing-sec" onclick="go('home');return true">价格</a>
-      <a href="#" onclick="go('dashboard');return false">我的报告</a>
+      <a class="btn btn-ghost" style="padding:9px 16px" href="#" onclick="go('dashboard');return false">📄 我的报告</a>
       <a class="btn btn-primary" style="padding:9px 18px" href="#" onclick="startAssessment();return false">免费开始测评</a>
     </nav>
   </div>
@@ -702,7 +702,9 @@ const $=s=>document.querySelector(s);
 const app=()=>document.getElementById('app');
 const esc=s=>(s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
-function go(view,arg){window.scrollTo(0,0);RENDER[view]?RENDER[view](arg):RENDER.home();}
+function _render(view,arg){window.scrollTo(0,0);RENDER[view]?RENDER[view](arg):RENDER.home();}
+function go(view,arg){try{history.pushState({view:view,arg:arg},'');}catch(e){}_render(view,arg);}
+window.addEventListener('popstate',function(e){var s=(e.state&&e.state.view)?e.state:{view:'home'};_render(s.view,s.arg);});
 
 /* ---- AI backend bridge (graceful fallback to rule engine) ---- */
 function showLoading(msg,sub){let el=document.getElementById('loadingBg');
@@ -743,6 +745,7 @@ async function aiPost(path,body){
     const r=await fetch(path,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:ctrl.signal});
     if(!r.ok)return null;
     const j=await r.json();
+    if(j&&!j.ok&&j.error==='rate_limited')toast('操作太频繁，请稍等一会儿再试');
     return (j&&j.ok)?j.data:null;   // ok:false → null → 调用方回退规则引擎
   }catch(e){return null;}
   finally{clearTimeout(t);}
@@ -751,7 +754,20 @@ async function aiPost(path,body){
 function aiProfile(){return {applicationLevel:A.applicationLevel,targetRegions:A.targetRegions,intakeYear:A.intakeYear,
   targetMajorCategory:A.targetMajorCategory,targetSchools:A.targetSchools,hasAgencyList:A.hasAgencyList,
   budget:A.budget,riskTolerance:A.riskTolerance,locationPreference:A.locationPreference,
-  fields:A.fields,followUpAnswers:A.followUpAnswers};}
+  fields:A.fields,followUpAnswers:A.followUpAnswers,followUpQuestions:A.followUpQuestions};}
+/* 把追问里的更正/补充合并进 fields，再评分（让追问真正影响结果） */
+async function applyFollowUpCorrections(){
+  if(!A.followUpAnswers||!Object.keys(A.followUpAnswers).length)return;
+  showLoading('正在核对你补充的信息…','把追问回答纳入评估');
+  const r=await aiPost('/api/extract',{profile:aiProfile()});
+  hideLoading();
+  if(r&&r.corrections){const c=r.corrections;
+    ['gpaValue','languageScore','standardizedTestScore','greGmatScore','internships','researchExperience','projects','activities','awards'].forEach(k=>{
+      if(typeof c[k]==='string'&&c[k].trim())A.fields[k]=c[k].trim();
+    });
+    saveDB();
+  }
+}
 function startAssessment(){newAssessment();go('assessment');}
 
 /* ===================== ROUTER TABLE (views attached below) ===================== */
@@ -1016,7 +1032,7 @@ STEP_RENDER[1]=function(){
     </div>
 
     <div class="field"><label class="req">目标学校</label>
-      <div class="hint">先选地区，再输入学校名会自动联想（中英文都可搜）；可添加多所。也支持手动输入任意学校。</div>
+      <div class="hint">先选地区，再输入学校名会自动联想（中英文都可搜）。<b>找不到联想？直接手动把完整校名打完即可，不影响测评。</b>可添加多所。</div>
       <div id="schoolList"></div>
       <button class="btn btn-ghost" style="padding:9px 16px;font-size:13px" onclick="addSchool()">+ 添加学校</button>
     </div>
@@ -1075,7 +1091,7 @@ function schoolSuggest(i,val){
   const region=A.targetSchools[i].region;const q=(val||'').trim().toLowerCase();
   const pool=SCHOOLS.filter(s=>!region||s.region===region);
   const res=!q?[]:pool.filter(s=>s.name.toLowerCase().includes(q)||(s.cn&&s.cn.includes(val.trim()))).slice(0,8);
-  const hint=(q.length>=2&&!res.length)?'未在常见库中找到 — 直接输入完整校名即可 ✓':'';
+  const hint=(q.length>=1&&!res.length)?'✅ 没找到也没关系——把完整校名打完即可，不影响测评':'';
   _renderAC('acS'+i,'schoolInp'+i,res.map(s=>({label:s.name,sub:s.cn+' · '+s.region,value:s.name})),
     v=>{A.targetSchools[i].schoolName=v;const f=SCHOOLS.find(x=>x.name===v);if(f&&!A.targetSchools[i].region)A.targetSchools[i].region=f.region;renderSchoolRows();},hint);
 }
@@ -1353,6 +1369,7 @@ function buildSchoolVerdicts(overall){
 <script id="part4">
 /* ===================== FREE RESULT (spec §15,17.1) ===================== */
 async function generateFreeResult(){
+  await applyFollowUpCorrections();   // 先把追问里的更正合并进 fields，再评分
   const scores=computeScores();
   const overall=Math.round(Object.values(scores).reduce((a,b)=>a+b,0));
   const sv=buildSchoolVerdicts(overall);
@@ -1551,6 +1568,14 @@ RENDER.paymentSuccess=function(){
 
 /* ===================== FULL REPORT GENERATION (spec §16,17.2) ===================== */
 function regenReport(){if(A.isSample){toast('样例报告不可重新生成');return;}A.fullReport=null;saveDB();generateFullReport();}
+async function shareReport(){
+  const url='https://offerscope.org';
+  const text='我用「录取雷达 OfferScope」做了一份 AI 留学申请诊断，逐校分析 + 提升建议挺到位的，找中介前先测一次，推荐你也试试 👉';
+  try{ if(navigator.share){ await navigator.share({title:'OfferScope 录取雷达',text:text,url:url}); return; } }
+  catch(e){ if(e&&e.name==='AbortError')return; }
+  try{ await navigator.clipboard.writeText(text+' '+url); toast('分享文案 + 链接已复制，去发给朋友 / 发到平台吧'); return; }catch(e){}
+  toast('请手动复制链接：'+url);
+}
 function viewSample(tier){
   tier=tier||'premium';
   const rep=JSON.parse(JSON.stringify(SAMPLE_REPORT));
@@ -1842,15 +1867,30 @@ function buildCareerOutlook(major){
   const roi=`${major}方向整体就业面较广，海外硕士在回国求职时具备学历与视野优势。结合 ${A.budget||'家庭预算'} 综合看，关键在于把这一两年的学习转化为可展示的项目与实习经历，以提升毕业时的就业竞争力与投入产出比。`;
   return {directions:dirs.slice(0,4), roi};
 }
+/* 推荐"补充校"候选池：[校名, 难度]，偏向更可达的匹配/保底校（难度越低越稳） */
+const REC_POOL={
+  "美国":[["University of Kansas",50],["University of South Florida",50],["San Diego State University",54],["Iowa State University",54],["Temple University",54],["University of Cincinnati",56],["University of Oregon",56],["University of Utah",56],["University of Arizona",58],["University at Buffalo (SUNY)",58],["Arizona State University",60],["Drexel University",60],["University of Illinois Chicago (UIC)",56]],
+  "英国":[["University of Hull",48],["University of Bradford",48],["University of Salford",48],["University of Lincoln",48],["Coventry University",48],["University of Stirling",52],["Oxford Brookes University",52],["University of Essex",54],["University of Leicester",58],["Aston University",58],["University of Surrey",62]],
+  "加拿大":[["University of Regina",48],["Brock University",50],["University of Windsor",52],["University of Saskatchewan",54],["University of Manitoba",54],["University of Guelph",58]],
+  "澳洲":[["University of Canberra",50],["Swinburne University of Technology",52],["University of South Australia",54],["La Trobe University",56],["Griffith University",56],["Deakin University",56],["University of Wollongong",58]],
+  "新加坡":[["Singapore University of Social Sciences (SUSS)",52],["Singapore Institute of Management (SIM)",55]],
+  "中国香港":[["Hong Kong Metropolitan University",48],["Lingnan University",55],["Education University of Hong Kong",55],["Hong Kong Baptist University (HKBU)",62]]
+};
 function recommendSchools(overall){
   const region=A.targetRegions[0]||"美国";
-  const pool={"美国":["University of Washington","Boston University","UC Davis","Purdue University","University of Illinois Urbana-Champaign"],
-    "英国":["University of Bristol","University of Glasgow","University of Leeds","University of Southampton","University of Sheffield"],
-    "加拿大":["University of Alberta","Western University","McMaster University","Simon Fraser University"],
-    "澳洲":["University of Melbourne","Monash University","University of Queensland","University of Adelaide"],
-    "新加坡":["Nanyang Technological University","Singapore Management University"],
-    "中国香港":["City University of Hong Kong","Hong Kong Polytechnic University"]}[region]||["University of Washington","Boston University"];
-  return pool.map(n=>({schoolName:n,programName:A.targetMajorCategory,reason:`与你当前竞争力（${overall}）较匹配，可作为${schoolDifficulty(n)>overall?'匹配偏冲刺':'匹配 / 保底'}补充。`}));
+  const pool=REC_POOL[region]||REC_POOL["美国"];
+  const userNames=new Set((A.targetSchools||[]).map(s=>s.schoolName));
+  const targets=(A.targetSchools||[]).map(s=>schoolDifficulty(s.schoolName));
+  const hardestTarget=targets.length?Math.max.apply(null,targets):100;
+  // 只推荐"不高于用户水平、且不高于用户最难目标校"的学校（避免推荐比目标还难）
+  let cands=pool.filter(([n,d])=>!userNames.has(n)&&d<=overall+6&&d<=hardestTarget);
+  if(cands.length<3)cands=pool.filter(([n,d])=>!userNames.has(n)&&d<=Math.max(overall+12,hardestTarget));
+  if(cands.length<1)cands=pool.slice();
+  cands.sort((a,b)=>a[1]-b[1]); // 易→难
+  return cands.slice(0,4).map(([n,d])=>({schoolName:n,programName:A.targetMajorCategory,
+    reason: d<=overall-6
+      ? `录取门槛低于你当前竞争力（约 ${overall}/100），更稳妥，适合作为保底校。`
+      : `与你当前竞争力（约 ${overall}/100）相当，是更现实、命中率更高的匹配校。`}));
 }
 function buildTimeline(){const y=parseInt(A.intakeYear)||2027;
   return [`${y-1} 年 6–8 月：完成背景提升与标化定档`,`${y-1} 年 9–10 月：完成文书与推荐信，开放即递交（尤其早申）`,`${y-1} 年 11–12 月 / ${y} 年 1 月：完成常规轮申请`,`${y} 年 2–4 月：等待结果、补充材料、面试`,`${y} 年 4–6 月：确定 offer 并准备签证`];}
@@ -1873,6 +1913,7 @@ RENDER.report=function(){
       </div></div>`:''}
     <div class="report-actions no-print">
       <button class="btn btn-primary" onclick="window.print()">🖨️ 打印 / 下载 PDF</button>
+      <button class="btn btn-amber" onclick="shareReport()">↗ 分享</button>
       ${A.isSample?'':`<button class="btn btn-ghost" onclick="regenReport()">↻ 重新生成</button><button class="btn btn-ghost" onclick="go('dashboard')">我的报告</button>`}
       <button class="btn btn-ghost" onclick="go('home')">返回首页</button>
     </div>
@@ -2078,7 +2119,7 @@ function radarSVG(bd,w){
 }
 
 /* ===================== BOOT ===================== */
-window.addEventListener('DOMContentLoaded',()=>{newAssessment();RENDER.home();});
+window.addEventListener('DOMContentLoaded',()=>{newAssessment();try{history.replaceState({view:'home'},'');}catch(e){}RENDER.home();});
 </script>
 </body>
 </html>

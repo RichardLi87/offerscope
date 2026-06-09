@@ -18,6 +18,32 @@ function parseQuery(reqUrl) {
   reqUrl.slice(i + 1).split("&").forEach(kv => { const [k, v] = kv.split("="); if (k) q[decodeURIComponent(k)] = decodeURIComponent((v || "").replace(/\+/g, " ")); });
   return q;
 }
+function clientIP(req) {
+  const xff = req.headers["x-forwarded-for"];
+  return (xff ? String(xff).split(",")[0].trim() : "") || req.socket.remoteAddress || "unknown";
+}
+// 简单内存限流：按 IP+用途 滑动窗口
+const _hits = {};
+function rateLimit(ip, key, max, windowMs) {
+  const now = Date.now(); const id = ip + "|" + key;
+  const arr = (_hits[id] || []).filter(t => now - t < windowMs);
+  if (arr.length >= max) { _hits[id] = arr; return false; }
+  arr.push(now); _hits[id] = arr; return true;
+}
+// 每小时清理过期记录，避免内存膨胀
+setInterval(() => { const now = Date.now(); for (const k in _hits) { _hits[k] = _hits[k].filter(t => now - t < 3600000); if (!_hits[k].length) delete _hits[k]; } }, 600000).unref();
+// 各 AI 端点的限流额度（每 IP）：短时突发 + 每小时上限
+const LIMITS = {
+  "/api/follow-up":  [{ max: 4, win: 60000 }, { max: 30, win: 3600000 }],
+  "/api/free-result":[{ max: 4, win: 60000 }, { max: 30, win: 3600000 }],
+  "/api/extract":    [{ max: 4, win: 60000 }, { max: 30, win: 3600000 }],
+  "/api/full-report":[{ max: 3, win: 60000 }, { max: 12, win: 3600000 }],
+  "/api/pay/create": [{ max: 5, win: 60000 }, { max: 40, win: 3600000 }],
+};
+function passLimits(ip, url) {
+  const rules = LIMITS[url]; if (!rules) return true;
+  return rules.every(r => rateLimit(ip, url + ":" + r.win, r.max, r.win));
+}
 
 const server = http.createServer((req, res) => {
   const url = req.url.split("?")[0];
@@ -56,6 +82,7 @@ const server = http.createServer((req, res) => {
 
   // 支付：创建订单（POST）→ 返回收银台 payUrl + 订单号
   if (req.method === "POST" && url === "/api/pay/create") {
+    if (!passLimits(clientIP(req), url)) return sendJSON(res, 200, { ok: false, error: "rate_limited" });
     let body = ""; req.on("data", c => body += c);
     req.on("end", () => {
       let p = {}; try { p = JSON.parse(body || "{}"); } catch (e) {}
@@ -67,6 +94,7 @@ const server = http.createServer((req, res) => {
 
   // AI 接口（POST）
   if (req.method === "POST" && url.startsWith("/api/")) {
+    if (!passLimits(clientIP(req), url)) { console.warn("⏳ 限流拦截 " + url + " ← " + clientIP(req)); return sendJSON(res, 200, { ok: false, error: "rate_limited" }); }
     let body = "";
     req.on("data", (c) => (body += c));
     req.on("end", async () => {
@@ -77,6 +105,7 @@ const server = http.createServer((req, res) => {
         if (url === "/api/follow-up") data = await ai.followUp(payload);
         else if (url === "/api/free-result") data = await ai.freeResult(payload);
         else if (url === "/api/full-report") data = await ai.fullReport(payload);
+        else if (url === "/api/extract") data = await ai.extractCorrections(payload);
         else return sendJSON(res, 404, { ok: false, error: "unknown endpoint" });
         console.log("✓ [" + url + "] AI 调用成功");
         sendJSON(res, 200, { ok: true, data });
