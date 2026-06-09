@@ -1480,7 +1480,6 @@ RENDER.checkout=function(productType){
       <div class="field"><label>支付方式</label>
         <div class="choices" id="payChannel">
           <div class="choice sel" data-ch="wxpay" onclick="pickChannel(this)">💚 微信支付</div>
-          <div class="choice" data-ch="alipay" onclick="pickChannel(this)">🔵 支付宝</div>
         </div></div>
       <button class="btn btn-amber btn-block btn-lg" onclick="startPay('${productType}')">去支付 ¥${p.price}</button>
       <div id="payHint" style="font-size:12px;color:var(--text2);margin-top:14px;text-align:center">扫码支付成功后，本页会自动解锁报告。一次付费，无订阅，无中介推销。</div>
