@@ -1531,7 +1531,6 @@ RENDER.freeResult=function(){
 /* ===================== CHECKOUT + MOCK PAYMENT (spec §20.6,20.7,25) ===================== */
 let PAY_POLL=null, PAY_CHANNEL='wxpay';
 RENDER.checkout=function(productType){
-  window.scrollTo(0,0);
   productType=productType||'standard_report';
   const p=PRODUCTS[productType];
   PAY_CHANNEL='wxpay';
@@ -1551,6 +1550,7 @@ RENDER.checkout=function(productType){
       <div id="payHint" style="font-size:12px;color:var(--text2);margin-top:14px;text-align:center">扫码支付成功后，本页会自动解锁报告。一次付费，无订阅，无中介推销。</div>
       <div style="margin-top:10px;text-align:center"><button class="btn btn-ghost" style="flex:1" onclick="go('freeResult')">返回</button></div>
     </div></div></div>`;
+  window.scrollTo(0,0);
 };
 function pickChannel(el){PAY_CHANNEL=el.getAttribute('data-ch');document.querySelectorAll('#payChannel .choice').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');}
 async function startPay(productType){
@@ -2224,6 +2224,7 @@ function radarSVG(bd,w){
 }
 
 /* ===================== BOOT ===================== */
+try{if('scrollRestoration' in history)history.scrollRestoration='manual';}catch(e){}
 window.addEventListener('DOMContentLoaded',()=>{newAssessment();try{history.replaceState({view:'home'},'');}catch(e){}RENDER.home();});
 </script>
 </body>
