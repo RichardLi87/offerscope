@@ -373,6 +373,27 @@ svg.radar{max-width:380px;width:100%}
   .rsec,.report-cover{break-inside:avoid;box-shadow:none}
   .page{padding:0}
 }
+
+/* ===== 移动端精修（小红书来量主要是手机端）===== */
+@media(max-width:560px){
+  body{font-size:16px}
+  .container{padding:0 16px}
+  /* 长按钮在窄屏允许换行而非溢出，并保证点击区域足够大 */
+  .btn{white-space:normal;line-height:1.3;min-height:48px}
+  .btn-lg{padding:15px 20px;font-size:17px}
+  .panel{padding:18px 16px}
+  /* 院校表格在手机上更紧凑、可换行 */
+  table.schools th,table.schools td{padding:9px 6px;font-size:13px;word-break:break-word}
+  table.schools th{font-size:11px}
+  /* 步骤指示器尽量挤进更少的行 */
+  .stepper{gap:4px}
+  .stepper .s{min-width:0;font-size:11px;padding-bottom:6px}
+  /* 标题与正文在小屏更克制，避免横向拥挤 */
+  h1.hero-title{font-size:30px;line-height:1.25}
+  .hero p.sub,.sec-sub{font-size:16px}
+  .grade-circle{width:104px;height:104px}
+  .report-actions .btn{flex:1}
+}
 </style>
 </head>
 <body>
