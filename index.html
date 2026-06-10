@@ -2225,7 +2225,28 @@ function radarSVG(bd,w){
 
 /* ===================== BOOT ===================== */
 try{if('scrollRestoration' in history)history.scrollRestoration='manual';}catch(e){}
-window.addEventListener('DOMContentLoaded',()=>{newAssessment();try{history.replaceState({view:'home'},'');}catch(e){}RENDER.home();});
+// 支付返回：URL 带 os_paid=订单号 时，确认支付并自动跳到报告（修复手机端付完落到错误页）
+async function resumeAfterPay(outTradeNo){
+  showLoading('支付确认中…');
+  let paid=false,pt='premium_report',aid='';
+  for(let i=0;i<8;i++){
+    try{const r=await fetch('/api/pay/status?outTradeNo='+encodeURIComponent(outTradeNo));const j=await r.json();
+      if(j&&j.found){if(j.productType)pt=j.productType;if(j.assessmentId)aid=j.assessmentId;if(j.paid){paid=true;break;}}}catch(e){}
+    await new Promise(s=>setTimeout(s,1500));
+  }
+  hideLoading();
+  try{history.replaceState({view:'home'},'',location.pathname);}catch(e){}
+  if(paid){
+    const all=loadDB();if(aid&&all[aid])A=all[aid];
+    A.isPaid=true;A.reportType=pt;A.status='paid';saveDB();
+    go('report');
+  }else{ toast('支付尚未确认，如已付款请稍候刷新'); RENDER.home(); }
+}
+window.addEventListener('DOMContentLoaded',()=>{
+  let psp='';try{psp=new URLSearchParams(location.search).get('os_paid')||'';}catch(e){}
+  if(psp){ if(!A||!A.id)newAssessment(); try{history.replaceState({view:'home'},'');}catch(e){} resumeAfterPay(psp); return; }
+  newAssessment();try{history.replaceState({view:'home'},'');}catch(e){}RENDER.home();
+});
 </script>
 </body>
 </html>
