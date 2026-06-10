@@ -1217,7 +1217,7 @@ function gradFields(){
   <div class="grid2">${sel('greGmatType','GRE / GMAT',["GRE","GMAT","GMAT Focus","暂无","不需要","不确定是否需要"])}${txt('greGmatScore','GRE / GMAT 成绩（选填）')}</div>
 
   ${sectionTitle('软背景：实习 / 科研 / 项目')}
-  ${txt('internships','实习经历',"实习公司、岗位、时长、工作内容、成果，及与目标专业的相关性。",'',true)}
+  ${txt('internships','实习或工作经历',"实习 / 工作的公司、岗位、时长、工作内容、成果，及与目标专业的相关性。",'',true)}
   <div class="grid2">${txt('researchExperience','科研经历（选填）',"科研、导师项目、实验室、论文方向。",'',true)}${txt('projects','项目经历（选填）',"课程 / 专业 / 数据 / 代码 / 商业分析项目。",'',true)}</div>
   <div class="grid2">${txt('competitions','竞赛（选填）',"竞赛、奖项、排名和成果。",'',true)}${txt('workExperience','全职工作经历（选填）',"岗位、行业和成果。",'',true)}</div>
   ${txt('publications','论文发表（选填）',"论文、会议、期刊、投稿状态。",'',true)}
@@ -1495,9 +1495,9 @@ RENDER.freeResult=function(){
         ${["综合竞争力评分","五维评分拆解","目标学校逐项分析","冲刺/匹配/保底分层","学术与课程分析","语言与标化分析","当前优势","当前短板","关键风险与降低方法","30/60/90 天提升路线","文书策略方向","推荐信策略","家长可读总结","下一步行动清单"].map(m=>`<div class="module-chip"><span class="lk">🔒</span>${m}</div>`).join('')}
       </div>
 
-      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:8px">
-        <button class="btn btn-amber btn-lg" onclick="go('checkout','standard_report')">解锁完整报告 ¥${PRODUCTS.standard_report.price}</button>
-        <button class="btn btn-primary btn-lg" onclick="go('checkout','premium_report')">完整规划版 ¥${PRODUCTS.premium_report.price}（含选校组合+时间线）</button>
+      <div style="display:flex;flex-direction:column;gap:12px;max-width:360px;margin:8px auto 0">
+        <button class="btn btn-amber btn-lg btn-block" onclick="go('checkout','standard_report')">解锁完整报告 ¥${PRODUCTS.standard_report.price}</button>
+        <button class="btn btn-primary btn-lg btn-block" style="line-height:1.35" onclick="go('checkout','premium_report')">完整规划版 ¥${PRODUCTS.premium_report.price}<br><span style="font-size:14px;font-weight:600;opacity:.92">含选校组合 + 申请时间线</span></button>
       </div>
       <p style="font-size:13px;color:var(--text2);margin-top:14px">一次付费，无订阅，永久查看，可下载 PDF 发给父母。</p>
     </div>
