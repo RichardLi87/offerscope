@@ -905,6 +905,19 @@ function renderRegion(name){
 const RENDER={};
 RENDER.region=renderRegion;
 
+/* ===================== 雷达家族（交叉互导） ===================== */
+const FAMILY=[
+ {key:'offer',name:'录取雷达',domain:'offerscope.org',emoji:'🎓',desc:'留学申请定位 · 能申上哪些学校'},
+ {key:'yimin',name:'移民雷达',domain:'yiminscope.com',emoji:'🧭',desc:'移民竞争力 · 最适合去哪、走哪条路'},
+ {key:'hukou',name:'落户雷达',domain:'hukouscope.com',emoji:'🏙️',desc:'大城市落户 · 积分够不够、怎么补'},
+ {key:'working',name:'求职雷达',domain:'workingscope.com',emoji:'💼',desc:'求职竞争力 · 够不够大厂、值多少薪'},
+];
+function familyStrip(cur){return `<section class="block"><div class="container tight">
+  <h2 class="sec-title" style="text-align:center">雷达家族</h2>
+  <p class="sec-sub" style="text-align:center;margin-left:auto;margin-right:auto">同一个团队，帮你在人生每个关口先看清自己的位置。任何一个都先免费测。</p>
+  <div class="cards" style="margin-top:24px">${FAMILY.filter(f=>f.key!==cur).map(f=>`<a href="https://${f.domain}" style="display:block;text-decoration:none;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:22px 18px"><div style="font-size:26px">${f.emoji}</div><h3 style="font-size:18px;margin:10px 0 6px;color:var(--navy)">${f.name}</h3><p style="font-size:14px;color:var(--text2)">${f.desc}</p><div style="color:var(--blue);font-weight:700;margin-top:10px;font-size:14px">前往 ${f.domain} ›</div></a>`).join('')}</div>
+</div></section>`;}
+
 /* ===================== HOME (spec §6) ===================== */
 RENDER.home=function(){
   app().innerHTML=`
@@ -1025,6 +1038,8 @@ RENDER.home=function(){
       </div>
     </div>
   </section>
+
+  ${familyStrip('offer')}
 
   <section class="block" id="pricing-sec" style="background:var(--bluebg)">
     <div class="container tight">
