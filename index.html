@@ -198,7 +198,7 @@ h1.hero-title{font-size:54px;line-height:1.12;font-weight:900;letter-spacing:-.0
 table.schools{width:100%;border-collapse:collapse;margin-top:6px}
 table.schools th,table.schools td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--border);font-size:14px}
 table.schools th{color:var(--text2);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.verdict{display:inline-block;padding:4px 11px;border-radius:999px;font-size:12px;font-weight:700}
+.verdict{display:inline-block;padding:4px 11px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
 
 .risk-list{list-style:none;margin-top:8px}
 .risk-list li{padding:12px 0 12px 30px;position:relative;border-bottom:1px solid var(--border);font-size:14px}
@@ -392,7 +392,14 @@ svg.radar{max-width:380px;width:100%}
   h1.hero-title{font-size:30px;line-height:1.25}
   .hero p.sub,.sec-sub{font-size:16px}
   .grade-circle{width:104px;height:104px}
-  .report-actions .btn{flex:1}
+  /* 报告操作按钮：两列网格，避免被挤成一字一行 */
+  .report-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .report-actions .btn{flex:none;width:auto;font-size:14px;padding:12px 10px;line-height:1.3}
+  /* 报告小节标题：编号顶部对齐，标题小一档，长标题换行更自然 */
+  .rsec h2{font-size:17px;align-items:flex-start;line-height:1.4}
+  .rsec h2 .num{flex:0 0 auto;margin-top:1px}
+  /* 院校"初步判断"标签不换行，避免变成椭圆三行 */
+  .verdict{white-space:nowrap}
 }
 </style>
 </head>
@@ -599,7 +606,7 @@ const CN_UNIVERSITIES=[
  // 中外合办
  ["西交利物浦大学","中外合办"],["宁波诺丁汉大学","中外合办"],["昆山杜克大学","中外合办"],["上海纽约大学","中外合办"],["香港中文大学（深圳）","中外合办"],["北京师范大学-香港浸会大学联合国际学院","中外合办"],["温州肯恩大学","中外合办"],["广东以色列理工学院","中外合办"],
 ].map(([name,tier])=>({name,tier}));
-const PRODUCTS={standard_report:{name:"录取雷达申请诊断报告",price:19},premium_report:{name:"录取雷达完整申请规划报告",price:0.1}};
+const PRODUCTS={standard_report:{name:"录取雷达申请诊断报告",price:19},premium_report:{name:"录取雷达完整申请规划报告",price:49}};
 const VERDICTS=["高风险冲刺","冲刺","匹配偏冲刺","匹配","匹配偏稳","保底","不建议申请"];
 const verdictColor=v=>({"高风险冲刺":"#DC2626","冲刺":"#F97316","匹配偏冲刺":"#F59E0B","匹配":"#2563EB","匹配偏稳":"#0891b2","保底":"#16A34A","不建议申请":"#6B7280"}[v]||"#6B7280");
 const verdictBg=v=>{const c=verdictColor(v);return `background:${c}1a;color:${c}`};
