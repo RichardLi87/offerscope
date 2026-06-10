@@ -1518,7 +1518,7 @@ RENDER.freeResult=function(){
 
       <div style="display:flex;flex-direction:column;gap:12px;max-width:360px;margin:8px auto 0">
         <button class="btn btn-amber btn-lg btn-block" onclick="go('checkout','standard_report')">解锁完整报告 ¥${PRODUCTS.standard_report.price}</button>
-        <button class="btn btn-primary btn-lg btn-block" style="line-height:1.35" onclick="go('checkout','premium_report')">完整规划版 ¥${PRODUCTS.premium_report.price}<br><span style="font-size:14px;font-weight:600;opacity:.92">含选校组合 + 申请时间线</span></button>
+        <button class="btn btn-primary btn-lg btn-block" onclick="go('checkout','premium_report')"><span style="display:block;width:100%;text-align:center;line-height:1.35">完整规划版 ¥${PRODUCTS.premium_report.price}<br><span style="font-size:13px;font-weight:600;opacity:.9">含选校组合 + 申请时间线</span></span></button>
       </div>
       <p style="font-size:13px;color:var(--text2);margin-top:14px">一次付费，无订阅，永久查看，可下载 PDF 发给父母。</p>
     </div>
@@ -1554,9 +1554,11 @@ async function startPay(productType){
   const e=($('#coEmail').value||'').trim();
   if(!/.+@.+\..+/.test(e)){toast('请输入有效邮箱以接收报告');return;}
   userEmail=e;localStorage.setItem('os_email',e);
-  // 关键：在用户点击的同一手势里先同步打开空白窗口，避免手机浏览器拦截弹窗
+  const isWeChat=/MicroMessenger/i.test(navigator.userAgent);
+  // 普通浏览器(Safari/Chrome)：点击同一手势里先同步开空白窗口，避免弹窗被拦截。
+  // 微信内置浏览器：不预开空白页（会卡成白屏），稍后用直接跳转，微信能原生唤起支付。
   let payWin=null;
-  try{payWin=window.open('','_blank');}catch(err){}
+  if(!isWeChat){try{payWin=window.open('','_blank');}catch(err){}}
   showLoading('正在创建订单…');
   let r=null;
   try{const resp=await fetch('/api/pay/create',{method:'POST',headers:{'Content-Type':'application/json'},
@@ -1568,9 +1570,14 @@ async function startPay(productType){
     showPayWaiting(productType,r.outTradeNo,true);
     return;
   }
-  // 把刚才同步打开的窗口导航到 ZPay 收银台；若被拦截/没开成，等待页里有手动链接兜底
-  if(payWin&&!payWin.closed){try{payWin.location.href=r.payUrl;}catch(e){}}
-  else{try{window.open(r.payUrl,'_blank');}catch(e){}}
+  if(isWeChat){
+    // 微信内：直接打开收银台（与昨天可用的行为一致），失败再用当前页跳转兜底
+    try{window.open(r.payUrl,'_blank');}catch(e){try{location.href=r.payUrl;}catch(e2){}}
+  }else if(payWin&&!payWin.closed){
+    try{payWin.location.href=r.payUrl;}catch(e){}
+  }else{
+    try{window.open(r.payUrl,'_blank');}catch(e){}
+  }
   showPayWaiting(productType,r.outTradeNo,false,r.payUrl);
 }
 function showPayWaiting(productType,outTradeNo,devMock,payUrl){
