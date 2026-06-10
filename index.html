@@ -103,6 +103,10 @@ h1.hero-title{font-size:54px;line-height:1.12;font-weight:900;letter-spacing:-.0
 .vchip .ic{font-size:26px}
 .vchip b{display:block;font-size:17px;margin:8px 0 3px}
 .vchip p{font-size:13px;color:var(--text2)}
+.good-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.good-item{display:flex;gap:9px;align-items:flex-start;background:var(--bluebg);border-radius:10px;padding:11px 13px;font-size:14.5px;color:#1f2937}
+.good-item .tick{color:var(--blue);font-weight:800;flex:0 0 auto}
+@media(max-width:560px){.good-grid{grid-template-columns:1fr}}
 .quote-band{background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;border-radius:18px;
   padding:40px 32px;text-align:center;margin-top:6px}
 .quote-band .big{font-size:30px;font-weight:900;line-height:1.3;letter-spacing:-.01em}
@@ -400,6 +404,11 @@ svg.radar{max-width:380px;width:100%}
   .rsec h2 .num{flex:0 0 auto;margin-top:1px}
   /* 院校"初步判断"标签不换行，避免变成椭圆三行 */
   .verdict{white-space:nowrap}
+  /* 价值卡片锁两列，6 张 = 3 行对称 */
+  .value-strip{grid-template-columns:1fr 1fr}
+  .vchip{padding:16px 12px}
+  .vchip b{font-size:16px}
+  .vchip p{font-size:12px}
 }
 </style>
 </head>
@@ -454,6 +463,40 @@ svg.radar{max-width:380px;width:100%}
 <script>
 /* ===================== CONSTANTS (spec §1,8,9,10,13,14,25) ===================== */
 const SUPPORTED_REGIONS=["美国","英国","加拿大","澳洲","新加坡","中国香港"];
+
+// 地区留学介绍：让人看到"这地方有多好、教育水平多高"，激发"想去 → 想测"
+const REGION_INFO={
+  "美国":{flag:"🇺🇸",tag:"全球高教第一，名校最密集",
+    intro:"美国坐拥全世界最多的顶尖大学和最强的科研实力，专业选择极广、转专业灵活，实习与名企机会丰富，文凭全球认可——想冲世界名校，这里几乎是绕不开的主场。",
+    good:["世界大学排名前列占比最高","科研经费与实验室资源全球第一","专业方向极丰富、转专业灵活","实习 / OPT 与名企机会多","校园文化多元、社团活动丰富","文凭全球通行，回国就业有竞争力"],
+    unis:"哈佛、MIT、斯坦福、伯克利、CMU、哥大、UCLA…",
+    apply:"综合评估（holistic）：GPA、标化、活动主线、文书、推荐信都看；有 ED/EA 早申策略，规划要趁早。"},
+  "英国":{flag:"🇬🇧",tag:"学制短、名校多、文凭硬",
+    intro:"英国硕士多为一年制，时间和金钱成本都低；G5 等名校全球顶尖，学术导向强、专业聚焦，是性价比极高的留学目的地。",
+    good:["硕士多为一年制，省时省钱","G5 超级精英，世界排名靠前","教育体系成熟、文凭含金量高","英语母语环境","专业聚焦、学术性强","申请看重院校背景与均分"],
+    unis:"牛津、剑桥、帝国理工 IC、LSE、UCL、爱丁堡…",
+    apply:"学术导向：看本科院校 + 均分 + 专业相关性 + 个人陈述（PS）；几乎不看课外活动，无早申，滚动录取，越早递交越有利。"},
+  "加拿大":{flag:"🇨🇦",tag:"教育优质、安全宜居、性价比高",
+    intro:"加拿大公立教育质量高、学费相对友好，城市安全宜居，留学后还有顺畅的工签与移民路径，是兼顾读书与长远规划的优选。",
+    good:["教育质量高、学费生活费相对友好","安全、宜居、环境好","留学→工签→移民路径成熟","多大 / UBC / 麦吉尔世界知名","英语环境、文凭认可度高","毕业工签政策友好"],
+    unis:"多伦多大学、UBC、麦吉尔、滑铁卢、麦克马斯特…",
+    apply:"偏门槛逻辑：GPA 与语言达标是基础，部分项目看研究 / 相关经历；没有美式早申。"},
+  "澳洲":{flag:"🇦🇺",tag:"阳光宜居、八大名校、录取清晰",
+    intro:"澳洲八大名校世界排名靠前，气候宜人、生活质量高，录取标准清晰、相对好申，且留学与移民结合得好。",
+    good:["八大名校全球排名靠前","气候宜人、生活质量高","录取门槛清晰、相对好申","留学与移民结合","华人多、适应快","毕业工签机会"],
+    unis:"墨尔本大学、悉尼大学、ANU、UNSW、昆士兰大学…",
+    apply:"门槛逻辑为主：以 GPA 对照项目分数线，录取相对清晰，活动权重低，没有早申。"},
+  "新加坡":{flag:"🇸🇬",tag:"亚洲顶尖、双语环境、离家近",
+    intro:"新加坡国立、南洋理工稳居亚洲第一梯队、世界顶尖；中英双语、文化亲近，安全现代、离中国近，是高质量又离家近的优选。",
+    good:["NUS / NTU 世界顶尖、亚洲第一","中英双语、文化亲近","离中国近、往返方便","城市安全、现代化","低税、就业机会好","留学后可申请 PR"],
+    unis:"新加坡国立大学 NUS、南洋理工大学 NTU、新加坡管理大学 SMU…",
+    apply:"竞争激烈、学术为先：GPA、标化与专业匹配是核心，名额少，建议尽早准备。"},
+  "中国香港":{flag:"🇭🇰",tag:"离家近、国际化、文凭硬",
+    intro:"港校国际化程度高、全英教学、文凭全球认可，中西融合的城市体验独特，离内地近、文化相通，是兼顾视野与便利的热门之选。",
+    good:["港大 / 港中文 / 港科大世界排名高","全英教学、国际化程度高","离内地近、文化相通","文凭全球认可","毕业可留港发展（IANG）","中西融合的城市体验"],
+    unis:"香港大学、香港中文大学、香港科技大学、香港城市大学…",
+    apply:"看重 GPA 与专业匹配，竞争激烈、多为滚动录取，建议尽早递交；活动权重低于美国。"},
+};
 const UNSUPPORTED_HINT="当前版本暂时只支持美国、英国、加拿大、澳洲、新加坡和中国香港的本科 / 硕士申请诊断。";
 const INTAKE_YEARS=["2026 Fall","2027 Fall","2028 Fall","其他"];
 const UG_MAJORS=["商科","经济学","计算机","数据科学","工程","传媒","心理学","教育","社会科学","公共政策","生物 / 化学 / 自然科学","数学 / 统计","未确定专业","其他"];
@@ -820,6 +863,43 @@ async function applyFollowUpCorrections(){
   }
 }
 function startAssessment(){newAssessment();go('assessment');}
+function startAssessmentRegion(r){newAssessment();A.targetRegions=[r];if(typeof saveDB==='function')saveDB();go('assessment');}
+RENDER.region=function(name){
+  const info=REGION_INFO[name];if(!info){go('home');return;}
+  window.scrollTo(0,0);
+  const others=SUPPORTED_REGIONS.filter(r=>r!==name).map(r=>`<span class="badge" onclick="go('region','${r}')" style="cursor:pointer">${r} ›</span>`).join('');
+  app().innerHTML=`<div class="page"><div class="container tight">
+    <div style="margin-bottom:14px"><button class="btn btn-ghost" style="padding:8px 14px;font-size:14px" onclick="go('home')">← 所有地区</button></div>
+    <div class="panel" style="background:var(--navy);color:#fff">
+      <div style="font-size:50px;line-height:1">${info.flag}</div>
+      <h1 style="font-size:28px;margin:8px 0 4px">去${esc(name)}留学</h1>
+      <div style="font-size:16px;opacity:.92">${esc(info.tag)}</div>
+    </div>
+    <div class="panel"><p style="font-size:16px;line-height:1.8">${esc(info.intro)}</p></div>
+    <div class="panel">
+      <h2 style="font-size:19px;color:var(--navy);margin-bottom:12px">为什么值得去</h2>
+      <div class="good-grid">${info.good.map(g=>`<div class="good-item"><span class="tick">✓</span><span>${esc(g)}</span></div>`).join('')}</div>
+    </div>
+    <div class="panel">
+      <h2 style="font-size:19px;color:var(--navy);margin-bottom:8px">代表性名校</h2>
+      <p style="font-size:16px;color:#374151">${esc(info.unis)}</p>
+      <h3 style="font-size:15px;margin:14px 0 4px">申请特点</h3>
+      <p style="font-size:14px;color:var(--text2)">${esc(info.apply)}</p>
+    </div>
+    <div class="panel" style="text-align:center">
+      <div style="font-size:20px;font-weight:800;margin-bottom:6px">那……以你的背景，能申上${esc(name)}哪一档学校？</div>
+      <p style="color:var(--text2);font-size:14px;margin-bottom:16px">3 分钟免费测一测，冲刺 / 匹配 / 保底一目了然。</p>
+      <div style="display:flex;flex-direction:column;gap:10px;max-width:360px;margin:0 auto">
+        <button class="btn btn-amber btn-lg btn-block" onclick="startAssessmentRegion('${name}')">测我能申上${esc(name)}哪些学校 →</button>
+        <button class="btn btn-ghost btn-block" onclick="viewSample&&viewSample('premium')">先看一份样例报告</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3 style="font-size:15px;margin-bottom:10px">看看别的地区</h3>
+      <div class="badges" style="justify-content:flex-start">${others}</div>
+    </div>
+  </div></div>`;
+};
 
 /* ===================== ROUTER TABLE (views attached below) ===================== */
 const RENDER={};
@@ -837,7 +917,8 @@ RENDER.home=function(){
       </div>
       <div><span class="anchor">✅ 完全免费开始 · 3 分钟 · 立即看到结果，无需注册</span></div>
       <div class="assist">美国、英国、加拿大、澳洲、新加坡、中国香港 · 本科 / 硕士 · AI 驱动，客观中立，不带中介偏见</div>
-      <div class="badges">${SUPPORTED_REGIONS.map(r=>`<span class="badge">${r}</span>`).join('')}</div>
+      <div style="font-size:13px;color:var(--text2);margin-top:14px;margin-bottom:-6px">👇 点地区，先看看那里教育有多强、值不值得去</div>
+      <div class="badges">${SUPPORTED_REGIONS.map(r=>`<span class="badge" onclick="go('region','${r}')" style="cursor:pointer">${r} ›</span>`).join('')}</div>
     </div>
   </section>
 
@@ -857,7 +938,7 @@ RENDER.home=function(){
       <h2 class="sec-title">你真正想要的，是一份心里有底</h2>
       <p class="sec-sub">在做重大决定前，先给自己和家人一份安心与确定。先免费测，看到了再说。</p>
       <div class="value-strip">
-        ${[["😌","安心感","不再凭感觉焦虑"],["🎯","确定感","知道自己站在哪"],["📑","判断依据","决策有据可依"],["👨‍👩‍👧","和父母沟通","一份看得懂的材料"],["⚖️","对照中介方案","花钱前先有参照"]]
+        ${[["😌","安心感","不再凭感觉焦虑"],["🎯","确定感","知道自己站在哪"],["📈","提升有方向","知道先补哪一块"],["📑","判断依据","决策有据可依"],["👨‍👩‍👧","和父母沟通","一份看得懂的材料"],["⚖️","对照中介方案","花钱前先有参照"]]
           .map(v=>`<div class="vchip"><div class="ic">${v[0]}</div><b>${v[1]}</b><p>${v[2]}</p></div>`).join('')}
       </div>
     </div>
