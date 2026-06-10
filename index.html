@@ -864,7 +864,7 @@ async function applyFollowUpCorrections(){
 }
 function startAssessment(){newAssessment();go('assessment');}
 function startAssessmentRegion(r){newAssessment();A.targetRegions=[r];if(typeof saveDB==='function')saveDB();go('assessment');}
-RENDER.region=function(name){
+function renderRegion(name){
   const info=REGION_INFO[name];if(!info){go('home');return;}
   window.scrollTo(0,0);
   const others=SUPPORTED_REGIONS.filter(r=>r!==name).map(r=>`<span class="badge" onclick="go('region','${r}')" style="cursor:pointer">${r} ›</span>`).join('');
@@ -903,6 +903,7 @@ RENDER.region=function(name){
 
 /* ===================== ROUTER TABLE (views attached below) ===================== */
 const RENDER={};
+RENDER.region=renderRegion;
 
 /* ===================== HOME (spec §6) ===================== */
 RENDER.home=function(){
