@@ -423,6 +423,7 @@ svg.radar{max-width:380px;width:100%}
     <nav class="nav-links">
       <a href="#" onclick="go('home');scrollTo(0,0);return false">首页</a>
       <a href="#pricing-sec" onclick="go('home');return true">价格</a>
+      <a href="#" onclick="viewSample('premium');return false">样例报告</a>
       <a class="btn btn-ghost" style="padding:9px 16px" href="#" onclick="go('dashboard');return false">📄 我的报告</a>
       <a class="btn btn-primary" style="padding:9px 18px" href="#" onclick="startAssessment();return false">免费开始测评</a>
     </nav>
@@ -928,6 +929,7 @@ RENDER.home=function(){
       <p class="sub">本科还是硕士？这些学校到底是冲刺、匹配，还是在白白浪费申请费？<br>填一填背景，录取雷达当场告诉你——心里有底，比什么都重要。</p>
       <div class="cta-row">
         <button class="btn btn-amber btn-lg" onclick="startAssessment()">免费测一测我的位置 →</button>
+        <button class="btn btn-ghost btn-lg" onclick="viewSample('premium')">看一份样例报告 →</button>
       </div>
       <div><span class="anchor">✅ 完全免费开始 · 3 分钟 · 立即看到结果，无需注册</span></div>
       <div class="assist">美国、英国、加拿大、澳洲、新加坡、中国香港 · 本科 / 硕士 · AI 驱动，客观中立，不带中介偏见</div>
@@ -2114,7 +2116,7 @@ RENDER.report=function(){
       <div><b>📋 这是一份样例报告</b>（虚构学生 · 双非财经转申商业分析）。你的报告会基于你<b>真实填写的背景</b>生成。</div>
       <div class="sb-actions">
         <button class="btn ${A.reportType==='standard_report'?'btn-primary':'btn-ghost'}" style="padding:8px 14px;font-size:14px" onclick="viewSample('standard')">¥19 标准版</button>
-        <button class="btn ${A.reportType==='premium_report'?'btn-primary':'btn-ghost'}" style="padding:8px 14px;font-size:14px" onclick="viewSample('premium')">¥49 完整版</button>
+        <button class="btn ${A.reportType==='premium_report'?'btn-primary':'btn-ghost'}" style="padding:8px 14px;font-size:14px" onclick="viewSample('premium')">¥29 完整版</button>
         <button class="btn btn-amber" style="padding:8px 14px;font-size:14px" onclick="startAssessment()">免费测我的 →</button>
       </div></div>`:''}
     <div class="report-actions no-print">
