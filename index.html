@@ -649,7 +649,7 @@ const CN_UNIVERSITIES=[
  // 中外合办
  ["西交利物浦大学","中外合办"],["宁波诺丁汉大学","中外合办"],["昆山杜克大学","中外合办"],["上海纽约大学","中外合办"],["香港中文大学（深圳）","中外合办"],["北京师范大学-香港浸会大学联合国际学院","中外合办"],["温州肯恩大学","中外合办"],["广东以色列理工学院","中外合办"],
 ].map(([name,tier])=>({name,tier}));
-const PRODUCTS={standard_report:{name:"录取雷达申请诊断报告",price:19},premium_report:{name:"录取雷达完整申请规划报告",price:49}};
+const PRODUCTS={standard_report:{name:"录取雷达申请诊断报告",price:19},premium_report:{name:"录取雷达完整申请规划报告",price:29}};
 const VERDICTS=["高风险冲刺","冲刺","匹配偏冲刺","匹配","匹配偏稳","保底","不建议申请"];
 const verdictColor=v=>({"高风险冲刺":"#DC2626","冲刺":"#F97316","匹配偏冲刺":"#F59E0B","匹配":"#2563EB","匹配偏稳":"#0891b2","保底":"#16A34A","不建议申请":"#6B7280"}[v]||"#6B7280");
 const verdictBg=v=>{const c=verdictColor(v);return `background:${c}1a;color:${c}`};
@@ -1054,7 +1054,7 @@ RENDER.home=function(){
         <div class="price-card feat">
           <span class="tag">规划更完整</span>
           <h3>完整申请规划报告</h3>
-          <div class="price">¥49<small> 一次性</small></div>
+          <div class="price">¥29<small> 一次性</small></div>
           <p class="desc">还没有完整方案，想要选校组合、替代学校和一份能照着做的行动路线。</p>
           <ul>${["标准版全部内容","10–15 所学校推荐","冲刺 / 匹配 / 保底组合","替代学校和专业建议","申请时间线","材料清单","完整行动计划"].map(b=>`<li>${b}</li>`).join('')}</ul>
           <button class="btn btn-amber btn-block" onclick="startAssessment()">先免费测一测</button>
@@ -1077,7 +1077,7 @@ function legalPage(title,html){app().innerHTML=`<div class="page"><div class="co
   <div style="margin-top:24px"><button class="btn btn-ghost" onclick="go('home')">← 返回首页</button></div></div></div></div>`;}
 RENDER.terms=()=>legalPage("服务条款",`<p>欢迎使用 OfferScope / 录取雷达（以下简称"本服务"）。本服务是一个去中介化的留学申请诊断平台，提供免费初测与一次性付费的申请诊断报告。</p>
   <h3>1. 服务范围</h3><p>本服务仅支持海外本科与硕士申请诊断，覆盖美国、英国、加拿大、澳洲、新加坡和中国香港。本服务不提供人工留学咨询，不做中介导流，不做订阅，不承诺录取结果。</p>
-  <h3>2. 付费与交付</h3><p>付费产品为一次性购买的在线报告及可下载的 PDF 报告，分为 ¥19 标准版与 ¥49 专业版。交付物为在线完整报告页面与可打印 / 下载 PDF 报告。</p>
+  <h3>2. 付费与交付</h3><p>付费产品为一次性购买的在线报告及可下载的 PDF 报告，分为 ¥19 标准版与 ¥29 专业版。交付物为在线完整报告页面与可打印 / 下载 PDF 报告。</p>
   <h3>3. 内容性质</h3><p>报告由 AI 基于您填写的信息生成，为申请规划参考，不构成录取承诺，亦不替代学校官方判断。</p>`);
 RENDER.privacy=()=>legalPage("隐私政策",`<p>我们重视您的隐私。本页说明我们如何收集与使用您在测评中填写的信息。</p>
   <h3>1. 我们收集的信息</h3><p>包括您主动填写的申请阶段、目标地区与学校、学术与语言背景、活动 / 实习 / 科研经历，以及（如提供）邮箱地址。</p>
