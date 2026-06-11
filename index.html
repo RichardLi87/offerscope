@@ -2114,20 +2114,18 @@ RENDER.report=function(){
   app().innerHTML=`<div class="page"><div class="container report-wrap">
     ${A.isSample?`<div class="sample-banner no-print">
       <div><b>📋 这是一份样例报告</b>（虚构学生 · 双非财经转申商业分析）。你的报告会基于你<b>真实填写的背景</b>生成。</div>
-      <div class="sb-actions" style="display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:12px">
-        <div style="font-size:13px;color:var(--text2)">切换查看不同版本 ↓</div>
+      <div class="sb-actions" style="display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:10px">
+        <div style="font-size:13px;color:var(--text2)">点这里切换两档,看差在哪 ↓</div>
         <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-          <button class="btn ${A.reportType==='standard_report'?'btn-primary':'btn-ghost'}" style="padding:9px 18px;font-size:14px" onclick="viewSample('standard')">¥19 标准版</button>
-          <button class="btn ${A.reportType==='premium_report'?'btn-primary':'btn-ghost'}" style="padding:9px 18px;font-size:14px" onclick="viewSample('premium')">¥29 完整版</button>
+          <button class="btn ${A.reportType==='standard_report'?'btn-primary':'btn-ghost'}" style="padding:9px 18px;font-size:14px" onclick="viewSample('standard')">标准版 ¥${PRODUCTS.standard_report.price}</button>
+          <button class="btn ${A.reportType==='premium_report'?'btn-primary':'btn-ghost'}" style="padding:9px 18px;font-size:14px" onclick="viewSample('premium')">完整版 ¥${PRODUCTS.premium_report.price}</button>
         </div>
-        <button class="btn btn-amber btn-block btn-lg" style="max-width:360px" onclick="startAssessment()">免费测我自己的背景 →</button>
       </div></div>`:''}
     <div class="report-actions no-print">
-      <button class="btn btn-primary" onclick="window.print()">🖨️ 打印 / 下载 PDF</button>
-      <button class="btn btn-amber" onclick="showShareImage()">📷 生成分享图</button>
-      <button class="btn btn-ghost" onclick="shareReport()">↗ 分享链接</button>
-      ${A.isSample?'':`<button class="btn btn-ghost" onclick="regenReport()">↻ 重新生成</button><button class="btn btn-ghost" onclick="go('dashboard')">我的报告</button>`}
-      <button class="btn btn-ghost" onclick="go('home')">返回首页</button>
+      <button class="btn btn-ghost" onclick="window.print()">📄 打印 / 下载 PDF</button>
+      ${A.isSample
+        ? `<button class="btn btn-amber" onclick="startAssessment()">免费测我自己的 →</button>`
+        : `<button class="btn btn-ghost" onclick="showShareImage()">📷 生成分享图</button><button class="btn btn-ghost" onclick="shareReport()">↗ 分享链接</button><button class="btn btn-ghost" onclick="go('dashboard')">我的报告</button>`}
     </div>
 
     <div class="report-cover">
