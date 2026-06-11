@@ -129,7 +129,10 @@ const server = http.createServer((req, res) => {
     const ext = path.extname(fp).toLowerCase();
     const mime = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css",
       ".md": "text/markdown", ".json": "application/json", ".svg": "image/svg+xml" }[ext] || "application/octet-stream";
-    res.writeHead(200, { "Content-Type": mime + "; charset=utf-8" });
+    const headers = { "Content-Type": mime + "; charset=utf-8" };
+    // HTML 永不缓存：保证每次部署用户刷新立即可见(避免看到缓存旧版)
+    if (ext === ".html") headers["Cache-Control"] = "no-cache, no-store, must-revalidate";
+    res.writeHead(200, headers);
     res.end(buf);
   });
 });
