@@ -2291,6 +2291,12 @@ RENDER.report=function(){
     <div class="rsec"><h2><span class="num">${num()}</span>下一步行动清单</h2>
       <ul class="checklist">${R.actionChecklist.map(c=>`<li><span>${esc(c.task)}</span><span><span class="pri pri-${c.priority}">${c.priority}</span> <span style="color:var(--text2);font-size:12px">${esc(c.deadlineSuggestion)}</span></span></li>`).join('')}</ul></div>
 
+    ${(!isPrem&&!A.isSample)?`<div class="rsec" style="border:1px dashed var(--amber);text-align:center">
+      <div style="font-size:30px">🔒</div>
+      <h2 style="justify-content:center;color:var(--navy)">你看的是标准版 ¥${PRODUCTS.standard_report.price} · 完整版 ¥${PRODUCTS.premium_report.price} 还包含</h2>
+      <div class="module-grid" style="margin:8px auto 16px;max-width:560px">${["🎯 10–15 所学校推荐","📊 冲刺/匹配/保底组合","🔄 替代学校与专业","🗓️ 申请时间线","📁 材料清单","🧭 完整行动计划","⚖️ 中介选校名单复核"].map(x=>`<div class="module-chip">${esc(x)}</div>`).join('')}</div>
+      <button class="btn btn-amber btn-lg" onclick="go('checkout','premium_report')">升级完整版 ¥${PRODUCTS.premium_report.price} →</button>
+    </div>`:''}
     <div class="rsec"><div class="disclaimer-box">${DISCLAIMER}</div></div>
 
     <div class="report-actions no-print" style="margin-bottom:20px">
