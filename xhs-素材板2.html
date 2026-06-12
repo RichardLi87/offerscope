@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>OfferScope 小红书素材板②</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{--navy:#1E3A8A;--blue:#2563EB;--amber:#F59E0B;--ink:#0f1a3a;--bg:#EFF6FF;
+ --rh:#DC2626;--rm:#F59E0B;--rl:#16A34A;--gray:#6B7280;--line:#E5E7EB;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#11161f;padding:30px;color:#111}
+h1.page{color:#fff;font-size:22px;margin-bottom:6px}
+p.page{color:#9aa6bd;font-size:14px;margin-bottom:24px}
+.bar{display:flex;gap:10px;margin-bottom:22px}
+.bar button{background:#1f2a3d;color:#cdd7ea;border:1px solid #34425d;border-radius:8px;padding:9px 16px;font-size:13px;font-weight:700;cursor:pointer}
+.grid{display:flex;flex-wrap:wrap;gap:30px}
+.item{display:flex;flex-direction:column;align-items:center;gap:10px}
+.item .dl{background:var(--amber);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-size:14px;font-weight:700;cursor:pointer}
+.item .cap{color:#9aa6bd;font-size:13px}
+/* 海报基底 3:4 */
+.poster{width:600px;height:800px;position:relative;overflow:hidden;background:#fff;border-radius:4px}
+.sq{width:720px;height:720px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800}
+.logo .m{width:34px;height:34px;border-radius:9px;background:linear-gradient(135deg,var(--navy),var(--blue));display:flex;align-items:center;justify-content:center}
+.brandfoot{position:absolute;left:44px;right:44px;bottom:40px;display:flex;align-items:center;justify-content:space-between}
+.brandfoot .u{font-weight:900;font-size:24px}
+.brandfoot .t{font-size:15px;opacity:.7}
+.tagpill{display:inline-block;font-weight:800;border-radius:999px;padding:8px 20px;font-size:20px}
+</style>
+</head>
+<body>
+<h1 class="page">OfferScope 录取雷达 · 小红书素材板 ②（第二批 · 加量）</h1>
+<p class="page">与第一批同款视觉:蓝/金/藏青 · 3:4 竖版 · 雷达 Logo + offerscope.org 页脚。每张点「下载 PNG」(若按钮无效直接截图)。</p>
+<div class="bar"><button onclick="dlAll()">⬇︎ 一键全部下载</button></div>
+<div class="grid" id="grid"></div>
+
+<script>
+const RADAR=(c1,c2)=>`<svg viewBox="0 0 32 32" width="22" height="22" fill="none"><circle cx="16" cy="16" r="10" stroke="${c1}" stroke-opacity=".6" stroke-width="2"/><circle cx="16" cy="16" r="5.5" stroke="${c1}" stroke-opacity=".4" stroke-width="1.8"/><path d="M16 16 L16 6 A10 10 0 0 1 23.07 8.93 Z" fill="${c1}" fill-opacity=".3"/><line x1="16" y1="16" x2="23.07" y2="8.93" stroke="${c1}" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="10.6" r="2.2" fill="${c2||'#F59E0B'}"/></svg>`;
+
+function footer(dark){const col=dark?'#fff':'#1E3A8A';const sub=dark?'rgba(255,255,255,.7)':'#6B7280';
+ return `<div class="brandfoot"><div><div class="u" style="color:${col}">offerscope.org</div><div class="t" style="color:${sub}">录取雷达 · 免费测一测</div></div><div style="font-size:34px">🎯</div></div>`;}
+function logo(dark){const col=dark?'#fff':'#1E3A8A';return `<div class="logo" style="color:${col}"><span class="m">${RADAR('#fff')}</span>OfferScope 录取雷达</div>`;}
+
+const P=[];
+
+// 1 申请季时间线痛点
+P.push({id:'n1',cap:'封面①申请季倒计时',html:`<div class="poster" style="background:linear-gradient(160deg,#EFF6FF,#fff);padding:48px 44px">
+ ${logo()}
+ <div style="margin-top:64px;font-size:30px;font-weight:800;color:#2563EB">申请季倒计时</div>
+ <div style="font-size:54px;font-weight:900;color:#0f1a3a;line-height:1.16;margin-top:6px">现在<br>该做什么了？</div>
+ <div style="margin-top:26px;font-size:22px;color:#374151;line-height:1.6">别等到 DDL 前才发现<br>名单不对、保底没排好 😮‍💨<br><b style="color:#1E3A8A">先花 3 分钟做次申请体检</b></div>
+ <div style="margin-top:30px"><span class="tagpill" style="background:#F59E0B;color:#fff">免费 · 当场出方向</span></div>
+ ${footer()}
+</div>`});
+
+// 2 背景提升权重
+P.push({id:'n2',cap:'封面②背景提升',html:`<div class="poster" style="background:#fff;padding:48px 44px">
+ ${logo()}
+ <div style="margin-top:54px;font-size:46px;font-weight:900;color:#0f1a3a;line-height:1.2">实习、科研、GPA<br>哪个对申请<br><span style="color:#2563EB">最有用？</span></div>
+ <div style="margin-top:26px;font-size:21px;color:#374151;line-height:1.7">不同专业，权重完全不同<br>盲目堆背景 = 白花时间和钱<br>👉 先看清你最该补的那一项</div>
+ <div style="margin-top:28px"><span class="tagpill" style="background:#1E3A8A;color:#fff">AI 帮你排优先级</span></div>
+ ${footer()}
+</div>`});
+
+// 3 转专业
+P.push({id:'n3',cap:'封面③跨专业申请',html:`<div class="poster" style="background:linear-gradient(160deg,#1E3A8A,#2563EB);padding:48px 44px;color:#fff">
+ ${logo(true)}
+ <div style="margin-top:74px;font-size:54px;font-weight:900;line-height:1.18">跨专业申请<br><span style="color:#FBBF24">到底行不行？</span></div>
+ <div style="margin-top:28px;font-size:22px;line-height:1.7;opacity:.92">文转商、工转 CS、零基础转申…<br>不是不行，是要看<br><b>差距有多大、怎么补</b></div>
+ <div style="margin-top:30px"><span class="tagpill" style="background:#fff;color:#1E3A8A">先测匹配度，再决定</span></div>
+ ${footer(true)}
+</div>`});
+
+// 4 申几所
+P.push({id:'n4',cap:'封面④申几所才不亏',html:`<div class="poster" style="background:linear-gradient(160deg,#fff7ed,#fff);padding:48px 44px">
+ ${logo()}
+ <div style="margin-top:64px;font-size:50px;font-weight:900;color:#0f1a3a;line-height:1.2">到底申几所<br>才不亏？</div>
+ <div style="margin-top:24px;font-size:21px;color:#374151;line-height:1.7">每所申请费 + 送分费<br>加起来都是钱 💸<br>冲/稳/保底没排好 = 白交</div>
+ <div style="margin-top:28px"><span class="tagpill" style="background:#C2410C;color:#fff">合理梯度，少花冤枉钱</span></div>
+ ${footer()}
+</div>`});
+
+// 5 双非逆袭
+P.push({id:'n5',cap:'封面⑤双非也能申',html:`<div class="poster" style="background:#0f1a3a;padding:48px 44px;color:#fff">
+ ${logo(true)}
+ <div style="margin-top:70px;font-size:30px;font-weight:800;color:#FBBF24">双非 / 普本</div>
+ <div style="font-size:52px;font-weight:900;line-height:1.18;margin-top:6px">也能申到<br>好学校吗？</div>
+ <div style="margin-top:26px;font-size:21px;line-height:1.7;opacity:.92">背景不是判死刑<br>关键是<b>把优势讲清楚、把短板补对</b><br>👉 先看清你真实的位置</div>
+ ${footer(true)}
+</div>`});
+
+// 6 梦校情结
+P.push({id:'n6',cap:'封面⑥梦校够得着吗',html:`<div class="poster" style="background:linear-gradient(160deg,#EFF6FF,#fff);padding:48px 44px">
+ ${logo()}
+ <div style="margin-top:70px;font-size:56px;font-weight:900;color:#0f1a3a;line-height:1.15">你的梦校<br><span style="color:#2563EB">够得着吗？</span></div>
+ <div style="margin-top:26px;font-size:22px;color:#374151;line-height:1.7">喜欢 ≠ 适合<br>先弄清是冲刺、匹配，还是<br>需要再加把劲</div>
+ <div style="margin-top:30px"><span class="tagpill" style="background:#F59E0B;color:#fff">客观评估，不打击也不画饼</span></div>
+ ${footer()}
+</div>`});
+
+// 7 标化焦虑
+P.push({id:'n7',cap:'封面⑦标化够不够',html:`<div class="poster" style="background:#fff;padding:48px 44px">
+ ${logo()}
+ <div style="margin-top:60px;font-size:46px;font-weight:900;color:#0f1a3a;line-height:1.2">雅思 / GRE<br>这分够用吗？</div>
+ <div style="margin-top:26px;font-size:21px;color:#374151;line-height:1.7">要不要刷分、刷到多少才划算<br>不同学校门槛差很多<br>👉 别再凭感觉纠结</div>
+ <div style="margin-top:28px"><span class="tagpill" style="background:#16A34A;color:#fff">免费测 · 给到具体参照</span></div>
+ ${footer()}
+</div>`});
+
+// 8 选专业迷茫
+P.push({id:'n8',cap:'封面⑧不知道选什么专业',html:`<div class="poster" style="background:linear-gradient(160deg,#1E3A8A,#2563EB);padding:48px 44px;color:#fff">
+ ${logo(true)}
+ <div style="margin-top:72px;font-size:50px;font-weight:900;line-height:1.2">不知道<br>选什么专业？</div>
+ <div style="margin-top:28px;font-size:22px;line-height:1.7;opacity:.92">先别纠结排名<br>看看你<b style="color:#FBBF24">在哪个方向最有竞争力</b><br>再倒推选校</div>
+ <div style="margin-top:30px"><span class="tagpill" style="background:#fff;color:#1E3A8A">从优势出发，少走弯路</span></div>
+ ${footer(true)}
+</div>`});
+
+// 9 DIY 党
+P.push({id:'n9',cap:'封面⑨DIY党必备',html:`<div class="poster" style="background:#fff;padding:48px 44px">
+ ${logo()}
+ <div style="margin-top:58px;font-size:56px;font-weight:900;color:#16A34A;line-height:1">DIY 留学党</div>
+ <div style="font-size:42px;font-weight:900;color:#0f1a3a;line-height:1.25;margin-top:6px">必备的自测工具</div>
+ <div style="margin-top:24px;font-size:21px;color:#374151;line-height:1.75">✅ 不被中介牵着走<br>✅ 自己掌握选校梯度<br>✅ 知道每一步该补什么<br>✅ 一杯奶茶钱看完整方案</div>
+ ${footer()}
+</div>`});
+
+// 10 就业 ROI
+P.push({id:'n10',cap:'封面⑩留学值不值',html:`<div class="poster" style="background:#0f1a3a;padding:48px 44px;color:#fff">
+ ${logo(true)}
+ <div style="margin-top:70px;font-size:50px;font-weight:900;line-height:1.2">花几十万留学<br><span style="color:#FBBF24">到底值不值？</span></div>
+ <div style="margin-top:26px;font-size:21px;line-height:1.75;opacity:.92">📈 专业的就业前景<br>💰 投入产出大致怎么算<br>🧭 怎么选才更"回本"<br>报告里都帮你梳理好</div>
+ ${footer(true)}
+</div>`});
+
+// 11 港新性价比
+P.push({id:'n11',cap:'封面⑪港新香不香',html:`<div class="poster" style="background:linear-gradient(160deg,#fff7ed,#fff);padding:48px 44px">
+ ${logo()}
+ <div style="margin-top:64px;font-size:30px;font-weight:800;color:#C2410C">预算有限党</div>
+ <div style="font-size:52px;font-weight:900;color:#0f1a3a;line-height:1.18;margin-top:6px">港新留学<br>香不香？</div>
+ <div style="margin-top:24px;font-size:21px;color:#374151;line-height:1.7">学制短、离家近、性价比高<br>但门槛也不低 👀<br>👉 先测你的竞争力够不够</div>
+ <div style="margin-top:28px"><span class="tagpill" style="background:#F59E0B;color:#fff">🇭🇰 🇸🇬 都能测</span></div>
+ ${footer()}
+</div>`});
+
+// 12 末班车
+P.push({id:'n12',cap:'封面⑫现在还来得及吗',html:`<div class="poster" style="background:linear-gradient(160deg,#1E3A8A,#2563EB);padding:48px 44px;color:#fff">
+ ${logo(true)}
+ <div style="margin-top:78px;font-size:54px;font-weight:900;line-height:1.18">现在开始<br><span style="color:#FBBF24">还来得及吗？</span></div>
+ <div style="margin-top:28px;font-size:22px;line-height:1.7;opacity:.92">与其焦虑"是不是晚了"<br>不如先看清<b>现在的位置</b><br>和最该抓的几件事</div>
+ <div style="margin-top:30px"><span class="tagpill" style="background:#fff;color:#1E3A8A">3 分钟，心里就有数</span></div>
+ ${footer(true)}
+</div>`});
+
+// 13 评分透明（信任）
+P.push({id:'n13',cap:'封面⑬评分逻辑公开',html:`<div class="poster" style="background:#fff;padding:48px 44px">
+ ${logo()}
+ <div style="margin-top:58px;font-size:44px;font-weight:900;color:#0f1a3a;line-height:1.22">AI 凭什么<br>给我打这个分？</div>
+ <div style="margin-top:24px;font-size:21px;color:#374151;line-height:1.75">🎓 学术背景　📊 标化语言<br>🧩 经历活动　🎯 专业匹配<br>✍️ 文书策略<br>五个维度，逐项给你拆清楚</div>
+ <div style="margin-top:26px"><span class="tagpill" style="background:#2563EB;color:#fff">不是玄学，是有依据</span></div>
+ ${footer()}
+</div>`});
+
+// 14 家长沟通
+P.push({id:'n14',cap:'封面⑭和孩子聊留学',html:`<div class="poster" style="background:linear-gradient(160deg,#fff7ed,#fff);padding:48px 44px">
+ ${logo()}
+ <div style="margin-top:66px;font-size:48px;font-weight:900;color:#0f1a3a;line-height:1.25">和孩子聊留学<br>总是聊崩？</div>
+ <div style="margin-top:26px;font-size:22px;color:#374151;line-height:1.7">与其各执一词<br>不如拿一份<b style="color:#C2410C">客观的诊断报告</b><br>坐下来一起看</div>
+ <div style="margin-top:28px"><span class="tagpill" style="background:#F59E0B;color:#fff">有数据，好沟通</span></div>
+ ${footer()}
+</div>`});
+
+// 15 信息图：申请季时间线
+P.push({id:'n15',cap:'信息图·申请季时间线',html:`<div class="poster" style="background:linear-gradient(160deg,#EFF6FF,#fff);padding:44px 40px">
+ ${logo()}
+ <div style="font-size:34px;font-weight:900;color:#0f1a3a;margin-top:24px;line-height:1.3">留学申请季<br>大致时间线</div>
+ <div style="margin-top:24px;display:flex;flex-direction:column;gap:14px">
+  ${[['3–6月','定位+选校','测竞争力、定梯度','#2563EB'],['6–8月','背景冲刺','补实习/科研/标化','#0891b2'],['9–11月','文书+网申','打磨材料、按批次投','#F59E0B'],['12–次年','面试+等offer','准备面试、比较offer','#16A34A']].map(r=>`<div style="display:flex;gap:14px;align-items:stretch"><div style="min-width:96px;background:${r[3]};color:#fff;border-radius:12px;padding:12px 10px;font-weight:800;font-size:17px;display:flex;align-items:center;justify-content:center;text-align:center">${r[0]}</div><div style="flex:1;background:#fff;border:1px solid #E5E7EB;border-radius:12px;padding:11px 16px"><div style="font-weight:800;font-size:19px;color:#0f1a3a">${r[1]}</div><div style="font-size:15px;color:#6B7280;margin-top:2px">${r[2]}</div></div></div>`).join('')}
+ </div>
+ <div style="margin-top:18px;font-size:17px;color:#374151">⏰ 越早定位，越主动。第一步就是看清位置。</div>
+ ${footer()}
+</div>`});
+
+// 16 信息图：冲稳保底比例
+P.push({id:'n16',cap:'信息图·冲稳保底比例',html:`<div class="poster" style="background:#fff;padding:44px 40px">
+ ${logo()}
+ <div style="font-size:34px;font-weight:900;color:#0f1a3a;margin-top:24px;line-height:1.3">冲 / 稳 / 保底<br>怎么配才合理？</div>
+ <div style="margin-top:26px;display:flex;flex-direction:column;gap:16px">
+  ${[['冲刺校','约 30%','够一够，接受被拒','#DC2626','30%'],['匹配校','约 50%','主力，重点打磨','#2563EB','50%'],['保底校','约 20%','稳下限，必须有','#16A34A','20%']].map(r=>`<div><div style="display:flex;justify-content:space-between;font-weight:800;font-size:20px;color:#0f1a3a;margin-bottom:6px"><span>${r[0]} <span style="font-size:15px;font-weight:600;color:#6B7280">${r[2]}</span></span><span style="color:${r[3]}">${r[1]}</span></div><div style="height:18px;background:#F1F5F9;border-radius:999px;overflow:hidden"><div style="height:100%;width:${r[4]};background:${r[3]};border-radius:999px"></div></div></div>`).join('')}
+ </div>
+ <div style="margin-top:24px;font-size:17px;color:#374151">❌ 全冲没保底 = 高风险　✅ 比例对了 = 心里有底<br>具体比例因人而异，测一测更准。</div>
+ ${footer()}
+</div>`});
+
+// 17 正方形主页/置顶②
+P.push({id:'sq2',cap:'正方形·主页/置顶②',html:`<div class="poster sq" style="background:linear-gradient(135deg,#0f1a3a,#1E3A8A);padding:60px 56px;color:#fff">
+ ${logo(true)}
+ <div style="margin-top:86px;font-size:54px;font-weight:900;line-height:1.22">先看清位置，<br>再决定<br><span style="color:#FBBF24">怎么申、找不找中介</span></div>
+ <div style="margin-top:30px;font-size:24px;line-height:1.6;opacity:.92">AI 留学申请诊断 · 本科/硕士<br>美 · 英 · 加 · 澳 · 新 · 港 · 免费测</div>
+ <div style="position:absolute;left:56px;bottom:56px;font-weight:900;font-size:30px">offerscope.org</div>
+ <div style="position:absolute;right:50px;bottom:50px;opacity:.9">${RADAR('#fff')}</div>
+</div>`});
+
+const grid=document.getElementById('grid');
+const made=[];
+P.forEach(p=>{
+ const wrap=document.createElement('div');wrap.className='item';
+ wrap.innerHTML=p.html+`<div class="cap">${p.cap}</div><button class="dl">下载 PNG</button>`;
+ grid.appendChild(wrap);
+ const poster=wrap.querySelector('.poster');
+ const save=()=>html2canvas(poster,{scale:2,useCORS:true}).then(cv=>{const a=document.createElement('a');a.download='OfferScope2-'+p.id+'.png';a.href=cv.toDataURL('image/png');a.click();}).catch(()=>alert('生成失败，请直接截图'));
+ wrap.querySelector('.dl').onclick=save;
+ made.push(save);
+});
+async function dlAll(){for(const s of made){await s();await new Promise(r=>setTimeout(r,600));}}
+</script>
+</body>
+</html>

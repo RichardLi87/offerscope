@@ -745,7 +745,7 @@ const SAMPLE_REPORT={
     directions:["数据分析师 / 商业分析师","咨询（数据方向）","产品 / 增长分析","金融科技数据岗"],
     roi:"商业分析方向需求旺盛、就业面广，海外硕士在回国求职时具备学历与技能优势。结合 30–50 万的预算综合看，关键在于把这一年沉淀为扎实的数据项目与实习经历，从而在毕业时显著提升就业竞争力与投入产出比。"},
   parentFriendlySummary:{
-    summary:"孩子从市场营销转申商业分析方向对口、整体有竞争力；目前主要问题是目标学校偏难、缺保底，需要在两三个月内补强数据项目与量化成果并调整名单。",
+    summary:"该同学从市场营销转申商业分析方向对口、整体有竞争力；目前主要问题是目标学校偏难、缺保底，需要在两三个月内补强数据项目与量化成果并调整名单。",
     riskExplanation:"风险不在能力，而在名单偏冲、本科双非且定量深度偏软——这些都能通过数据项目与补校来改善。",
     budgetAndDecisionAdvice:"30–50 万预算覆盖美国一年制商业分析硕士基本可行；建议至少保留一所录取更稳的学校，让方案更稳妥。"},
   actionChecklist:[{task:"把一段实习重写成含量化业务结果的案例",priority:"高",deadlineSuggestion:"30 天内"},{task:"完成一个端到端数据项目并整理 GitHub",priority:"高",deadlineSuggestion:"60 天内"},{task:"补 1 所匹配校 + 1 所保底校",priority:"高",deadlineSuggestion:"尽快"},{task:"确定推荐人并发出邀请",priority:"中",deadlineSuggestion:"60 天内"},{task:"确认各校截止日期与材料清单",priority:"中",deadlineSuggestion:"尽快"}],
@@ -925,7 +925,7 @@ RENDER.home=function(){
   <section class="hero">
     <div class="container tight">
       <div class="eyebrow">录取雷达 · 留学申请诊断系统 · 3 分钟出结果</div>
-      <h1 class="hero-title">在交几万中介费之前，<br>先看清孩子的真实申请位置。</h1>
+      <h1 class="hero-title">在交几万中介费之前，<br>先看清自己的真实申请位置。</h1>
       <p class="sub">本科还是硕士？这些学校到底是冲刺、匹配，还是在白白浪费申请费？<br>填一填背景，录取雷达当场告诉你——心里有底，比什么都重要。</p>
       <div class="cta-row">
         <button class="btn btn-amber btn-lg" onclick="startAssessment()">免费测一测我的位置 →</button>
@@ -1861,7 +1861,7 @@ async function generateFullReport(){
     recommendationAdvice:({"有强推荐人":"你已有强推荐人，建议尽早与其沟通申请方向，使推荐内容与文书主线一致。","有普通推荐人":"建议在常规推荐人之外，争取一位更了解你专业能力的推荐人。"}[f.recommendationLetters]||"建议尽快锁定 2–3 位能具体评价你能力的推荐人。"),
     careerOutlook:buildCareerOutlook(A.targetMajorCategory),
     parentFriendlySummary:{
-      summary:`孩子目前的${A.applicationLevel}申请综合竞争力为 ${overall} 分（${A.freeResult.overallGrade}），属于${levelFor(overall/100)}水平。目标学校已做冲刺 / 匹配 / 保底分层。`,
+      summary:`申请人目前的${A.applicationLevel}申请综合竞争力为 ${overall} 分（${A.freeResult.overallGrade}），属于${levelFor(overall/100)}水平。目标学校已做冲刺 / 匹配 / 保底分层。`,
       riskExplanation:`当前最需要关注的是${weakest.dimension}。这不代表无法申请，而是提示未来几个月应重点投入的方向。`,
       budgetAndDecisionAdvice:`结合${A.budget||'预算'}与风险偏好，建议保留 1–2 所保底学校，并把提升资源优先放在最影响结果的环节上。`
     },
