@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>提升雷达 · 看清你的位置,再决定怎么提升</title>
+<meta name="description" content="提升雷达 —— 升学、移民、落户、求职,四个 AI 诊断雷达。先免费测清你的真实竞争力,再决定怎么提升。">
+<style>
+:root{--ink:#0b1020;--indigo:#4F46E5;--indigo2:#6366F1;--bg:#F6F7FB;--text2:#5b6478;--line:#E6E8F0;--radius:16px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:#0f1530;line-height:1.6}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+a{text-decoration:none;color:inherit}
+
+/* 顶栏 */
+.topbar{background:var(--ink);color:#cbd5e1}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:54px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:#fff}
+.brand .m{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,var(--indigo),var(--indigo2));display:flex;align-items:center;justify-content:center}
+.topnav{display:flex;gap:18px;font-size:14px}
+@media(max-width:600px){.topnav{display:none}}
+
+/* Hero */
+.hero{background:radial-gradient(1200px 500px at 70% -10%,#312e81,transparent),linear-gradient(160deg,#0b1020,#1e1b4b);color:#fff;padding:72px 0 84px;text-align:center}
+.hero h1{font-size:46px;font-weight:900;line-height:1.18;letter-spacing:.5px}
+.hero .sub{font-size:19px;color:#c7cbe6;margin-top:18px;max-width:640px;margin-left:auto;margin-right:auto}
+.hero .kbar{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:26px}
+.hero .kpill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);color:#e7e9f7;border-radius:999px;padding:8px 16px;font-size:14px}
+@media(max-width:600px){.hero h1{font-size:34px}.hero .sub{font-size:16px}}
+
+/* 卡片区 */
+.section{padding:56px 0}
+.section h2{text-align:center;font-size:28px;font-weight:900}
+.section .lead{text-align:center;color:var(--text2);font-size:16px;margin-top:8px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:34px}
+@media(max-width:860px){.cards{grid-template-columns:1fr}}
+.card{display:block;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:26px 24px;transition:transform .12s,box-shadow .12s;position:relative;overflow:hidden}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(20,25,60,.10)}
+.card .top{height:5px;position:absolute;left:0;right:0;top:0}
+.card .emoji{font-size:32px}
+.card h3{font-size:22px;font-weight:900;margin:12px 0 4px}
+.card .en{font-size:13px;color:#9aa1b8;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
+.card p{color:var(--text2);font-size:15px;margin:12px 0 18px;min-height:44px}
+.card .go{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:15px}
+.card .badge{position:absolute;top:16px;right:16px;font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px}
+.card.soon{opacity:.92}
+.card.soon .go{color:#9aa1b8}
+
+/* 步骤 */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:34px}
+@media(max-width:760px){.steps{grid-template-columns:1fr}}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px;text-align:center}
+.step .n{width:38px;height:38px;border-radius:50%;background:var(--indigo);color:#fff;font-weight:900;display:flex;align-items:center;justify-content:center;margin:0 auto 12px}
+.step h4{font-size:17px;font-weight:800;margin-bottom:6px}
+.step p{color:var(--text2);font-size:14px}
+
+/* 信任带 */
+.band{background:linear-gradient(135deg,var(--indigo),var(--indigo2));color:#fff;border-radius:20px;padding:40px 30px;text-align:center;margin:10px 0}
+.band h2{color:#fff;font-size:26px;font-weight:900}
+.band p{color:#dfe1fb;margin-top:10px;font-size:16px;max-width:640px;margin-left:auto;margin-right:auto}
+
+/* 页脚 */
+footer{background:var(--ink);color:#8b93ad;padding:40px 0 30px;margin-top:50px;font-size:14px}
+footer .row{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between}
+footer a{color:#aeb6d0}
+footer .disc{margin-top:18px;font-size:12px;color:#5d6685;line-height:1.7}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="#"><span class="m"><svg viewBox="0 0 32 32" width="18" height="18" fill="none"><circle cx="16" cy="16" r="10" stroke="#fff" stroke-opacity=".55" stroke-width="2"/><circle cx="16" cy="16" r="5.5" stroke="#fff" stroke-opacity=".4" stroke-width="1.8"/><path d="M16 16 L16 6 A10 10 0 0 1 23.07 8.93 Z" fill="#fff" fill-opacity=".28"/><line x1="16" y1="16" x2="23.07" y2="8.93" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="21" cy="10.6" r="2.2" fill="#A5B4FC"/></svg></span>提升雷达</a>
+  <nav class="topnav">
+    <a href="https://offerscope.org">录取雷达</a>
+    <a href="https://yiminscope.com">移民雷达</a>
+    <a href="https://hukouscope.com">落户雷达</a>
+  </nav>
+</div></div>
+
+<section class="hero"><div class="wrap">
+  <h1>看清你的位置,<br>再决定怎么提升</h1>
+  <div class="sub">升学、移民、落户、求职 —— 四个 AI 诊断雷达。<br>先免费测清你的真实竞争力,不焦虑、不被忽悠,再做决定。</div>
+  <div class="kbar">
+    <span class="kpill">🎯 真实竞争力评分</span>
+    <span class="kpill">🧭 个性化提升路径</span>
+    <span class="kpill">💸 先免费测,再决定</span>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+  <h2>你想提升人生的哪一块?</h2>
+  <p class="lead">点进对应的雷达,3 分钟测出你的位置。</p>
+  <div class="cards">
+
+    <a class="card" href="https://offerscope.org">
+      <div class="top" style="background:#2563EB"></div>
+      <div class="emoji">🎯</div>
+      <div class="en">OfferScope</div>
+      <h3>录取雷达</h3>
+      <p>留学申请竞争力诊断。能申上哪些学校、冲/稳/保底怎么排、最该补什么。本科/硕士 · 美英加澳新港。</p>
+      <span class="go" style="color:#2563EB">免费测一测 →</span>
+    </a>
+
+    <a class="card" href="https://yiminscope.com">
+      <div class="top" style="background:#0F6E56"></div>
+      <div class="emoji">🌏</div>
+      <div class="en">YiminScope</div>
+      <h3>移民雷达</h3>
+      <p>移民竞争力与路径诊断。最适合去哪个国家、走哪条路、差距在哪。覆盖 10 国主流移民通道。</p>
+      <span class="go" style="color:#0F6E56">免费测一测 →</span>
+    </a>
+
+    <a class="card" href="https://hukouscope.com">
+      <div class="top" style="background:#DC2626"></div>
+      <div class="emoji">🏙️</div>
+      <div class="en">HukouScope</div>
+      <h3>落户雷达</h3>
+      <p>大城市落户竞争力诊断。积分够不够、走哪种方式最快、还差什么。覆盖北上广深杭等 10 城。</p>
+      <span class="go" style="color:#DC2626">免费测一测 →</span>
+    </a>
+
+  </div>
+</div></section>
+
+<section class="section" style="padding-top:10px"><div class="wrap">
+  <h2>怎么用</h2>
+  <div class="steps">
+    <div class="step"><div class="n">1</div><h4>免费测</h4><p>填背景,AI 追问几个关键问题,3 分钟出结果。</p></div>
+    <div class="step"><div class="n">2</div><h4>看位置</h4><p>拿到真实竞争力评分 + 主要风险 + 提升方向。</p></div>
+    <div class="step"><div class="n">3</div><h4>再决定</h4><p>觉得有用,再解锁完整方案 —— 一杯奶茶钱。</p></div>
+  </div>
+</div></section>
+
+<section class="section" style="padding-top:0"><div class="wrap">
+  <div class="band">
+    <h2>不画饼,不贩卖焦虑</h2>
+    <p>提升雷达给的是"竞争力/匹配度"参照,帮你看清现状、找到方向 —— 不承诺结果,不做中介导流。决定权始终在你手里。</p>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="row">
+    <div>
+      <div style="color:#fff;font-weight:800;font-size:16px;margin-bottom:8px">📡 提升雷达</div>
+      <div>看清你的位置,再决定怎么提升。</div>
+    </div>
+    <div>
+      <div style="color:#fff;font-weight:700;margin-bottom:8px">旗下产品</div>
+      <a href="https://offerscope.org">录取雷达 · 留学申请</a><br>
+      <a href="https://yiminscope.com">移民雷达 · 移民竞争力</a><br>
+      <a href="https://hukouscope.com">落户雷达 · 大城市落户</a>
+    </div>
+  </div>
+  <div class="disc">本平台所有评分、排名与建议均为基于用户自填信息的「竞争力/匹配度」参考,不代表录取、签证、落户或录用的最终结果,不构成升学、移民、落户、就业或法律建议。各项政策与标准常有调整,请以官方口径为准。</div>
+</div></footer>
+
+</body>
+</html>
